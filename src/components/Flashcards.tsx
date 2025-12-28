@@ -177,30 +177,38 @@ export default function Flashcards({ cards, title = "Flashcards", onComplete }: 
                 <span className="progress-text">{currentIndex + 1} / {shuffledCards.length}</span>
             </div>
 
-            {/* Card */}
-            <div className="card-container" onClick={handleFlip}>
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={`${currentCard.id}-${isFlipped}`}
-                        className={`flashcard ${isFlipped ? 'flipped' : ''}`}
-                        initial={{ rotateY: isFlipped ? -90 : 90, opacity: 0 }}
-                        animate={{ rotateY: 0, opacity: 1 }}
-                        exit={{ rotateY: isFlipped ? 90 : -90, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <div className="card-content">
-                            {currentCard.category && (
-                                <span className="card-category">{currentCard.category}</span>
-                            )}
-                            <div className="card-text">
-                                {isFlipped ? currentCard.back : currentCard.front}
-                            </div>
-                            <div className="flip-hint">
-                                {isFlipped ? '📖 Answer' : '❓ Question'} · Click to flip
-                            </div>
+            {/* Card with 3D Flip */}
+            <div className="card-wrapper">
+                <motion.div
+                    className="card-scene"
+                    onClick={handleFlip}
+                    animate={{ rotateY: isFlipped ? 180 : 0 }}
+                    transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
+                >
+                    {/* Front of Card */}
+                    <div className="card-face card-front">
+                        {currentCard.category && (
+                            <span className="card-category">{currentCard.category}</span>
+                        )}
+                        <div className="card-label">❓ Question</div>
+                        <div className="card-text">{currentCard.front}</div>
+                        <div className="flip-hint">
+                            <span className="flip-icon">↻</span> Click to flip
                         </div>
-                    </motion.div>
-                </AnimatePresence>
+                    </div>
+
+                    {/* Back of Card */}
+                    <div className="card-face card-back">
+                        {currentCard.category && (
+                            <span className="card-category back-cat">{currentCard.category}</span>
+                        )}
+                        <div className="card-label back-label">✓ Answer</div>
+                        <div className="card-text">{currentCard.back}</div>
+                        <div className="flip-hint">
+                            <span className="flip-icon">↻</span> Click to flip
+                        </div>
+                    </div>
+                </motion.div>
             </div>
 
             {/* Controls */}
@@ -341,61 +349,143 @@ export default function Flashcards({ cards, title = "Flashcards", onComplete }: 
                     color: var(--neutral-400);
                 }
 
-                .card-container {
-                    perspective: 1000px;
+                /* 3D Card Flip Container */
+                .card-wrapper {
+                    perspective: 1200px;
                     margin-bottom: 1.5rem;
+                }
+
+                .card-scene {
+                    width: 100%;
+                    min-height: 280px;
+                    position: relative;
+                    transform-style: preserve-3d;
                     cursor: pointer;
                 }
 
-                .flashcard {
-                    min-height: 200px;
-                    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
-                    border: 1px solid rgba(139, 92, 246, 0.4);
-                    border-radius: 16px;
+                .card-face {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    min-height: 280px;
+                    backface-visibility: hidden;
+                    -webkit-backface-visibility: hidden;
                     display: flex;
+                    flex-direction: column;
                     align-items: center;
                     justify-content: center;
                     padding: 2rem;
-                    transition: all 0.3s ease;
-                }
-
-                .flashcard:hover {
-                    border-color: rgba(139, 92, 246, 0.6);
-                    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.15);
-                }
-
-                .flashcard.flipped {
-                    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
-                    border-color: rgba(16, 185, 129, 0.4);
-                }
-
-                .card-content {
+                    border-radius: 20px;
                     text-align: center;
-                    width: 100%;
+                    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+                }
+
+                /* Front Face - Question */
+                .card-front {
+                    background: linear-gradient(145deg, #2a2a4a 0%, #1e1e3a 50%, #252545 100%);
+                    border: 2px solid transparent;
+                    background-clip: padding-box;
+                    position: relative;
+                }
+
+                .card-front::before {
+                    content: '';
+                    position: absolute;
+                    inset: -2px;
+                    border-radius: 22px;
+                    padding: 2px;
+                    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #a855f7 100%);
+                    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                    -webkit-mask-composite: xor;
+                    mask-composite: exclude;
+                }
+
+                /* Back Face - Answer */
+                .card-back {
+                    background: linear-gradient(145deg, #1a3a2a 0%, #0f2a1f 50%, #153025 100%);
+                    border: 2px solid transparent;
+                    transform: rotateY(180deg);
+                    position: relative;
+                }
+
+                .card-back::before {
+                    content: '';
+                    position: absolute;
+                    inset: -2px;
+                    border-radius: 22px;
+                    padding: 2px;
+                    background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #22c55e 100%);
+                    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                    -webkit-mask-composite: xor;
+                    mask-composite: exclude;
+                }
+
+                .card-label {
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    color: var(--primary-300);
+                    margin-bottom: 0.75rem;
+                    letter-spacing: 1px;
+                }
+
+                .back-label {
+                    color: var(--accent-emerald);
                 }
 
                 .card-category {
-                    display: inline-block;
-                    padding: 4px 12px;
-                    background: rgba(139, 92, 246, 0.2);
+                    position: absolute;
+                    top: 1rem;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    padding: 6px 14px;
+                    background: rgba(139, 92, 246, 0.25);
                     border-radius: 20px;
-                    font-size: 0.75rem;
+                    font-size: 0.7rem;
+                    font-weight: 500;
                     color: var(--primary-300);
-                    margin-bottom: 1rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+
+                .back-cat {
+                    background: rgba(16, 185, 129, 0.25);
+                    color: var(--accent-emerald);
                 }
 
                 .card-text {
-                    font-size: 1.25rem;
+                    font-size: 1.3rem;
                     color: var(--neutral-100);
-                    line-height: 1.6;
-                    max-width: 500px;
+                    line-height: 1.7;
+                    max-width: 450px;
                     margin: 0 auto;
+                    font-weight: 400;
                 }
 
                 .flip-hint {
-                    margin-top: 1.5rem;
-                    font-size: 0.8rem;
+                    position: absolute;
+                    bottom: 1rem;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    font-size: 0.75rem;
                     color: var(--neutral-500);
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                }
+
+                .flip-icon {
+                    font-size: 1rem;
+                    animation: rotateHint 2s ease-in-out infinite;
+                }
+
+                @keyframes rotateHint {
+                    0%, 100% { transform: rotate(0deg); }
+                    50% { transform: rotate(20deg); }
+                }
+
+                .card-scene:hover .card-front,
+                .card-scene:hover .card-back {
+                    box-shadow: 0 20px 50px rgba(139, 92, 246, 0.25);
                 }
 
                 .controls {
