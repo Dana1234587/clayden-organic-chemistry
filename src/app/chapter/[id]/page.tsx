@@ -25,6 +25,9 @@ import {
     WedgeDashDiagram,
     AbbreviationsDiagram
 } from '@/components/diagrams';
+import QuickCheck from '@/components/QuickCheck';
+import OnePageSummary from '@/components/OnePageSummary';
+import { ExamTip, PlainEnglish, CommonQuestion, ComparisonCard } from '@/components/LearningAids';
 
 // Dynamic import for MoleculeViewer (client-side only)
 const MoleculeViewer = dynamic(() => import('@/components/MoleculeViewer'), {
@@ -444,6 +447,27 @@ export default function ChapterPage() {
                             </div>
                         )}
 
+                        {/* Exam Tip */}
+                        {section.examTip && (
+                            <ExamTip>{section.examTip}</ExamTip>
+                        )}
+
+                        {/* Plain English Translation */}
+                        {section.plainEnglish && (
+                            <PlainEnglish
+                                technical={section.plainEnglish.technical}
+                                simple={section.plainEnglish.simple}
+                            />
+                        )}
+
+                        {/* Quick Check - Section Review */}
+                        {section.quickCheck && section.quickCheck.length > 0 && (
+                            <QuickCheck
+                                title={`🧪 Quick Check: ${section.title}`}
+                                questions={section.quickCheck}
+                            />
+                        )}
+
                         {/* Mini Quiz after section (if exists) */}
                         {miniQuiz && (
                             <MiniQuiz
@@ -454,6 +478,9 @@ export default function ChapterPage() {
                     </motion.div>
                 );
             })}
+
+            {/* One Page Summary - Quick Reference */}
+            {chapter.id === 2 && <OnePageSummary chapterId={chapter.id} />}
 
             {/* Section Divider */}
             <div style={{

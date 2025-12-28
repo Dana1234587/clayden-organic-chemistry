@@ -16,6 +16,20 @@ export interface ChapterSection {
         props: Record<string, unknown>;
         caption?: string;
     }[];
+    // Quick Check questions for instant section review
+    quickCheck?: {
+        question: string;
+        options: string[];
+        correctIndex: number;
+        explanation: string;
+    }[];
+    // Learning aids
+    examTip?: string;
+    plainEnglish?: {
+        technical: string;
+        simple: string;
+    };
+    difficulty?: 'fundamental' | 'important' | 'advanced';
 }
 
 export interface ChapterQuiz {

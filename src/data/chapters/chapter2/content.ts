@@ -50,6 +50,15 @@ Which is faster to draw? Which is easier to read? The skeletal version, always!`
             { type: 'skeletal', props: { molecule: 'butane', showLabels: true }, caption: 'Butane - 4 carbon zig-zag' },
             { type: 'skeletal', props: { molecule: 'pentane', showLabels: true }, caption: 'Pentane - 5 carbon zig-zag' },
             { type: 'skeletal', props: { molecule: 'hexane', showLabels: true }, caption: 'Hexane - 6 carbon zig-zag' }
+        ],
+        difficulty: 'fundamental',
+        quickCheck: [
+            {
+                question: "Why do organic chemists use skeletal structures instead of drawing every atom?",
+                options: ["To save ink", "To simplify complex molecules and focus on shape/functional groups", "Because they forgot how to draw", "It's just tradition"],
+                correctIndex: 1,
+                explanation: "Skeletal structures remove 'noise' (repeated C's and H's) so you can see the molecular shape and reactive parts at a glance!"
+            }
         ]
     },
     {
@@ -114,6 +123,26 @@ This is the #1 beginner mistake. If you forget the H on oxygen, you've drawn a c
             { type: 'skeletal', props: { molecule: 'propane', showLabels: true, highlightCarbons: true }, caption: 'Propane with carbons highlighted' },
             { type: 'skeletal', props: { molecule: 'cyclohexane', showLabels: true }, caption: 'Cyclohexane ring' },
             { type: 'skeletal', props: { molecule: 'benzene', showLabels: true }, caption: 'Benzene (aromatic)' }
+        ],
+        difficulty: 'fundamental',
+        examTip: "Always check heteroatom hydrogens! Missing the H in -OH or -NH₂ is one of the most common exam mistakes. The grader sees a completely different (wrong) molecule!",
+        plainEnglish: {
+            technical: "Carbon atoms at vertices adopt tetrahedral geometry with 109.5° bond angles",
+            simple: "Each corner is a carbon with 4 bonds total. The zig-zag shape comes from the natural 3D angle of those bonds!"
+        },
+        quickCheck: [
+            {
+                question: "In a skeletal structure, what does a simple corner (intersection of two lines) represent?",
+                options: ["CH₃ (methyl)", "CH₂ (methylene)", "CH (methine)", "Just a bond, no atom"],
+                correctIndex: 1,
+                explanation: "A corner with 2 visible bonds means 4 - 2 = 2 hydrogens, so it's CH₂. Line ends are CH₃ (1 bond = 3 H's)."
+            },
+            {
+                question: "Which is INCORRECT in skeletal structures?",
+                options: ["Omitting H on carbon", "Writing -O instead of -OH", "Using zig-zag lines", "Corners represent carbons"],
+                correctIndex: 1,
+                explanation: "Hydrogens on heteroatoms MUST always be shown. Writing -O means something completely different from -OH!"
+            }
         ]
     },
     {
