@@ -23,7 +23,9 @@ import {
     AminoAcidDiagram,
     OxidationLevelDiagram,
     WedgeDashDiagram,
-    AbbreviationsDiagram
+    AbbreviationsDiagram,
+    HybridizationDiagram,
+    BondPolarityDiagram
 } from '@/components/diagrams';
 import QuickCheck from '@/components/QuickCheck';
 import OnePageSummary from '@/components/OnePageSummary';
@@ -360,6 +362,12 @@ export default function ChapterPage() {
                                         )}
                                         {diag.type === 'abbreviations' && (
                                             <AbbreviationsDiagram {...(diag.props as { showAll?: boolean; highlightAbbr?: string })} />
+                                        )}
+                                        {diag.type === 'hybridization' && (
+                                            <HybridizationDiagram {...(diag.props as { type?: 'sp3' | 'sp2' | 'sp' | 'comparison'; interactive?: boolean })} />
+                                        )}
+                                        {diag.type === 'polarity' && (
+                                            <BondPolarityDiagram {...(diag.props as { type?: 'scale' | 'molecules' | 'comparison' })} />
                                         )}
                                         {diag.caption && (
                                             <div style={{

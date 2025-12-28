@@ -12,7 +12,7 @@ export interface ChapterSection {
     realWorldConnection?: string;
     // Diagram configuration for inline SVG diagrams
     diagrams?: {
-        type: 'skeletal' | 'functional-group' | 'amino-acid' | 'oxidation' | 'wedge-dash' | 'abbreviations';
+        type: 'skeletal' | 'functional-group' | 'amino-acid' | 'oxidation' | 'wedge-dash' | 'abbreviations' | 'hybridization' | 'polarity';
         props: Record<string, unknown>;
         caption?: string;
     }[];

@@ -7,3 +7,5 @@ export { default as FunctionalGroupDiagram } from './FunctionalGroupDiagram';
 export { default as OxidationLevelDiagram } from './OxidationLevelDiagram';
 export { default as WedgeDashDiagram } from './WedgeDashDiagram';
 export { default as AbbreviationsDiagram } from './AbbreviationsDiagram';
+export { default as HybridizationDiagram } from './HybridizationDiagram';
+export { default as BondPolarityDiagram } from './BondPolarityDiagram';

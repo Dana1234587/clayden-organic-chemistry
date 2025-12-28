@@ -418,6 +418,155 @@ ATOM     20  C19 RET     1       8.700   2.400   0.000  1.00  0.00           C
 ATOM     21  C20 RET     1      13.100   4.800   0.000  1.00  0.00           C
 END`
     },
+    'damascenone': {
+        color: '#ec4899',
+        emoji: '🌹',
+        formula: 'C₁₃H₁₈O',
+        skeletal: 'Rose ketone with cyclohexene and conjugated system',
+        functionalGroups: ['Ketone (C=O)', 'Conjugated double bonds', 'Cyclohexene ring'],
+        pdb: `COMPND    DAMASCENONE
+ATOM      1  C1  DAM     1       0.000   0.000   0.000  1.00  0.00           C
+ATOM      2  C2  DAM     1       1.400   0.000   0.000  1.00  0.00           C
+ATOM      3  C3  DAM     1       2.100   1.200   0.000  1.00  0.00           C
+ATOM      4  C4  DAM     1       1.400   2.400   0.000  1.00  0.00           C
+ATOM      5  C5  DAM     1       0.000   2.400   0.000  1.00  0.00           C
+ATOM      6  C6  DAM     1      -0.700   1.200   0.000  1.00  0.00           C
+ATOM      7  C7  DAM     1       3.600   1.200   0.000  1.00  0.00           C
+ATOM      8  C8  DAM     1       4.300   2.400   0.000  1.00  0.00           C
+ATOM      9  C9  DAM     1       5.800   2.400   0.000  1.00  0.00           C
+ATOM     10  O1  DAM     1       6.500   3.500   0.000  1.00  0.00           O
+ATOM     11  C10 DAM     1       6.500   1.100   0.000  1.00  0.00           C
+ATOM     12  C11 DAM     1      -0.700  -1.200   0.000  1.00  0.00           C
+ATOM     13  C12 DAM     1       2.100   3.700   0.000  1.00  0.00           C
+END`
+    },
+    'quinine': {
+        color: '#06b6d4',
+        emoji: '💊',
+        formula: 'C₂₀H₂₄N₂O₂',
+        skeletal: 'Quinoline-quinuclidine alkaloid from cinchona bark',
+        functionalGroups: ['Quinoline ring', 'Quinuclidine bicyclic', 'Methoxy (-OCH₃)', 'Vinyl group'],
+        pdb: `COMPND    QUININE
+ATOM      1  N1  QUI     1       0.000   0.000   0.000  1.00  0.00           N
+ATOM      2  C2  QUI     1       1.400   0.000   0.000  1.00  0.00           C
+ATOM      3  C3  QUI     1       2.100   1.200   0.000  1.00  0.00           C
+ATOM      4  C4  QUI     1       1.400   2.400   0.000  1.00  0.00           C
+ATOM      5  C5  QUI     1       0.000   2.400   0.000  1.00  0.00           C
+ATOM      6  C6  QUI     1      -0.700   1.200   0.000  1.00  0.00           C
+ATOM      7  C7  QUI     1       3.600   1.200   0.000  1.00  0.00           C
+ATOM      8  C8  QUI     1       4.300   2.400   0.000  1.00  0.00           C
+ATOM      9  C9  QUI     1       3.600   3.600   0.000  1.00  0.00           C
+ATOM     10  N2  QUI     1       2.100   3.600   0.000  1.00  0.00           N
+ATOM     11  O1  QUI     1      -2.100   1.200   0.000  1.00  0.00           O
+ATOM     12  C10 QUI     1      -2.800   2.400   0.000  1.00  0.00           C
+ATOM     13  C11 QUI     1       5.000   0.000   1.000  1.00  0.00           C
+ATOM     14  C12 QUI     1       6.000   0.000   1.500  1.00  0.00           C
+ATOM     15  O2  QUI     1       5.800   3.600   0.000  1.00  0.00           O
+END`
+    },
+    'penicillin g': {
+        color: '#22c55e',
+        emoji: '🦠',
+        formula: 'C₁₆H₁₈N₂O₄S',
+        skeletal: 'Beta-lactam ring fused to thiazolidine - the first antibiotic',
+        functionalGroups: ['β-lactam (4-membered ring)', 'Thiazolidine ring', 'Amide', 'Carboxylic acid'],
+        pdb: `COMPND    PENICILLIN G
+ATOM      1  S1  PEN     1       0.000   0.000   0.000  1.00  0.00           S
+ATOM      2  C2  PEN     1       1.500   0.500   0.500  1.00  0.00           C
+ATOM      3  C3  PEN     1       2.300   1.500   0.000  1.00  0.00           C
+ATOM      4  N1  PEN     1       1.500   2.500  -0.500  1.00  0.00           N
+ATOM      5  C4  PEN     1       0.200   2.000   0.000  1.00  0.00           C
+ATOM      6  C5  PEN     1       3.700   1.500   0.000  1.00  0.00           C
+ATOM      7  O1  PEN     1       4.400   2.500   0.000  1.00  0.00           O
+ATOM      8  N2  PEN     1       4.200   0.300   0.000  1.00  0.00           N
+ATOM      9  C6  PEN     1       5.600   0.000   0.000  1.00  0.00           C
+ATOM     10  C7  PEN     1       6.300   1.200   0.000  1.00  0.00           C
+ATOM     11  C8  PEN     1       7.700   1.200   0.000  1.00  0.00           C
+ATOM     12  C9  PEN     1       8.400   0.000   0.000  1.00  0.00           C
+ATOM     13  C10 PEN     1       7.700  -1.200   0.000  1.00  0.00           C
+ATOM     14  C11 PEN     1       6.300  -1.200   0.000  1.00  0.00           C
+ATOM     15  C12 PEN     1      -0.800   2.800   0.500  1.00  0.00           C
+ATOM     16  O2  PEN     1      -1.500   3.500   0.000  1.00  0.00           O
+ATOM     17  O3  PEN     1      -1.000   2.500   1.800  1.00  0.00           O
+END`
+    },
+    'taxol': {
+        color: '#a855f7',
+        emoji: '🌲',
+        formula: 'C₄₇H₅₁NO₁₄',
+        skeletal: 'Complex diterpene with 11 chiral centers - anticancer drug',
+        functionalGroups: ['Ester groups', 'Amide', 'Hydroxyl groups', 'Epoxide', 'Oxetane ring'],
+        pdb: `COMPND    TAXOL (PACLITAXEL)
+ATOM      1  C1  TAX     1       0.000   0.000   0.000  1.00  0.00           C
+ATOM      2  C2  TAX     1       1.540   0.000   0.000  1.00  0.00           C
+ATOM      3  C3  TAX     1       2.100   1.400   0.000  1.00  0.00           C
+ATOM      4  C4  TAX     1       1.300   2.500   0.500  1.00  0.00           C
+ATOM      5  C5  TAX     1      -0.200   2.300   0.200  1.00  0.00           C
+ATOM      6  C6  TAX     1      -0.700   0.900   0.500  1.00  0.00           C
+ATOM      7  C7  TAX     1       3.600   1.600   0.000  1.00  0.00           C
+ATOM      8  O1  TAX     1       4.200   2.700   0.000  1.00  0.00           O
+ATOM      9  C8  TAX     1       4.400   0.400   0.000  1.00  0.00           C
+ATOM     10  C9  TAX     1       4.000  -1.000   0.000  1.00  0.00           C
+ATOM     11  C10 TAX     1       2.500  -1.200   0.000  1.00  0.00           C
+ATOM     12  O2  TAX     1      -2.000   0.700   0.000  1.00  0.00           O
+ATOM     13  C11 TAX     1       5.900   0.500   0.000  1.00  0.00           C
+ATOM     14  O3  TAX     1       6.600   1.500   0.000  1.00  0.00           O
+ATOM     15  N1  TAX     1       6.500  -0.700   0.000  1.00  0.00           N
+ATOM     16  C12 TAX     1       7.900  -0.800   0.000  1.00  0.00           C
+ATOM     17  O4  TAX     1      -1.000   3.200  -0.500  1.00  0.00           O
+END`
+    },
+    'atorvastatin': {
+        color: '#ef4444',
+        emoji: '❤️',
+        formula: 'C₃₃H₃₅FN₂O₅',
+        skeletal: 'Lipitor - HMG-CoA reductase inhibitor with pyrrole core',
+        functionalGroups: ['Pyrrole ring', 'Fluorophenyl', 'Carboxylic acid', 'Hydroxyl groups'],
+        pdb: `COMPND    ATORVASTATIN (LIPITOR)
+ATOM      1  N1  ATV     1       0.000   0.000   0.000  1.00  0.00           N
+ATOM      2  C2  ATV     1       1.200   0.700   0.000  1.00  0.00           C
+ATOM      3  C3  ATV     1       1.200   2.100   0.000  1.00  0.00           C
+ATOM      4  C4  ATV     1      -0.100   2.500   0.000  1.00  0.00           C
+ATOM      5  C5  ATV     1      -0.900   1.300   0.000  1.00  0.00           C
+ATOM      6  C6  ATV     1       2.400   0.000   0.000  1.00  0.00           C
+ATOM      7  C7  ATV     1       3.700   0.500   0.000  1.00  0.00           C
+ATOM      8  C8  ATV     1       4.900  -0.200   0.000  1.00  0.00           C
+ATOM      9  C9  ATV     1       4.900  -1.600   0.000  1.00  0.00           C
+ATOM     10  C10 ATV     1       3.700  -2.300   0.000  1.00  0.00           C
+ATOM     11  C11 ATV     1       2.500  -1.400   0.000  1.00  0.00           C
+ATOM     12  F1  ATV     1       6.100  -2.200   0.000  1.00  0.00           F
+ATOM     13  C12 ATV     1      -2.300   1.300   0.000  1.00  0.00           C
+ATOM     14  C13 ATV     1      -3.100   2.400   0.000  1.00  0.00           C
+ATOM     15  O1  ATV     1      -4.300   2.200   0.000  1.00  0.00           O
+ATOM     16  O2  ATV     1      -2.600   3.600   0.000  1.00  0.00           O
+END`
+    },
+    'omeprazole': {
+        color: '#8b5cf6',
+        emoji: '💜',
+        formula: 'C₁₇H₁₉N₃O₃S',
+        skeletal: 'Proton pump inhibitor with benzimidazole and pyridine',
+        functionalGroups: ['Benzimidazole', 'Pyridine', 'Sulfoxide (S=O)', 'Methoxy groups'],
+        pdb: `COMPND    OMEPRAZOLE
+ATOM      1  N1  OMP     1       0.000   0.000   0.000  1.00  0.00           N
+ATOM      2  C2  OMP     1       1.300   0.000   0.000  1.00  0.00           C
+ATOM      3  N2  OMP     1       2.000   1.200   0.000  1.00  0.00           N
+ATOM      4  C3  OMP     1       1.200   2.300   0.000  1.00  0.00           C
+ATOM      5  C4  OMP     1      -0.200   2.000   0.000  1.00  0.00           C
+ATOM      6  C5  OMP     1      -0.700   0.700   0.000  1.00  0.00           C
+ATOM      7  C6  OMP     1       2.000  -1.200   0.000  1.00  0.00           C
+ATOM      8  S1  OMP     1       3.600  -1.000   0.000  1.00  0.00           S
+ATOM      9  O1  OMP     1       4.000  -1.000   1.400  1.00  0.00           O
+ATOM     10  C7  OMP     1       4.200   0.600   0.000  1.00  0.00           C
+ATOM     11  N3  OMP     1       5.500   0.900   0.000  1.00  0.00           N
+ATOM     12  C8  OMP     1       5.800   2.200   0.000  1.00  0.00           C
+ATOM     13  C9  OMP     1       4.700   3.000   0.000  1.00  0.00           C
+ATOM     14  C10 OMP     1       3.500   2.300   0.000  1.00  0.00           C
+ATOM     15  C11 OMP     1       3.500   0.900   0.000  1.00  0.00           C
+ATOM     16  O2  OMP     1       1.500   3.600   0.000  1.00  0.00           O
+ATOM     17  O3  OMP     1       6.200  -1.500   0.000  1.00  0.00           O
+END`
+    },
 };
 
 type ViewStyle = 'stick' | 'sphere' | 'line' | 'cartoon';

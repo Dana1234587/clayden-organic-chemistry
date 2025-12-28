@@ -410,7 +410,30 @@ export const sections: ChapterSection[] = [
       "Count groups attached to carbon to determine hybridization"
     ],
     funFact: "The tetrahedral shape of sp³ carbon was proposed by van 't Hoff and Le Bel in 1874—before anyone knew about electrons or orbitals!",
-    commonMistake: "Double bonds count as ONE group for hybridization. A C=C double bond is one group, not two."
+    commonMistake: "Double bonds count as ONE group for hybridization. A C=C double bond is one group, not two.",
+    diagrams: [
+      { type: 'hybridization', props: { type: 'comparison', interactive: true }, caption: 'Compare sp³, sp², and sp hybridization' }
+    ],
+    difficulty: 'fundamental',
+    examTip: "Quick trick: Count the GROUPS (not bonds) attached to carbon. 4 groups = sp³, 3 groups = sp², 2 groups = sp. A double bond counts as ONE group!",
+    plainEnglish: {
+      technical: "Hybridization involves the mixing of s and p atomic orbitals to form equivalent sp³, sp², or sp hybrid orbitals",
+      simple: "Carbon mixes its orbitals like mixing paint colors to make new 'hybrid' orbitals that point in specific directions for bonding!"
+    },
+    quickCheck: [
+      {
+        question: "What is the hybridization of a carbon with 3 groups attached (like in ethene C₂H₄)?",
+        options: ["sp³", "sp²", "sp", "None - unhybridized"],
+        correctIndex: 1,
+        explanation: "3 groups means sp² hybridization! The leftover p orbital is used for the π bond in the double bond."
+      },
+      {
+        question: "What bond angle would you expect for an sp³ hybridized carbon?",
+        options: ["90°", "109.5°", "120°", "180°"],
+        correctIndex: 1,
+        explanation: "sp³ gives tetrahedral geometry with 109.5° angles. This is the angle in methane (CH₄)!"
+      }
+    ]
   },
   {
     id: "sigma-and-pi-bonds",
