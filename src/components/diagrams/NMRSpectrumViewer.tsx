@@ -42,12 +42,11 @@ export default function NMRSpectrumViewer({
     showRegions = true
 }: NMRSpectrumProps) {
     const [hoveredPeak, setHoveredPeak] = useState<NMRPeak | null>(null);
-    const [spectrumType, setSpectrumType] = useState<'13C' | '1H'>(type);
 
-    const regions = spectrumType === '13C' ? REGIONS_13C : REGIONS_1H;
-    const maxPpm = spectrumType === '13C' ? 220 : 12;
+    const regions = type === '13C' ? REGIONS_13C : REGIONS_1H;
+    const maxPpm = type === '13C' ? 220 : 12;
 
-    // Find max ppm from peaks for scale
+    // Find max ppm from peaks for scale  
     const actualMaxPpm = Math.max(...peaks.map(p => p.ppm), maxPpm);
 
     return (
@@ -59,13 +58,17 @@ export default function NMRSpectrumViewer({
                 borderRadius: 16,
                 padding: '1.5rem',
                 border: '1px solid rgba(139, 92, 246, 0.2)',
+                width: '100%',
+                maxWidth: '100%',
+                overflow: 'hidden',
+                boxSizing: 'border-box',
             }}
         >
             {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
                 <div>
                     <h4 style={{ margin: 0, color: 'white', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        🧲 {spectrumType === '13C' ? '¹³C' : '¹H'} NMR: {moleculeName}
+                        🧲 {type === '13C' ? '¹³C' : '¹H'} NMR: {moleculeName}
                     </h4>
                     {formula && (
                         <div style={{ color: '#fbbf24', fontFamily: 'monospace', fontSize: '0.9rem', marginTop: '0.25rem' }}>
@@ -73,43 +76,15 @@ export default function NMRSpectrumViewer({
                         </div>
                     )}
                 </div>
-
-                {/* Type Toggle */}
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    <button
-                        onClick={() => setSpectrumType('13C')}
-                        style={{
-                            padding: '6px 14px',
-                            background: spectrumType === '13C'
-                                ? 'linear-gradient(135deg, #8b5cf6, #6366f1)'
-                                : 'rgba(255,255,255,0.1)',
-                            border: 'none',
-                            borderRadius: 8,
-                            color: 'white',
-                            fontSize: '0.8rem',
-                            cursor: 'pointer',
-                            fontWeight: spectrumType === '13C' ? 600 : 400,
-                        }}
-                    >
-                        ¹³C NMR
-                    </button>
-                    <button
-                        onClick={() => setSpectrumType('1H')}
-                        style={{
-                            padding: '6px 14px',
-                            background: spectrumType === '1H'
-                                ? 'linear-gradient(135deg, #10b981, #059669)'
-                                : 'rgba(255,255,255,0.1)',
-                            border: 'none',
-                            borderRadius: 8,
-                            color: 'white',
-                            fontSize: '0.8rem',
-                            cursor: 'pointer',
-                            fontWeight: spectrumType === '1H' ? 600 : 400,
-                        }}
-                    >
-                        ¹H NMR
-                    </button>
+                <div style={{
+                    padding: '4px 12px',
+                    background: type === '13C' ? 'linear-gradient(135deg, #8b5cf6, #6366f1)' : 'linear-gradient(135deg, #10b981, #059669)',
+                    borderRadius: 8,
+                    color: 'white',
+                    fontSize: '0.8rem',
+                    fontWeight: 600
+                }}>
+                    {type === '13C' ? '¹³C NMR' : '¹H NMR'}
                 </div>
             </div>
 
