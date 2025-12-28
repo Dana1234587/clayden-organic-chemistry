@@ -480,6 +480,7 @@ END`
         formula: 'C₃H₆S',
         skeletal: 'Three-carbon with central thioketone (C=S)',
         functionalGroups: ['Thioketone (C=S)', 'Methyl groups'],
+        pubchemCid: 11352,
         pdb: `COMPND    THIOACETONE
 ATOM      1  C1  THI     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  THI     1       1.500   0.000   0.000  1.00  0.00           C
@@ -493,6 +494,7 @@ END`
         formula: 'C₁₀H₈',
         skeletal: 'Fused 5-membered and 7-membered aromatic rings (blue color!)',
         functionalGroups: ['Non-benzenoid aromatic', 'Fused ring system'],
+        pubchemCid: 9231,
         pdb: `COMPND    AZULENE
 ATOM      1  C1  AZU     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  AZU     1       1.400   0.000   0.000  1.00  0.00           C
@@ -512,6 +514,7 @@ END`
         formula: 'C₂₀H₂₈O',
         skeletal: 'Conjugated polyene chain with cyclohexene ring and aldehyde',
         functionalGroups: ['Aldehyde (-CHO)', 'Conjugated double bonds', 'Cyclohexene ring'],
+        pubchemCid: 638015,
         pdb: `COMPND    RETINAL
 ATOM      1  C1  RET     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  RET     1       1.400   0.000   0.000  1.00  0.00           C
@@ -542,6 +545,7 @@ END`
         formula: 'C₁₃H₁₈O',
         skeletal: 'Rose ketone with cyclohexene and conjugated system',
         functionalGroups: ['Ketone (C=O)', 'Conjugated double bonds', 'Cyclohexene ring'],
+        pubchemCid: 5366074,
         pdb: `COMPND    DAMASCENONE
 ATOM      1  C1  DAM     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  DAM     1       1.400   0.000   0.000  1.00  0.00           C
@@ -564,6 +568,7 @@ END`
         formula: 'C₂₀H₂₄N₂O₂',
         skeletal: 'Quinoline-quinuclidine alkaloid from cinchona bark',
         functionalGroups: ['Quinoline ring', 'Quinuclidine bicyclic', 'Methoxy (-OCH₃)', 'Vinyl group'],
+        pubchemCid: 3034034,
         pdb: `COMPND    QUININE
 ATOM      1  N1  QUI     1       0.000   0.000   0.000  1.00  0.00           N
 ATOM      2  C2  QUI     1       1.400   0.000   0.000  1.00  0.00           C
@@ -588,6 +593,7 @@ END`
         formula: 'C₁₆H₁₈N₂O₄S',
         skeletal: 'Beta-lactam ring fused to thiazolidine - the first antibiotic',
         functionalGroups: ['β-lactam (4-membered ring)', 'Thiazolidine ring', 'Amide', 'Carboxylic acid'],
+        pubchemCid: 5904,
         pdb: `COMPND    PENICILLIN G
 ATOM      1  S1  PEN     1       0.000   0.000   0.000  1.00  0.00           S
 ATOM      2  C2  PEN     1       1.500   0.500   0.500  1.00  0.00           C
