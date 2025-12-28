@@ -4,8 +4,8 @@
  */
 
 export interface MoleculeData {
-    /** PDB format structure data */
-    pdb: string;
+    /** PDB format structure data (optional for complex molecules using pubchemCid/smiles) */
+    pdb?: string;
     /** File format - pdb or sdf */
     format?: 'pdb' | 'sdf';
     /** PubChem Compound ID for fetching accurate SDF */
