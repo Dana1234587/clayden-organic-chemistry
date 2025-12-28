@@ -1,9 +1,15 @@
-/**
- * Chapter 3: Determining Organic Structures
- */
+import { ChapterData } from '../../types';
+import { metadata } from './metadata';
+import { introduction, sections } from './content';
+import { quiz } from './quiz';
+import { flashcards, glossary, miniQuizzes } from './activities';
 
-export { metadata } from './metadata';
-export { introduction, sections } from './content';
-export { quiz } from './quiz';
-export { flashcards, glossary, miniQuizzes } from './activities';
-export { chapter3Molecules } from './molecules';
+export const chapter3: ChapterData = {
+    ...metadata,
+    introduction,
+    sections,
+    quiz,
+    flashcards,
+    glossary,
+    miniQuizzes
+};

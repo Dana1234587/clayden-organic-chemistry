@@ -6,15 +6,14 @@
 import { MoleculeData, MoleculeRegistry } from './moleculeTypes';
 import { chapter1Molecules } from './chapters/chapter1/molecules';
 import { chapter2Molecules } from './chapters/chapter2/molecules';
+import { chapter3Molecules } from './chapters/chapter3/molecules';
 
 // Merge all chapter molecules into a single registry
 // Later chapters will be added here as they are created
 export const moleculeRegistry: MoleculeRegistry = {
     ...chapter1Molecules,
     ...chapter2Molecules,
-    // Add more chapters as they are created:
-    // ...chapter3Molecules,
-    // ...chapter4Molecules,
+    ...chapter3Molecules,
 };
 
 /**
