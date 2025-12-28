@@ -699,3 +699,191 @@ body.focus-mode-active .section-card {
 .timer-running {
   animation: pomodoroNotification 2s ease-in-out infinite;
 }
+
+/* ============================================
+   HTML CONTENT STYLES (for chapter content)
+   ============================================ */
+
+/* Reference Tables */
+.html-content table,
+.reference-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  background: rgba(28, 28, 38, 0.6);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.html-content table th,
+.reference-table th {
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--primary-300);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+}
+
+.html-content table td,
+.reference-table td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+  color: var(--neutral-300);
+}
+
+.html-content table tr:hover,
+.reference-table tr:hover {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.html-content table tr.highlight-row,
+.reference-table tr.highlight-row {
+  background: rgba(139, 92, 246, 0.15);
+}
+
+.reference-table.compact {
+  font-size: 0.85rem;
+}
+
+.reference-table.compact td {
+  padding: 0.4rem 0.8rem;
+}
+
+/* Level colors for oxidation table */
+.html-content tr.level-0 td:first-child,
+.reference-table tr.level-0 td:first-child {
+  color: var(--accent-emerald);
+}
+
+.html-content tr.level-1 td:first-child,
+.reference-table tr.level-1 td:first-child {
+  color: var(--accent-cyan);
+}
+
+.html-content tr.level-2 td:first-child,
+.reference-table tr.level-2 td:first-child {
+  color: var(--accent-amber);
+}
+
+.html-content tr.level-3 td:first-child,
+.reference-table tr.level-3 td:first-child {
+  color: var(--accent-rose);
+}
+
+.html-content tr.level-4 td:first-child,
+.reference-table tr.level-4 td:first-child {
+  color: #f87171;
+}
+
+/* Arrow indicators */
+.html-content td.arrow,
+.reference-table td.arrow {
+  text-align: center;
+  color: var(--neutral-500);
+  font-size: 0.8rem;
+  padding: 0.25rem;
+  border: none;
+  background: transparent;
+}
+
+/* Highlight Box */
+.html-content .highlight-box {
+  background: rgba(139, 92, 246, 0.15);
+  border-left: 4px solid var(--primary-500);
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+  color: var(--neutral-200);
+}
+
+/* Warning Box */
+.html-content .warning-box {
+  background: rgba(245, 158, 11, 0.15);
+  border-left: 4px solid var(--accent-amber);
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+  color: var(--neutral-200);
+}
+
+.html-content .warning-box ul {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+}
+
+.html-content .warning-box li {
+  margin-bottom: 0.25rem;
+}
+
+/* Tip Box */
+.html-content .tip-box {
+  background: rgba(6, 182, 212, 0.15);
+  border-left: 4px solid var(--accent-cyan);
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+  color: var(--neutral-200);
+}
+
+.html-content .tip-box ul {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+}
+
+.html-content .tip-box li {
+  margin-bottom: 0.25rem;
+}
+
+/* Headers */
+.html-content h4 {
+  color: var(--primary-300);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.html-content h5 {
+  color: var(--neutral-200);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem 0;
+}
+
+/* Paragraph */
+.html-content p {
+  color: var(--neutral-300);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+/* Strong */
+.html-content strong {
+  color: var(--neutral-100);
+  font-weight: 600;
+}
+
+/* Emphasis */
+.html-content em {
+  color: var(--primary-300);
+  font-style: italic;
+}
+
+/* Lists */
+.html-content ul,
+.html-content ol {
+  padding-left: 1.25rem;
+  margin: 0.5rem 0;
+}
+
+.html-content li {
+  color: var(--neutral-300);
+  margin-bottom: 0.25rem;
+  line-height: 1.6;
+}
+
+/* Oxidation Ladder */
+.html-content .oxidation-ladder {
+  margin: 1rem 0;
+}

@@ -6,9 +6,25 @@ interface ContentRendererProps {
     content: string;
 }
 
-// Simple markdown-like renderer without external dependencies
+// Check if content contains HTML tags
+const containsHTML = (text: string): boolean => {
+    return /<[a-z][\s\S]*>/i.test(text);
+};
+
+// Simple markdown-like renderer with HTML support
 export default function ContentRenderer({ content }: ContentRendererProps) {
-    // Process content to handle basic formatting
+
+    // If content contains HTML, render it directly
+    if (containsHTML(content)) {
+        return (
+            <div
+                className="content-renderer html-content"
+                dangerouslySetInnerHTML={{ __html: content }}
+            />
+        );
+    }
+
+    // Otherwise, process as plain text (original logic)
     const processContent = (text: string): ReactNode[] => {
         const lines = text.split('\n');
         const result: ReactNode[] = [];
@@ -190,3 +206,4 @@ export default function ContentRenderer({ content }: ContentRendererProps) {
         </div>
     );
 }
+
