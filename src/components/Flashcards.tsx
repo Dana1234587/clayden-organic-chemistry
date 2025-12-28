@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 
 export interface Flashcard {
     id: string;
@@ -23,6 +23,8 @@ export default function Flashcards({ cards, title = "Flashcards", onComplete }: 
     const [reviewCards, setReviewCards] = useState<Set<string>>(new Set());
     const [isShuffled, setIsShuffled] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [exitDirection, setExitDirection] = useState<'left' | 'right' | null>(null);
+    const [dragX, setDragX] = useState(0);
 
     // Shuffle cards
     const shuffledCards = useMemo(() => {
@@ -57,23 +59,33 @@ export default function Flashcards({ cards, title = "Flashcards", onComplete }: 
     }, [currentIndex]);
 
     const markAsKnown = useCallback(() => {
+        setExitDirection('right');
         setKnownCards(prev => new Set(prev).add(currentCard.id));
         setReviewCards(prev => {
             const newSet = new Set(prev);
             newSet.delete(currentCard.id);
             return newSet;
         });
-        handleNext();
+        setTimeout(() => {
+            handleNext();
+            setExitDirection(null);
+            setDragX(0);
+        }, 300);
     }, [currentCard, handleNext]);
 
     const markForReview = useCallback(() => {
+        setExitDirection('left');
         setReviewCards(prev => new Set(prev).add(currentCard.id));
         setKnownCards(prev => {
             const newSet = new Set(prev);
             newSet.delete(currentCard.id);
             return newSet;
         });
-        handleNext();
+        setTimeout(() => {
+            handleNext();
+            setExitDirection(null);
+            setDragX(0);
+        }, 300);
     }, [currentCard, handleNext]);
 
     const resetProgress = useCallback(() => {
@@ -81,6 +93,8 @@ export default function Flashcards({ cards, title = "Flashcards", onComplete }: 
         setKnownCards(new Set());
         setReviewCards(new Set());
         setIsFlipped(false);
+        setExitDirection(null);
+        setDragX(0);
     }, []);
 
     const toggleShuffle = useCallback(() => {
@@ -88,6 +102,22 @@ export default function Flashcards({ cards, title = "Flashcards", onComplete }: 
         setCurrentIndex(0);
         setIsFlipped(false);
     }, []);
+
+    // Swipe gesture handlers
+    const handleDrag = useCallback((event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+        setDragX(info.offset.x);
+    }, []);
+
+    const handleDragEnd = useCallback((event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+        const threshold = 100;
+        if (info.offset.x > threshold) {
+            markAsKnown();
+        } else if (info.offset.x < -threshold) {
+            markForReview();
+        } else {
+            setDragX(0);
+        }
+    }, [markAsKnown, markForReview]);
 
     if (!isOpen) {
         return (
@@ -177,46 +207,91 @@ export default function Flashcards({ cards, title = "Flashcards", onComplete }: 
                 <span className="progress-text">{currentIndex + 1} / {shuffledCards.length}</span>
             </div>
 
-            {/* Card with 3D Flip */}
-            <div className="card-wrapper" onClick={handleFlip}>
-                <div className={`card-scene ${isFlipped ? 'flipped' : ''}`}>
-                    {/* Front of Card */}
-                    <div className="card-face card-front">
-                        <div className="card-corner top-left"></div>
-                        <div className="card-corner top-right"></div>
-                        <div className="card-corner bottom-left"></div>
-                        <div className="card-corner bottom-right"></div>
-
-                        {currentCard.category && (
-                            <span className="card-category">{currentCard.category}</span>
-                        )}
-                        <div className="card-number">{currentIndex + 1} / {shuffledCards.length}</div>
-                        <div className="card-label">❓ Question</div>
-                        <div className="card-text">{currentCard.front}</div>
-                        <div className="flip-hint">
-                            <span className="flip-icon">🔄</span> Click to reveal answer
-                        </div>
-                    </div>
-
-                    {/* Back of Card */}
-                    <div className="card-face card-back">
-                        <div className="card-corner top-left"></div>
-                        <div className="card-corner top-right"></div>
-                        <div className="card-corner bottom-left"></div>
-                        <div className="card-corner bottom-right"></div>
-
-                        {currentCard.category && (
-                            <span className="card-category back-cat">{currentCard.category}</span>
-                        )}
-                        <div className="card-number back-num">{currentIndex + 1} / {shuffledCards.length}</div>
-                        <div className="card-label back-label">✨ Answer</div>
-                        <div className="card-text">{currentCard.back}</div>
-                        <div className="flip-hint">
-                            <span className="flip-icon">🔄</span> Click to see question
-                        </div>
-                    </div>
+            {/* Swipe Indicators */}
+            <div className="swipe-indicators">
+                <div className={`swipe-indicator left ${dragX < -50 ? 'active' : ''}`}>
+                    <span>🔄</span>
+                    <span>Need Review</span>
+                </div>
+                <div className={`swipe-indicator right ${dragX > 50 ? 'active' : ''}`}>
+                    <span>✅</span>
+                    <span>Got It!</span>
                 </div>
             </div>
+
+            {/* Card with 3D Flip and Swipe */}
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={currentCard.id}
+                    className="card-wrapper"
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.9}
+                    onDrag={handleDrag}
+                    onDragEnd={handleDragEnd}
+                    initial={{ scale: 0.8, opacity: 0, y: 50 }}
+                    animate={{
+                        scale: 1,
+                        opacity: 1,
+                        y: 0,
+                        x: exitDirection === 'right' ? 400 : exitDirection === 'left' ? -400 : dragX,
+                        rotate: exitDirection === 'right' ? 20 : exitDirection === 'left' ? -20 : dragX * 0.05,
+                    }}
+                    exit={{
+                        x: exitDirection === 'right' ? 500 : -500,
+                        opacity: 0,
+                        rotate: exitDirection === 'right' ? 30 : -30,
+                        transition: { duration: 0.3 }
+                    }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                    style={{ cursor: 'grab' }}
+                    whileDrag={{ cursor: 'grabbing' }}
+                >
+                    <div className={`card-scene ${isFlipped ? 'flipped' : ''}`} onClick={handleFlip}>
+                        {/* Front of Card */}
+                        <div className="card-face card-front">
+                            <div className="card-shine"></div>
+                            <div className="card-corner top-left"></div>
+                            <div className="card-corner top-right"></div>
+                            <div className="card-corner bottom-left"></div>
+                            <div className="card-corner bottom-right"></div>
+
+                            {currentCard.category && (
+                                <span className="card-category">{currentCard.category}</span>
+                            )}
+                            <div className="card-number">{currentIndex + 1} / {shuffledCards.length}</div>
+                            <div className="card-icon">❓</div>
+                            <div className="card-label">QUESTION</div>
+                            <div className="card-text">{currentCard.front}</div>
+                            <div className="flip-hint">
+                                <span>👆 Tap to flip</span>
+                                <span className="swipe-hint">👈 👉 Swipe to rate</span>
+                            </div>
+                        </div>
+
+                        {/* Back of Card */}
+                        <div className="card-face card-back">
+                            <div className="card-shine"></div>
+                            <div className="card-corner top-left"></div>
+                            <div className="card-corner top-right"></div>
+                            <div className="card-corner bottom-left"></div>
+                            <div className="card-corner bottom-right"></div>
+
+                            {currentCard.category && (
+                                <span className="card-category back-cat">{currentCard.category}</span>
+                            )}
+                            <div className="card-number back-num">{currentIndex + 1} / {shuffledCards.length}</div>
+                            <div className="card-icon">💡</div>
+                            <div className="card-label back-label">ANSWER</div>
+                            <div className="card-text">{currentCard.back}</div>
+                            <div className="flip-hint">
+                                <span>👆 Tap to flip back</span>
+                                <span className="swipe-hint">👈 👉 Swipe to rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
+            </AnimatePresence>
 
             {/* Controls */}
             <div className="controls">
@@ -356,12 +431,66 @@ export default function Flashcards({ cards, title = "Flashcards", onComplete }: 
                     color: var(--neutral-400);
                 }
 
-                /* 3D Card Flip Container - Portrait Style */
+                /* Swipe Indicators */
+                .swipe-indicators {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 1rem;
+                    padding: 0 2rem;
+                }
+
+                .swipe-indicator {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 4px;
+                    padding: 12px 24px;
+                    border-radius: 16px;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    opacity: 0.4;
+                    transition: all 0.3s ease;
+                }
+
+                .swipe-indicator span:first-child {
+                    font-size: 1.5rem;
+                }
+
+                .swipe-indicator.left {
+                    background: rgba(245, 158, 11, 0.1);
+                    border: 2px solid rgba(245, 158, 11, 0.2);
+                    color: #f59e0b;
+                }
+
+                .swipe-indicator.left.active {
+                    opacity: 1;
+                    background: rgba(245, 158, 11, 0.2);
+                    border-color: #f59e0b;
+                    transform: scale(1.1);
+                    box-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
+                }
+
+                .swipe-indicator.right {
+                    background: rgba(16, 185, 129, 0.1);
+                    border: 2px solid rgba(16, 185, 129, 0.2);
+                    color: #10b981;
+                }
+
+                .swipe-indicator.right.active {
+                    opacity: 1;
+                    background: rgba(16, 185, 129, 0.2);
+                    border-color: #10b981;
+                    transform: scale(1.1);
+                    box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+                }
+
+                /* 3D Card Flip Container - Premium Portrait */
                 .card-wrapper {
                     perspective: 1500px;
                     margin-bottom: 1.5rem;
                     display: flex;
                     justify-content: center;
+                    touch-action: pan-y;
                 }
 
                 .card-scene {
@@ -491,12 +620,40 @@ export default function Flashcards({ cards, title = "Flashcards", onComplete }: 
                     color: rgba(16, 185, 129, 0.6);
                 }
 
+                /* Card Shine Effect */
+                .card-shine {
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 50%;
+                    height: 100%;
+                    background: linear-gradient(
+                        90deg,
+                        transparent,
+                        rgba(255, 255, 255, 0.05),
+                        transparent
+                    );
+                    transform: skewX(-25deg);
+                    pointer-events: none;
+                    animation: shine 3s ease-in-out infinite;
+                }
+
+                @keyframes shine {
+                    0% { left: -100%; }
+                    50%, 100% { left: 150%; }
+                }
+
+                .card-icon {
+                    font-size: 2.5rem;
+                    margin-bottom: 0.5rem;
+                }
+
                 .card-label {
-                    font-size: 0.9rem;
+                    font-size: 0.8rem;
                     font-weight: 700;
                     color: var(--primary-400);
-                    margin-bottom: 1.5rem;
-                    letter-spacing: 2px;
+                    margin-bottom: 1rem;
+                    letter-spacing: 3px;
                     text-transform: uppercase;
                 }
 
@@ -545,13 +702,15 @@ export default function Flashcards({ cards, title = "Flashcards", onComplete }: 
                     font-size: 0.75rem;
                     color: var(--neutral-500);
                     display: flex;
+                    flex-direction: column;
                     align-items: center;
-                    gap: 6px;
+                    gap: 4px;
                     opacity: 0.8;
                 }
 
-                .flip-icon {
-                    font-size: 0.9rem;
+                .swipe-hint {
+                    font-size: 0.7rem;
+                    color: var(--neutral-600);
                 }
 
                 .card-scene:hover .card-front {
