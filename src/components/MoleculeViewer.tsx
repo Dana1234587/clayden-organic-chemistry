@@ -620,6 +620,7 @@ END`
         formula: 'C₄₇H₅₁NO₁₄',
         skeletal: 'Complex diterpene with 11 chiral centers - anticancer drug',
         functionalGroups: ['Ester groups', 'Amide', 'Hydroxyl groups', 'Epoxide', 'Oxetane ring'],
+        pubchemCid: 36314,
         pdb: `COMPND    TAXOL (PACLITAXEL)
 ATOM      1  C1  TAX     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  TAX     1       1.540   0.000   0.000  1.00  0.00           C
@@ -646,6 +647,7 @@ END`
         formula: 'C₃₃H₃₅FN₂O₅',
         skeletal: 'Lipitor - HMG-CoA reductase inhibitor with pyrrole core',
         functionalGroups: ['Pyrrole ring', 'Fluorophenyl', 'Carboxylic acid', 'Hydroxyl groups'],
+        pubchemCid: 60823,
         pdb: `COMPND    ATORVASTATIN (LIPITOR)
 ATOM      1  N1  ATV     1       0.000   0.000   0.000  1.00  0.00           N
 ATOM      2  C2  ATV     1       1.200   0.700   0.000  1.00  0.00           C
@@ -671,6 +673,7 @@ END`
         formula: 'C₁₇H₁₉N₃O₃S',
         skeletal: 'Proton pump inhibitor with benzimidazole and pyridine',
         functionalGroups: ['Benzimidazole', 'Pyridine', 'Sulfoxide (S=O)', 'Methoxy groups'],
+        pubchemCid: 4594,
         pdb: `COMPND    OMEPRAZOLE
 ATOM      1  N1  OMP     1       0.000   0.000   0.000  1.00  0.00           N
 ATOM      2  C2  OMP     1       1.300   0.000   0.000  1.00  0.00           C
