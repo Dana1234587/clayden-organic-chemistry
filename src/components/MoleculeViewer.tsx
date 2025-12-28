@@ -109,6 +109,7 @@ const moleculeData: Record<string, {
     pdb: string;
     format?: 'pdb' | 'sdf';
     pubchemCid?: number; // PubChem Compound ID for fetching accurate SDF
+    rcsbLigandId?: string; // RCSB PDB ligand ID for complex molecules
     color: string;
     emoji: string;
     formula: string;
@@ -621,6 +622,7 @@ END`
         skeletal: 'Complex diterpene with 11 chiral centers - anticancer drug',
         functionalGroups: ['Ester groups', 'Amide', 'Hydroxyl groups', 'Epoxide', 'Oxetane ring'],
         pubchemCid: 36314,
+        rcsbLigandId: 'TA1', // RCSB PDB ligand ID for Paclitaxel
         pdb: `COMPND    TAXOL (PACLITAXEL)
 ATOM      1  C1  TAX     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  TAX     1       1.540   0.000   0.000  1.00  0.00           C
@@ -648,6 +650,7 @@ END`
         skeletal: 'Lipitor - HMG-CoA reductase inhibitor with pyrrole core',
         functionalGroups: ['Pyrrole ring', 'Fluorophenyl', 'Carboxylic acid', 'Hydroxyl groups'],
         pubchemCid: 60823,
+        rcsbLigandId: 'ATV', // RCSB PDB ligand ID for Atorvastatin
         pdb: `COMPND    ATORVASTATIN (LIPITOR)
 ATOM      1  N1  ATV     1       0.000   0.000   0.000  1.00  0.00           N
 ATOM      2  C2  ATV     1       1.200   0.700   0.000  1.00  0.00           C
@@ -674,6 +677,7 @@ END`
         skeletal: 'Proton pump inhibitor with benzimidazole and pyridine',
         functionalGroups: ['Benzimidazole', 'Pyridine', 'Sulfoxide (S=O)', 'Methoxy groups'],
         pubchemCid: 4594,
+        rcsbLigandId: 'OPZ', // RCSB PDB ligand ID for Omeprazole
         pdb: `COMPND    OMEPRAZOLE
 ATOM      1  N1  OMP     1       0.000   0.000   0.000  1.00  0.00           N
 ATOM      2  C2  OMP     1       1.300   0.000   0.000  1.00  0.00           C
@@ -757,24 +761,52 @@ export default function MoleculeViewer({
 
                 viewerRef.current = viewer;
 
-                // Try to fetch from PubChem for accurate bond orders
+                // Try to fetch from PubChem or RCSB PDB for accurate 3D structure
                 let modelData = molecule.pdb;
                 let modelFormat = molecule.format || 'pdb';
+                let loaded3D = false;
 
+                // First try PubChem 3D conformer
                 if (molecule.pubchemCid) {
                     try {
                         const pubchemUrl = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${molecule.pubchemCid}/SDF?record_type=3d`;
                         const response = await fetch(pubchemUrl);
                         if (response.ok) {
-                            modelData = await response.text();
-                            modelFormat = 'sdf';
-                            console.log('Loaded SDF from PubChem for CID:', molecule.pubchemCid);
-                        } else {
-                            console.warn('PubChem API failed, using fallback PDB');
+                            const sdfData = await response.text();
+                            // Check if we got actual SDF data (not an error message)
+                            if (sdfData.includes('V2000') || sdfData.includes('V3000')) {
+                                modelData = sdfData;
+                                modelFormat = 'sdf';
+                                loaded3D = true;
+                                console.log('Loaded SDF from PubChem for CID:', molecule.pubchemCid);
+                            }
                         }
                     } catch (err) {
-                        console.warn('Could not fetch from PubChem, using fallback:', err);
+                        console.warn('PubChem 3D failed:', err);
                     }
+                }
+
+                // If PubChem failed and we have RCSB ligand ID, try RCSB PDB
+                if (!loaded3D && molecule.rcsbLigandId) {
+                    try {
+                        const rcsbUrl = `https://files.rcsb.org/ligands/download/${molecule.rcsbLigandId}_ideal.sdf`;
+                        const response = await fetch(rcsbUrl);
+                        if (response.ok) {
+                            const sdfData = await response.text();
+                            if (sdfData.includes('V2000') || sdfData.includes('V3000')) {
+                                modelData = sdfData;
+                                modelFormat = 'sdf';
+                                loaded3D = true;
+                                console.log('Loaded SDF from RCSB PDB for ligand:', molecule.rcsbLigandId);
+                            }
+                        }
+                    } catch (err) {
+                        console.warn('RCSB PDB failed:', err);
+                    }
+                }
+
+                if (!loaded3D) {
+                    console.warn('Using local PDB fallback for:', moleculeName);
                 }
 
                 viewer.addModel(modelData, modelFormat);
