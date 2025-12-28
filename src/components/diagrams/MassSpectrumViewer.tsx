@@ -97,6 +97,10 @@ export default function MassSpectrumViewer({
                 borderRadius: 16,
                 padding: '1.5rem',
                 border: '1px solid rgba(139, 92, 246, 0.2)',
+                width: '100%',
+                maxWidth: '100%',
+                overflow: 'hidden',
+                boxSizing: 'border-box',
             }}
         >
             {/* Header */}
@@ -137,7 +141,13 @@ export default function MassSpectrumViewer({
             </div>
 
             {/* Spectrum SVG */}
-            <svg width="100%" height="250" viewBox="0 0 500 250" style={{ overflow: 'visible' }}>
+            <svg
+                width="100%"
+                height="250"
+                viewBox="0 0 500 250"
+                preserveAspectRatio="xMidYMid meet"
+                style={{ overflow: 'hidden', maxWidth: '100%' }}
+            >
                 {/* Background grid */}
                 <defs>
                     <pattern id="grid" width="50" height="25" patternUnits="userSpaceOnUse">
