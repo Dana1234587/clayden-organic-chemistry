@@ -255,14 +255,12 @@ export default function ChapterPage() {
                 className="section-card"
                 style={{ marginBottom: '2rem' }}
             >
-                <p style={{
+                <div style={{
                     fontSize: '1.1rem',
                     lineHeight: 1.8,
-                    color: 'var(--neutral-300)',
-                    margin: 0
                 }}>
-                    {chapter.introduction}
-                </p>
+                    <ContentRenderer content={chapter.introduction} />
+                </div>
             </motion.div>
 
             {/* Sections */}

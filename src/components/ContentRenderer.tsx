@@ -149,6 +149,29 @@ export default function ContentRenderer({ content }: ContentRendererProps) {
 
         // Split by common patterns and style appropriately
         while (remaining.length > 0) {
+            // Check for **bold** markdown
+            const boldMatch = remaining.match(/^\*\*(.+?)\*\*/);
+            if (boldMatch) {
+                parts.push(
+                    <strong key={partKey++} style={{
+                        color: 'var(--primary-300)',
+                        fontWeight: 600
+                    }}>{boldMatch[1]}</strong>
+                );
+                remaining = remaining.substring(boldMatch[0].length);
+                continue;
+            }
+
+            // Check for *italic* markdown
+            const italicMatch = remaining.match(/^\*(.+?)\*/);
+            if (italicMatch) {
+                parts.push(
+                    <em key={partKey++} style={{ color: 'var(--neutral-200)' }}>{italicMatch[1]}</em>
+                );
+                remaining = remaining.substring(italicMatch[0].length);
+                continue;
+            }
+
             // Check for emoji patterns at start
             const emojiMatch = remaining.match(/^([\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|⚠️|❗|✓|✗|💡|→|←|═)/u);
             if (emojiMatch) {

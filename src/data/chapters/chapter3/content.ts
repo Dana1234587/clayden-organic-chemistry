@@ -1,16 +1,19 @@
 import { ChapterSection } from '../../types';
 
-export const introduction = `Welcome to the world of structural determination! 🔬
+export const introduction = `<h4>🔬 Welcome to the world of structural determination!</h4>
 
-Imagine being a molecular detective. You have an unknown compound in a vial—perhaps a new drug candidate, a natural product from a rainforest plant, or a metabolite from a patient's blood sample. Your mission: determine its exact structure, atom by atom.
+<p>Imagine being a <strong>molecular detective</strong>. You have an unknown compound in a vial—perhaps a new drug candidate, a natural product from a rainforest plant, or a metabolite from a patient's blood sample. Your mission: determine its exact structure, atom by atom.</p>
 
-In this chapter, you'll master the four pillars of structural determination:
-• **X-ray Crystallography** - The "final appeal" that shows atoms directly
-• **Mass Spectrometry (MS)** - Weighing molecules and detecting elements  
-• **NMR Spectroscopy** - Mapping carbon skeletons and hydrogen environments
-• **IR Spectroscopy** - Identifying functional groups through vibrations
+<p>In this chapter, you'll master the <strong>four pillars</strong> of structural determination:</p>
 
-Each technique reveals different clues. Together, they solve the molecular mystery!`;
+<ul>
+<li>🔍 <strong>X-ray Crystallography</strong> - The "final appeal" that shows atoms directly</li>
+<li>⚖️ <strong>Mass Spectrometry (MS)</strong> - Weighing molecules and detecting elements</li>
+<li>🧲 <strong>NMR Spectroscopy</strong> - Mapping carbon skeletons and hydrogen environments</li>
+<li>📡 <strong>IR Spectroscopy</strong> - Identifying functional groups through vibrations</li>
+</ul>
+
+<p>Each technique reveals different clues. Together, they solve the molecular mystery!</p>`;
 
 export const sections: ChapterSection[] = [
     // ========================================
