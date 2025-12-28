@@ -40,10 +40,10 @@ function Structure2DRenderer({ pubchemCid, smiles, moleculeName }: {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            minHeight: '280px',
-            background: 'rgba(255, 255, 255, 0.95)',
-            borderRadius: '12px',
-            padding: '20px',
+            width: '100%',
+            height: '100%',
+            padding: '15px',
+            boxSizing: 'border-box',
         }}>
             {isLoading ? (
                 <div style={{ color: '#666', fontSize: '0.9rem' }}>
@@ -58,18 +58,18 @@ function Structure2DRenderer({ pubchemCid, smiles, moleculeName }: {
                         alt={`2D structure of ${moleculeName}`}
                         style={{
                             maxWidth: '100%',
-                            maxHeight: '250px',
+                            maxHeight: 'calc(100% - 30px)',
                             objectFit: 'contain',
                         }}
                         onError={() => setError('Could not load 2D structure')}
                     />
                     <div style={{
-                        marginTop: '12px',
-                        fontSize: '0.7rem',
+                        marginTop: '8px',
+                        fontSize: '0.65rem',
                         color: '#666',
                         textAlign: 'center',
                     }}>
-                        📐 Skeletal Formula (zigzag) • ═ Double Bond • ≡ Triple Bond
+                        📐 Zigzag Skeletal • ═ Double Bond • ≡ Triple Bond
                     </div>
                 </>
             ) : null}
@@ -123,6 +123,7 @@ const moleculeData: Record<string, {
         formula: 'C₁₀H₁₂N₂O',
         skeletal: 'Indole ring with ethylamine side chain',
         functionalGroups: ['Amine (-NH₂)', 'Hydroxyl (-OH)', 'Aromatic ring'],
+        pubchemCid: 5202,
         pdb: `COMPND    SEROTONIN
 ATOM      1  N1  SER     1       0.000   0.000   0.000  1.00  0.00           N
 ATOM      2  C2  SER     1       1.300   0.000   0.000  1.00  0.00           C
@@ -145,6 +146,7 @@ END`
         formula: 'C₂H₆',
         skeletal: 'Two carbons with single bond (Level 0)',
         functionalGroups: ['Alkane'],
+        pubchemCid: 6324,
         pdb: `COMPND    ETHANE
 ATOM      1  C1  ETH     1      -0.752   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  ETH     1       0.752   0.000   0.000  1.00  0.00           C
@@ -241,6 +243,7 @@ END`
         formula: 'C₈H₁₀N₄O₂',
         skeletal: 'Fused purine ring system (imidazole + pyrimidine)',
         functionalGroups: ['Carbonyl (C=O)', 'Methyl groups (-CH₃)', 'Heterocyclic N'],
+        pubchemCid: 2519,
         pdb: `COMPND    CAFFEINE
 ATOM      1  N1  CAF     1       0.000   0.000   0.000  1.00  0.00           N
 ATOM      2  C2  CAF     1       1.300   0.000   0.000  1.00  0.00           C
@@ -264,6 +267,7 @@ END`
         formula: 'C₉H₈O₄',
         skeletal: 'Benzene ring with ester and carboxylic acid groups',
         functionalGroups: ['Carboxylic acid (-COOH)', 'Ester (-COO-)', 'Benzene ring'],
+        pubchemCid: 2244,
         pdb: `COMPND    ASPIRIN
 ATOM      1  C1  ASP     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  ASP     1       1.400   0.000   0.000  1.00  0.00           C
@@ -286,6 +290,7 @@ END`
         formula: 'C₁₀H₂₀O',
         skeletal: 'Cyclohexane ring with methyl, isopropyl, and hydroxyl groups',
         functionalGroups: ['Hydroxyl (-OH)', 'Cyclohexane ring', 'Isopropyl group'],
+        pubchemCid: 16666,
         pdb: `COMPND    MENTHOL
 ATOM      1  C1  MEN     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  MEN     1       1.500   0.000   0.000  1.00  0.00           C
@@ -306,6 +311,7 @@ END`
         formula: 'C₈H₈O₃',
         skeletal: 'Benzene ring with aldehyde, methoxy, and hydroxyl groups',
         functionalGroups: ['Aldehyde (-CHO)', 'Methoxy (-OCH₃)', 'Hydroxyl (-OH)', 'Benzene ring'],
+        pubchemCid: 1183,
         pdb: `COMPND    VANILLIN
 ATOM      1  C1  VAN     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  VAN     1       1.400   0.000   0.000  1.00  0.00           C
@@ -326,6 +332,7 @@ END`
         formula: 'C₂H₆O',
         skeletal: 'Two-carbon chain with terminal hydroxyl group',
         functionalGroups: ['Hydroxyl (-OH)', 'Methyl (-CH₃)'],
+        pubchemCid: 702,
         pdb: `COMPND    ETHANOL
 ATOM      1  C1  ETH     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  ETH     1       1.500   0.000   0.000  1.00  0.00           C
@@ -344,6 +351,7 @@ END`
         formula: 'CH₄',
         skeletal: 'Single carbon atom with four hydrogen atoms (tetrahedral)',
         functionalGroups: ['None - simplest hydrocarbon'],
+        pubchemCid: 297,
         pdb: `COMPND    METHANE
 ATOM      1  C   CH4     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  H1  CH4     1       0.629   0.629   0.629  1.00  0.00           H
@@ -354,10 +362,11 @@ END`
     },
     'benzene': {
         color: '#ec4899',
-        emoji: '⬡',
+        emoji: '🔵',
         formula: 'C₆H₆',
-        skeletal: 'Regular hexagon with alternating double bonds (aromatic)',
-        functionalGroups: ['Aromatic ring (6π electrons)'],
+        skeletal: 'Hexagonal ring with alternating double bonds',
+        functionalGroups: ['Aromatic ring'],
+        pubchemCid: 241,
         pdb: `COMPND    BENZENE
 ATOM      1  C1  BEN     1       1.400   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  BEN     1       0.700   1.212   0.000  1.00  0.00           C
@@ -379,6 +388,7 @@ END`
         formula: 'C₁₀H₁₆',
         skeletal: 'Cyclohexene ring with isopropenyl group (terpene)',
         functionalGroups: ['Cyclohexene ring', 'C=C double bond', 'Isopropenyl group'],
+        pubchemCid: 22311,
         pdb: `COMPND    LIMONENE
 ATOM      1  C1  LIM     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  LIM     1       1.400   0.000   0.000  1.00  0.00           C
@@ -398,6 +408,7 @@ END`
         formula: 'C₁₆H₃₀O',
         skeletal: '15-membered macrocyclic ketone ring',
         functionalGroups: ['Ketone (C=O)', 'Large ring (macrocycle)', 'Methyl group'],
+        pubchemCid: 10947,
         pdb: `COMPND    MUSCONE
 ATOM      1  C1  MUS     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  MUS     1       1.500   0.000   0.000  1.00  0.00           C
@@ -423,6 +434,7 @@ END`
         formula: 'C₁₇H₃₀O',
         skeletal: '17-membered macrocyclic ketone with cis double bond',
         functionalGroups: ['Ketone (C=O)', 'Macrocycle', 'C=C double bond (cis)'],
+        pubchemCid: 441463,
         pdb: `COMPND    CIVETONE
 ATOM      1  C1  CIV     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  CIV     1       1.500   0.000   0.000  1.00  0.00           C
@@ -450,6 +462,7 @@ END`
         formula: 'C₈H₁₄O₂',
         skeletal: 'Bicyclic ketal (two fused rings with oxygens)',
         functionalGroups: ['Ketal (C bonded to 2 oxygens)', 'Bicyclic ring'],
+        pubchemCid: 15809,
         pdb: `COMPND    FRONTALIN
 ATOM      1  C1  FRO     1       0.000   0.000   0.000  1.00  0.00           C
 ATOM      2  C2  FRO     1       1.500   0.000   0.000  1.00  0.00           C
@@ -1164,9 +1177,11 @@ export default function MoleculeViewer({
                         height: isMobile ? '280px' : `${height}px`,
                         position: 'relative',
                         zIndex: 1,
-                        touchAction: 'none', // Prevent scroll interference on mobile
+                        touchAction: 'none',
                         WebkitUserSelect: 'none',
                         userSelect: 'none',
+                        overflow: 'hidden',
+                        borderRadius: '12px',
                     }}
                 />
 
@@ -1174,9 +1189,18 @@ export default function MoleculeViewer({
                 {viewMode === '2d' && molecule && (
                     <div style={{
                         position: 'absolute',
-                        inset: 0,
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
                         zIndex: 5,
-                        background: 'var(--neutral-900)',
+                        background: 'rgba(255,255,255,0.95)',
+                        borderRadius: '12px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        overflow: 'hidden',
                     }}>
                         <Structure2DRenderer
                             pubchemCid={molecule.pubchemCid}
