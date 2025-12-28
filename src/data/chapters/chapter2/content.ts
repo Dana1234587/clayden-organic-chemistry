@@ -39,6 +39,10 @@ Full Structure: CH₃-CH₂-CH₂-CH₂-CH₃
 Skeletal Structure: A simple zig-zag with 5 corners
 
 Which is faster to draw? Which is easier to read? The skeletal version, always!`,
+        molecules: [
+            { name: "Pentane", description: "Simple 5-carbon chain - see how clean the zig-zag is!" },
+            { name: "Benzene", description: "The iconic aromatic ring - foundation of many drugs" }
+        ],
         keyPoints: [
             "Skeletal structures simplify complex molecules",
             "They reveal molecular shape and functional groups",
@@ -110,6 +114,10 @@ You MUST write out hydrogens attached to heteroatoms (atoms that are NOT carbon 
 ✗ Wrong: -O, -N, -S
 
 This is the #1 beginner mistake. If you forget the H on oxygen, you've drawn a completely different (often impossible) molecule!`,
+        molecules: [
+            { name: "Propane", description: "3-carbon alkane - perfect for practicing zig-zag" },
+            { name: "Ethanol", description: "Notice the -OH group must show its hydrogen!" }
+        ],
         keyPoints: [
             "Draw carbon chains as zig-zags (109.5° angles)",
             "Carbon atoms are implied at corners and ends",
@@ -208,6 +216,10 @@ This is the #1 beginner mistake. If you forget the H on oxygen, you've drawn a c
 <tr><td>EtOH</td><td>Ethanol</td></tr>
 </tbody>
 </table>`,
+        molecules: [
+            { name: "Benzene", description: "The parent of Ph (Phenyl) - C₆H₆ aromatic ring" },
+            { name: "Toluene", description: "Methylbenzene - Ph-CH₃ or PhMe" }
+        ],
         keyPoints: [
             "Me = Methyl, Et = Ethyl, Pr = Propyl, Bu = Butyl",
             "Ph = Phenyl (benzene ring), Bn = Benzyl (PhCH₂)",
@@ -280,6 +292,11 @@ Examples:
 • Cortisol (stress hormone)
 
 The steroid skeleton has 3 six-membered rings and 1 five-membered ring fused together. Despite looking complex, every steroid shares this same basic framework!`,
+        molecules: [
+            { name: "Cyclohexane", description: "6-membered ring - adopts the famous 'chair' shape" },
+            { name: "Benzene", description: "Aromatic ring with special stability" },
+            { name: "Cholesterol", description: "Steroid with 4 fused rings - essential for cell membranes" }
+        ],
         keyPoints: [
             "Saturated = maximum hydrogens (single bonds only)",
             "Unsaturated = contains double or triple bonds",
@@ -357,6 +374,11 @@ If you learn how ONE aldehyde reacts, you know how ALL aldehydes react!
 <tr><td><strong>Carbonyls</strong></td><td>The carbon is electrophilic (attacked by negative things)</td></tr>
 <tr><td><strong>Carboxylic acids</strong></td><td>Actually acidic (give up H⁺)</td></tr>
 </table>`,
+        molecules: [
+            { name: "Ethanol", description: "Alcohol (-OH) - hydrogen bonding makes it water-soluble" },
+            { name: "Acetone", description: "Ketone (C=O in middle) - common nail polish remover" },
+            { name: "Acetic Acid", description: "Carboxylic acid (-COOH) - the acid in vinegar" }
+        ],
         keyPoints: [
             "Functional groups determine chemical reactivity",
             "Alkanes have NO functional group (unreactive)",
@@ -528,6 +550,12 @@ If you learn how ONE aldehyde reacts, you know how ALL aldehydes react!
 </div>
 
 <p><strong>Why common names persist:</strong> For complex molecules like Strychnine or Vitamin B12, systematic names are PAGES long! "Acetone" is much faster than "Propan-2-one".</p>`,
+        molecules: [
+            { name: "Formaldehyde", description: "1-carbon aldehyde (H-CHO) - used in preservatives" },
+            { name: "Acetaldehyde", description: "2-carbon aldehyde (CH₃-CHO) - fruity smell" },
+            { name: "Benzene", description: "The parent aromatic - C₆H₆" },
+            { name: "Phenol", description: "Benzene with -OH (hydroxybenzene)" }
+        ],
         keyPoints: [
             "Formaldehyde (1C aldehyde), Acetaldehyde (2C aldehyde)",
             "Acetone = simplest ketone",
