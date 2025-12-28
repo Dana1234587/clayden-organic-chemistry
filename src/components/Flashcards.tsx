@@ -220,78 +220,80 @@ export default function Flashcards({ cards, title = "Flashcards", onComplete }: 
             </div>
 
             {/* Card with 3D Flip and Swipe */}
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={currentCard.id}
-                    className="card-wrapper"
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.9}
-                    onDrag={handleDrag}
-                    onDragEnd={handleDragEnd}
-                    initial={{ scale: 0.8, opacity: 0, y: 50 }}
-                    animate={{
-                        scale: 1,
-                        opacity: 1,
-                        y: 0,
-                        x: exitDirection === 'right' ? 400 : exitDirection === 'left' ? -400 : dragX,
-                        rotate: exitDirection === 'right' ? 20 : exitDirection === 'left' ? -20 : dragX * 0.05,
-                    }}
-                    exit={{
-                        x: exitDirection === 'right' ? 500 : -500,
-                        opacity: 0,
-                        rotate: exitDirection === 'right' ? 30 : -30,
-                        transition: { duration: 0.3 }
-                    }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                    style={{ cursor: 'grab' }}
-                    whileDrag={{ cursor: 'grabbing' }}
-                >
-                    <div className={`card-scene ${isFlipped ? 'flipped' : ''}`} onClick={handleFlip}>
-                        {/* Front of Card */}
-                        <div className="card-face card-front">
-                            <div className="card-shine"></div>
-                            <div className="card-corner top-left"></div>
-                            <div className="card-corner top-right"></div>
-                            <div className="card-corner bottom-left"></div>
-                            <div className="card-corner bottom-right"></div>
+            <div className="card-area">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentCard.id}
+                        className="card-wrapper"
+                        drag="x"
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={0.9}
+                        onDrag={handleDrag}
+                        onDragEnd={handleDragEnd}
+                        initial={{ scale: 0.8, opacity: 0, y: 50, x: 0 }}
+                        animate={{
+                            scale: 1,
+                            opacity: 1,
+                            y: 0,
+                            x: exitDirection === 'right' ? 400 : exitDirection === 'left' ? -400 : 0,
+                            rotate: exitDirection === 'right' ? 20 : exitDirection === 'left' ? -20 : dragX * 0.03,
+                        }}
+                        exit={{
+                            x: exitDirection === 'right' ? 500 : -500,
+                            opacity: 0,
+                            rotate: exitDirection === 'right' ? 30 : -30,
+                            transition: { duration: 0.3 }
+                        }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                        style={{ cursor: 'grab', x: dragX }}
+                        whileDrag={{ cursor: 'grabbing' }}
+                    >
+                        <div className={`card-scene ${isFlipped ? 'flipped' : ''}`} onClick={handleFlip}>
+                            {/* Front of Card */}
+                            <div className="card-face card-front">
+                                <div className="card-shine"></div>
+                                <div className="card-corner top-left"></div>
+                                <div className="card-corner top-right"></div>
+                                <div className="card-corner bottom-left"></div>
+                                <div className="card-corner bottom-right"></div>
 
-                            {currentCard.category && (
-                                <span className="card-category">{currentCard.category}</span>
-                            )}
-                            <div className="card-number">{currentIndex + 1} / {shuffledCards.length}</div>
-                            <div className="card-icon">❓</div>
-                            <div className="card-label">QUESTION</div>
-                            <div className="card-text">{currentCard.front}</div>
-                            <div className="flip-hint">
-                                <span>👆 Tap to flip</span>
-                                <span className="swipe-hint">👈 👉 Swipe to rate</span>
+                                {currentCard.category && (
+                                    <span className="card-category">{currentCard.category}</span>
+                                )}
+                                <div className="card-number">{currentIndex + 1} / {shuffledCards.length}</div>
+                                <div className="card-icon">❓</div>
+                                <div className="card-label">QUESTION</div>
+                                <div className="card-text">{currentCard.front}</div>
+                                <div className="flip-hint">
+                                    <span>👆 Tap to flip</span>
+                                    <span className="swipe-hint">👈 👉 Swipe to rate</span>
+                                </div>
+                            </div>
+
+                            {/* Back of Card */}
+                            <div className="card-face card-back">
+                                <div className="card-shine"></div>
+                                <div className="card-corner top-left"></div>
+                                <div className="card-corner top-right"></div>
+                                <div className="card-corner bottom-left"></div>
+                                <div className="card-corner bottom-right"></div>
+
+                                {currentCard.category && (
+                                    <span className="card-category back-cat">{currentCard.category}</span>
+                                )}
+                                <div className="card-number back-num">{currentIndex + 1} / {shuffledCards.length}</div>
+                                <div className="card-icon">💡</div>
+                                <div className="card-label back-label">ANSWER</div>
+                                <div className="card-text">{currentCard.back}</div>
+                                <div className="flip-hint">
+                                    <span>👆 Tap to flip back</span>
+                                    <span className="swipe-hint">👈 👉 Swipe to rate</span>
+                                </div>
                             </div>
                         </div>
-
-                        {/* Back of Card */}
-                        <div className="card-face card-back">
-                            <div className="card-shine"></div>
-                            <div className="card-corner top-left"></div>
-                            <div className="card-corner top-right"></div>
-                            <div className="card-corner bottom-left"></div>
-                            <div className="card-corner bottom-right"></div>
-
-                            {currentCard.category && (
-                                <span className="card-category back-cat">{currentCard.category}</span>
-                            )}
-                            <div className="card-number back-num">{currentIndex + 1} / {shuffledCards.length}</div>
-                            <div className="card-icon">💡</div>
-                            <div className="card-label back-label">ANSWER</div>
-                            <div className="card-text">{currentCard.back}</div>
-                            <div className="flip-hint">
-                                <span>👆 Tap to flip back</span>
-                                <span className="swipe-hint">👈 👉 Swipe to rate</span>
-                            </div>
-                        </div>
-                    </div>
-                </motion.div>
-            </AnimatePresence>
+                    </motion.div>
+                </AnimatePresence>
+            </div>
 
             {/* Controls */}
             <div className="controls">
@@ -482,6 +484,16 @@ export default function Flashcards({ cards, title = "Flashcards", onComplete }: 
                     border-color: #10b981;
                     transform: scale(1.1);
                     box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+                }
+
+                /* Card Area - Centers the card */
+                .card-area {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    min-height: 450px;
+                    margin-bottom: 1rem;
                 }
 
                 /* 3D Card Flip Container - Premium Portrait */
