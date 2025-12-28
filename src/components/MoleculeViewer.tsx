@@ -136,13 +136,14 @@ interface MoleculeViewerProps {
 const moleculeData: Record<string, {
     pdb: string;
     format?: 'pdb' | 'sdf';
+    pubchemCid?: number; // PubChem Compound ID for fetching accurate SDF
     color: string;
     emoji: string;
     formula: string;
     skeletal: string;
     functionalGroups: string[];
     structure2D?: string;
-    smiles?: string; // SMILES notation for 2D rendering
+    smiles?: string;
 }> = {
     'serotonin': {
         color: '#8b5cf6',
@@ -189,7 +190,8 @@ END`
         formula: 'C₃H₆O',
         skeletal: 'Three carbons with central ketone (C=O)',
         functionalGroups: ['Ketone (C=O)', 'Level 2 oxidation'],
-        smiles: 'CC(=O)C', // Acetone SMILES
+        pubchemCid: 180, // PubChem CID for Acetone
+        smiles: 'CC(=O)C',
         structure2D: `
         O
         ‖
@@ -216,7 +218,8 @@ END`
         formula: 'C₂H₄O',
         skeletal: 'Two carbons, one C=O double bond (Aldehyde)',
         functionalGroups: ['Aldehyde (CHO)', 'Carbonyl (C=O)'],
-        smiles: 'CC=O', // Acetaldehyde SMILES
+        pubchemCid: 177,
+        smiles: 'CC=O',
         structure2D: `
         O
         ‖
@@ -240,7 +243,8 @@ END`
         formula: 'C₂H₄O₂',
         skeletal: 'Two carbons, C=O double bond and -OH (Level 3)',
         functionalGroups: ['Carboxylic Acid (COOH)', 'Carbonyl (C=O)', 'Hydroxyl (-OH)'],
-        smiles: 'CC(=O)O', // Acetic acid SMILES
+        pubchemCid: 176,
+        smiles: 'CC(=O)O',
         structure2D: `
         O
         ‖
@@ -758,9 +762,27 @@ export default function MoleculeViewer({
 
                 viewerRef.current = viewer;
 
-                // Use SDF format for accurate bond orders (double/triple bonds)
-                const format = molecule.format || 'pdb';
-                viewer.addModel(molecule.pdb, format);
+                // Try to fetch from PubChem for accurate bond orders
+                let modelData = molecule.pdb;
+                let modelFormat = molecule.format || 'pdb';
+
+                if (molecule.pubchemCid) {
+                    try {
+                        const pubchemUrl = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${molecule.pubchemCid}/SDF?record_type=3d`;
+                        const response = await fetch(pubchemUrl);
+                        if (response.ok) {
+                            modelData = await response.text();
+                            modelFormat = 'sdf';
+                            console.log('Loaded SDF from PubChem for CID:', molecule.pubchemCid);
+                        } else {
+                            console.warn('PubChem API failed, using fallback PDB');
+                        }
+                    } catch (err) {
+                        console.warn('Could not fetch from PubChem, using fallback:', err);
+                    }
+                }
+
+                viewer.addModel(modelData, modelFormat);
                 applyStyle(viewer, viewStyle, molecule.color);
                 viewer.zoomTo();
                 viewer.render();
