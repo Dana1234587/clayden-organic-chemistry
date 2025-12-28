@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import { chapters, chapter1 } from '@/data/chapters';
 import { ChapterData } from '@/data/types';
 import InteractiveQuiz from '@/components/InteractiveQuiz';
+import ContentRenderer from '@/components/ContentRenderer';
 import InteractiveInfoBox from '@/components/InteractiveInfoBox';
 import MiniQuiz from '@/components/MiniQuiz';
 import ConceptDiagram from '@/components/ConceptDiagram';
@@ -307,15 +308,7 @@ export default function ChapterPage() {
 
                         {/* Content */}
                         <div style={{ marginBottom: '2rem' }}>
-                            {section.content.split('\n\n').map((paragraph, pIndex) => (
-                                <p key={pIndex} style={{
-                                    color: 'var(--neutral-300)',
-                                    lineHeight: 1.8,
-                                    marginBottom: '1rem'
-                                }}>
-                                    {paragraph}
-                                </p>
-                            ))}
+                            <ContentRenderer content={section.content} />
                         </div>
 
                         {/* Interactive Diagram (if applicable) */}
