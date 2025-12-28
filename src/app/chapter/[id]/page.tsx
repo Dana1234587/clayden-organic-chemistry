@@ -4,14 +4,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
-import { chapter1, ChapterData } from '@/data/chapters/chapter1';
-import { chapter2 } from '@/data/chapters/chapter2';
-
-// Chapter data lookup
-const chapters: Record<string, ChapterData> = {
-    '1': chapter1,
-    '2': chapter2,
-};
+import { chapters, chapter1 } from '@/data/chapters';
+import { ChapterData } from '@/data/types';
 import InteractiveQuiz from '@/components/InteractiveQuiz';
 import InteractiveInfoBox from '@/components/InteractiveInfoBox';
 import MiniQuiz from '@/components/MiniQuiz';
@@ -76,7 +70,8 @@ const getDiagramForSection = (sectionId: string) => {
 export default function ChapterPage() {
     const params = useParams();
     const chapterId = params.id as string;
-    const chapter = chapters[chapterId] || chapter1;
+
+    const chapter = chapters[chapterId];
 
     const [currentSection, setCurrentSection] = useState(chapter.sections[0]?.id || '');
     const [completedSections, setCompletedSections] = useState<Set<string>>(new Set());
@@ -132,6 +127,40 @@ export default function ChapterPage() {
             onSectionClick={scrollToSection}
             showToolbar={true}
         >
+            {/* Back Button */}
+            <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                style={{ marginBottom: '1.5rem' }}
+            >
+                <a
+                    href="/"
+                    style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        color: 'var(--primary-400)',
+                        textDecoration: 'none',
+                        fontSize: '0.95rem',
+                        fontWeight: 500,
+                        padding: '0.5rem 1rem',
+                        background: 'rgba(139, 92, 246, 0.1)',
+                        borderRadius: '10px',
+                        border: '1px solid rgba(139, 92, 246, 0.2)',
+                        transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(139, 92, 246, 0.2)';
+                        e.currentTarget.style.transform = 'translateX(-4px)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(139, 92, 246, 0.1)';
+                        e.currentTarget.style.transform = 'translateX(0)';
+                    }}
+                >
+                    ← Back to Home
+                </a>
+            </motion.div>
 
             {/* Chapter Header */}
             <motion.div
@@ -189,7 +218,7 @@ export default function ChapterPage() {
                     display: 'grid',
                     gap: '0.75rem'
                 }}>
-                    {chapter1.learningObjectives.map((objective, index) => (
+                    {chapter.learningObjectives.map((objective, index) => (
                         <motion.li
                             key={index}
                             initial={{ opacity: 0, x: -20 }}
@@ -217,12 +246,12 @@ export default function ChapterPage() {
                     color: 'var(--neutral-300)',
                     margin: 0
                 }}>
-                    {chapter1.introduction}
+                    {chapter.introduction}
                 </p>
             </motion.div>
 
             {/* Sections */}
-            {chapter1.sections.map((section, sectionIndex) => {
+            {chapter.sections.map((section, sectionIndex) => {
                 const miniQuiz = getMiniQuizForSection(section.id);
                 const diagram = getDiagramForSection(section.id);
 
@@ -407,8 +436,8 @@ export default function ChapterPage() {
                     Practice key concepts with interactive flashcards. Click to flip!
                 </p>
                 <Flashcards
-                    cards={chapter1.flashcards}
-                    title={`Chapter 1 Flashcards`}
+                    cards={chapter.flashcards}
+                    title={`Chapter ${chapter.id} Flashcards`}
                 />
             </motion.div>
 
@@ -435,8 +464,8 @@ export default function ChapterPage() {
                     Quick reference for key terms and concepts covered in this chapter.
                 </p>
                 <Glossary
-                    terms={chapter1.glossary}
-                    title={`Chapter 1 Terms`}
+                    terms={chapter.glossary}
+                    title={`Chapter ${chapter.id} Terms`}
                 />
             </motion.div>
 
@@ -463,12 +492,12 @@ export default function ChapterPage() {
                     Reinforce your learning with fun interactive games. Match terms, test your memory, and more!
                 </p>
                 <GameCenter
-                    pairs={chapter1.flashcards.map((card, i) => ({
+                    pairs={chapter.flashcards.map((card, i) => ({
                         id: String(i + 1),
                         term: card.front,
                         definition: card.back
                     }))}
-                    title="Chapter 1 Games"
+                    title={`Chapter ${chapter.id} Games`}
                 />
             </motion.div>
 
@@ -489,13 +518,14 @@ export default function ChapterPage() {
                         Test Your Knowledge
                     </h2>
                     <p style={{ color: 'var(--neutral-400)' }}>
-                        You've covered all the content! Now test your understanding with these {chapter1.quiz.length} practice questions.
+                        You've covered all the content! Now test your understanding with these {chapter.quiz.length} practice questions.
                     </p>
                 </div>
 
                 <InteractiveQuiz
-                    title="Chapter 1 Quiz"
-                    questions={chapter1.quiz}
+                    key={chapter.id}
+                    title={`Chapter ${chapter.id} Quiz`}
+                    questions={chapter.quiz}
                 />
             </motion.div>
 
@@ -518,8 +548,7 @@ export default function ChapterPage() {
                     Congratulations!
                 </h2>
                 <p style={{ color: 'var(--neutral-300)', maxWidth: '600px', margin: '0 auto 1.5rem' }}>
-                    You've completed Chapter 1: What is Organic Chemistry? You now understand the
-                    fundamentals of carbon chemistry, bonding, and hybridization.
+                    You've completed Chapter {chapter.id}: {chapter.title}! Great job mastering this content.
                 </p>
                 <div style={{
                     display: 'flex',

@@ -23,10 +23,25 @@ export default function InteractiveQuiz({ title, questions }: InteractiveQuizPro
     const [score, setScore] = useState(0);
     const [answeredQuestions, setAnsweredQuestions] = useState<Set<number>>(new Set());
 
+    // Handle empty questions array
+    if (!questions || questions.length === 0) {
+        return (
+            <div className="quiz-container">
+                <h3 style={{ color: 'var(--neutral-400)' }}>{title}</h3>
+                <p style={{ color: 'var(--neutral-500)' }}>No quiz questions available yet.</p>
+            </div>
+        );
+    }
+
     const question = questions[currentQuestion];
     const isAnswered = answeredQuestions.has(currentQuestion);
-    const isCorrect = selectedAnswer === question.correctIndex;
+    const isCorrect = selectedAnswer === question?.correctIndex;
     const isComplete = answeredQuestions.size === questions.length;
+
+    // Safety check if question is undefined (can happen during fast refresh or state issues)
+    if (!question) {
+        return <div className="p-4 text-center text-neutral-400">Loading question...</div>;
+    }
 
     const handleAnswerSelect = (index: number) => {
         if (isAnswered) return;
@@ -66,7 +81,7 @@ export default function InteractiveQuiz({ title, questions }: InteractiveQuizPro
 
     const getOptionClass = (index: number) => {
         if (!isAnswered) return 'quiz-option';
-        if (index === question.correctIndex) return 'quiz-option correct';
+        if (index === question?.correctIndex) return 'quiz-option correct';
         if (index === selectedAnswer && !isCorrect) return 'quiz-option incorrect';
         return 'quiz-option';
     };

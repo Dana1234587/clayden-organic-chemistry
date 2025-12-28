@@ -1,0 +1,20 @@
+import { ChapterData } from '../types';
+import { chapter1 } from './chapter1/index';
+import { chapter2 } from './chapter2/index';
+
+// Export individual chapters
+export { chapter1, chapter2 };
+
+// Export a map of all chapters for easy lookup
+export const chapters: Record<string, ChapterData> = {
+    '1': chapter1,
+    '2': chapter2,
+    // Add more chapters here as they are created
+    // '3': chapter3,
+};
+
+// Export a list of all chapters for iteration (e.g., table of contents)
+export const allChapters = [
+    chapter1,
+    chapter2,
+];

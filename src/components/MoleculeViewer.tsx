@@ -61,6 +61,56 @@ ATOM     12  C10 SER     1       6.300   3.700   0.000  1.00  0.00           C
 ATOM     13  N2  SER     1       7.600   4.300   0.000  1.00  0.00           N
 END`
     },
+    'ethane': {
+        color: '#94a3b8',
+        emoji: '🔥',
+        formula: 'C₂H₆',
+        skeletal: 'Two carbons with single bond (Level 0)',
+        functionalGroups: ['Alkane'],
+        pdb: `COMPND    ETHANE
+ATOM      1  C1  ETH     1      -0.752   0.000   0.000  1.00  0.00           C
+ATOM      2  C2  ETH     1       0.752   0.000   0.000  1.00  0.00           C
+ATOM      3  H1  ETH     1      -1.147   1.025   0.000  1.00  0.00           H
+ATOM      4  H2  ETH     1      -1.147  -0.513  -0.887  1.00  0.00           H
+ATOM      5  H3  ETH     1      -1.147  -0.513   0.887  1.00  0.00           H
+ATOM      6  H4  ETH     1       1.147  -1.025   0.000  1.00  0.00           H
+ATOM      7  H5  ETH     1       1.147   0.513   0.887  1.00  0.00           H
+ATOM      8  H6  ETH     1       1.147   0.513  -0.887  1.00  0.00           H
+END`
+    },
+    'acetaldehyde': {
+        color: '#f59e0b',
+        emoji: '🧪',
+        formula: 'C₂H₄O',
+        skeletal: 'Two carbons, one C=O double bond (Level 2)',
+        functionalGroups: ['Aldehyde', 'Carbonyl'],
+        pdb: `COMPND    ACETALDEHYDE
+ATOM      1  C1  ALD     1       0.000   0.000   0.000  1.00  0.00           C
+ATOM      2  C2  ALD     1       1.530   0.000   0.000  1.00  0.00           C
+ATOM      3  O1  ALD     1       2.230   1.210   0.000  1.00  0.00           O
+ATOM      4  H1  ALD     1      -0.390  -0.510   0.890  1.00  0.00           H
+ATOM      5  H2  ALD     1      -0.390  -0.510  -0.890  1.00  0.00           H
+ATOM      6  H3  ALD     1      -0.390   1.020   0.000  1.00  0.00           H
+ATOM      7  H4  ALD     1       2.040  -0.960   0.000  1.00  0.00           H
+END`
+    },
+    'acetic acid': {
+        color: '#ef4444',
+        emoji: '🥗',
+        formula: 'C₂H₄O₂',
+        skeletal: 'Two carbons, C=O and -OH (Level 3)',
+        functionalGroups: ['Carboxylic Acid', 'Carbonyl', 'Hydroxyl'],
+        pdb: `COMPND    ACETIC ACID
+ATOM      1  C1  AAC     1      -1.465  -0.088   0.000  1.00  0.00           C
+ATOM      2  C2  AAC     1       0.000   0.141   0.000  1.00  0.00           C
+ATOM      3  O1  AAC     1       0.785  -0.923   0.000  1.00  0.00           O
+ATOM      4  O2  AAC     1       0.605   1.385   0.000  1.00  0.00           O
+ATOM      5  H1  AAC     1      -1.921   0.395   0.882  1.00  0.00           H
+ATOM      6  H2  AAC     1      -1.637  -1.164   0.007  1.00  0.00           H
+ATOM      7  H3  AAC     1      -1.921   0.395  -0.882  1.00  0.00           H
+ATOM      8  H4  AAC     1       1.751  -0.672   0.000  1.00  0.00           H
+END`
+    },
     'caffeine': {
         color: '#f59e0b',
         emoji: '☕',

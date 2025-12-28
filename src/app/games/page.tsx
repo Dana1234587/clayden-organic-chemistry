@@ -243,6 +243,33 @@ export default function GamesPage() {
     return (
         <LayoutWrapper>
             <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                {/* Back Button */}
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    style={{ marginBottom: '1rem' }}
+                >
+                    <Link
+                        href="/"
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            color: 'var(--primary-400)',
+                            textDecoration: 'none',
+                            fontSize: '0.95rem',
+                            fontWeight: 500,
+                            padding: '0.5rem 1rem',
+                            background: 'rgba(139, 92, 246, 0.1)',
+                            borderRadius: '10px',
+                            border: '1px solid rgba(139, 92, 246, 0.2)',
+                            transition: 'all 0.2s ease'
+                        }}
+                    >
+                        ← Back to Home
+                    </Link>
+                </motion.div>
+
                 {/* Header */}
                 <div style={{
                     display: 'flex',
