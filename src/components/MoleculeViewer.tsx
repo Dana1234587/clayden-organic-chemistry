@@ -1,7 +1,109 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+// SmilesRenderer component - renders molecular structures from SMILES notation
+function SmilesRenderer({ smiles }: { smiles: string }) {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!canvasRef.current || !smiles) return;
+
+        const loadAndDraw = async () => {
+            try {
+                // Load SmilesDrawer from CDN if not loaded
+                if (!(window as any).SmilesDrawer) {
+                    const script = document.createElement('script');
+                    script.src = 'https://unpkg.com/smiles-drawer@2.1.7/dist/smiles-drawer.min.js';
+                    script.async = true;
+                    await new Promise((resolve, reject) => {
+                        script.onload = resolve;
+                        script.onerror = reject;
+                        document.head.appendChild(script);
+                    });
+                }
+
+                const SmilesDrawer = (window as any).SmilesDrawer;
+                const drawer = new SmilesDrawer.SmiDrawer({
+                    width: 280,
+                    height: 180,
+                    bondThickness: 1.5,
+                    bondLength: 25,
+                    shortBondLength: 0.85,
+                    bondSpacing: 5,
+                    atomVisualization: 'default',
+                    isomeric: true,
+                    debug: false,
+                    terminalCarbons: true,
+                    explicitHydrogens: false,
+                    overlapSensitivity: 0.42,
+                    overlapResolutionIterations: 1,
+                    compactDrawing: true,
+                    fontSizeLarge: 12,
+                    fontSizeSmall: 8,
+                    padding: 20,
+                    themes: {
+                        dark: {
+                            C: '#e0e0e0',
+                            O: '#ff4444',
+                            N: '#4488ff',
+                            S: '#ffff00',
+                            H: '#ffffff',
+                            F: '#90ee90',
+                            Cl: '#32cd32',
+                            Br: '#a52a2a',
+                            I: '#9400d3',
+                            BACKGROUND: 'transparent'
+                        }
+                    }
+                });
+
+                SmilesDrawer.parse(smiles, (tree: any) => {
+                    drawer.draw(tree, canvasRef.current, 'dark');
+                    setIsLoaded(true);
+                }, (err: any) => {
+                    setError('Could not parse SMILES');
+                    console.error('SMILES parse error:', err);
+                });
+            } catch (err) {
+                setError('Failed to load SmilesDrawer');
+                console.error('SmilesDrawer load error:', err);
+            }
+        };
+
+        loadAndDraw();
+    }, [smiles]);
+
+    return (
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '180px',
+            background: 'rgba(0, 0, 0, 0.3)',
+            borderRadius: '8px',
+            padding: '10px',
+        }}>
+            {error ? (
+                <div style={{ color: 'var(--neutral-500)', fontSize: '0.8rem' }}>{error}</div>
+            ) : (
+                <canvas
+                    ref={canvasRef}
+                    width={280}
+                    height={180}
+                    style={{
+                        maxWidth: '100%',
+                        opacity: isLoaded ? 1 : 0.3,
+                        transition: 'opacity 0.3s',
+                    }}
+                />
+            )}
+        </div>
+    );
+}
 
 // Mobile detection hook
 function useIsMobile() {
@@ -31,7 +133,6 @@ interface MoleculeViewerProps {
 }
 
 // Common molecules with structure data, formulas, and info
-// Using SDF format for accurate bond order visualization (double/triple bonds)
 const moleculeData: Record<string, {
     pdb: string;
     format?: 'pdb' | 'sdf';
@@ -40,7 +141,8 @@ const moleculeData: Record<string, {
     formula: string;
     skeletal: string;
     functionalGroups: string[];
-    structure2D?: string; // 2D structural formula showing bonds
+    structure2D?: string;
+    smiles?: string; // SMILES notation for 2D rendering
 }> = {
     'serotonin': {
         color: '#8b5cf6',
@@ -87,6 +189,7 @@ END`
         formula: 'C₃H₆O',
         skeletal: 'Three carbons with central ketone (C=O)',
         functionalGroups: ['Ketone (C=O)', 'Level 2 oxidation'],
+        smiles: 'CC(=O)C', // Acetone SMILES
         structure2D: `
         O
         ‖
@@ -113,6 +216,7 @@ END`
         formula: 'C₂H₄O',
         skeletal: 'Two carbons, one C=O double bond (Aldehyde)',
         functionalGroups: ['Aldehyde (CHO)', 'Carbonyl (C=O)'],
+        smiles: 'CC=O', // Acetaldehyde SMILES
         structure2D: `
         O
         ‖
@@ -136,6 +240,7 @@ END`
         formula: 'C₂H₄O₂',
         skeletal: 'Two carbons, C=O double bond and -OH (Level 3)',
         functionalGroups: ['Carboxylic Acid (COOH)', 'Carbonyl (C=O)', 'Hydroxyl (-OH)'],
+        smiles: 'CC(=O)O', // Acetic acid SMILES
         structure2D: `
         O
         ‖
@@ -1071,8 +1176,8 @@ export default function MoleculeViewer({
                 />
             </div>
 
-            {/* 2D Structure Formula - Shows bond types clearly */}
-            {molecule?.structure2D && (
+            {/* 2D Structure Formula - SmilesDrawer Canvas */}
+            {molecule?.smiles && (
                 <div style={{
                     margin: '12px 16px',
                     padding: '16px',
@@ -1089,26 +1194,16 @@ export default function MoleculeViewer({
                         alignItems: 'center',
                         gap: '6px',
                     }}>
-                        📐 2D Structure (showing bond types)
+                        📐 2D Structure (accurate bond types)
                     </div>
-                    <pre style={{
-                        fontFamily: 'monospace',
-                        fontSize: '1rem',
-                        color: 'var(--neutral-100)',
-                        margin: 0,
-                        lineHeight: 1.4,
-                        textAlign: 'center',
-                        whiteSpace: 'pre',
-                    }}>
-                        {molecule.structure2D}
-                    </pre>
+                    <SmilesRenderer smiles={molecule.smiles} />
                     <div style={{
                         fontSize: '0.7rem',
                         color: 'var(--neutral-500)',
                         marginTop: '8px',
                         textAlign: 'center',
                     }}>
-                        ─ = Single Bond &nbsp;│&nbsp; ‖ = Double Bond &nbsp;│&nbsp; ≡ = Triple Bond
+                        ─ = Single Bond │ ═ = Double Bond │ ≡ = Triple Bond
                     </div>
                 </div>
             )}
