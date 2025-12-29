@@ -26,7 +26,7 @@ const featuredChapters = [
     description: "Master spectroscopic techniques to identify unknown compounds.",
     icon: "🔬",
     color: "#10b981",
-    available: false
+    available: true
   },
   {
     id: 4,
