@@ -410,14 +410,34 @@ export default function ChapterPage() {
                         {section.id === 'ms-isotopes' && (
                             <MassSpectrumViewer
                                 peaks={[
-                                    { mz: 236, intensity: 100, label: 'M⁺', isM: true },
-                                    { mz: 237, intensity: 16.5, label: 'M+1 (¹³C × 15)' },
-                                    { mz: 221, intensity: 85, label: '-CH₃', isBase: true },
-                                    { mz: 57, intensity: 45, label: 't-Bu⁺' },
+                                    { mz: 236, intensity: 75, label: 'M⁺', isM: true },
+                                    { mz: 237, intensity: 12, label: 'M+1 (¹³C)' },
+                                    { mz: 221, intensity: 100, label: 'M-15 (base)', isBase: true },
+                                    { mz: 57, intensity: 65, label: 't-Bu⁺ (C₄H₉)' },
+                                    { mz: 41, intensity: 30, label: 'C₃H₅⁺' },
                                 ]}
                                 molecularWeight={236}
-                                moleculeName="Topanol 354"
+                                moleculeName="Topanol 354 (BHT)"
                                 formula="C₁₅H₂₄O₂"
+                            />
+                        )}
+
+                        {/* MS: Hexan-2-one - Fragmentation example */}
+                        {section.id === 'ms-fragmentation' && (
+                            <MassSpectrumViewer
+                                peaks={[
+                                    { mz: 100, intensity: 25, label: 'M⁺', isM: true },
+                                    { mz: 85, intensity: 40, label: 'M-15 (CH₃)' },
+                                    { mz: 71, intensity: 30, label: 'M-29 (C₂H₅)' },
+                                    { mz: 58, intensity: 55, label: 'McLafferty' },
+                                    { mz: 57, intensity: 70, label: 'C₄H₉⁺' },
+                                    { mz: 43, intensity: 100, label: 'CH₃CO⁺', isBase: true },
+                                    { mz: 29, intensity: 35, label: 'CHO⁺' },
+                                    { mz: 15, intensity: 15, label: 'CH₃⁺' },
+                                ]}
+                                molecularWeight={100}
+                                moleculeName="Hexan-2-one (α-Cleavage Example)"
+                                formula="C₆H₁₂O"
                             />
                         )}
 
@@ -425,9 +445,9 @@ export default function ChapterPage() {
                         {section.id === 'nmr-13c-introduction' && (
                             <NMRSpectrumViewer
                                 peaks={[
-                                    { ppm: 176.8, intensity: 60, label: 'C=O', carbon: 'Carbonyl (COOH)' },
-                                    { ppm: 66.0, intensity: 80, label: 'C-OH', carbon: 'Carbon attached to OH' },
-                                    { ppm: 19.9, intensity: 100, label: 'CH₃', carbon: 'Methyl carbon' },
+                                    { ppm: 178.5, intensity: 50, label: 'COOH', carbon: 'Carbonyl carbon (quaternary, weak)' },
+                                    { ppm: 69.2, intensity: 85, label: 'CHOH', carbon: 'Methine carbon attached to OH' },
+                                    { ppm: 20.5, intensity: 100, label: 'CH₃', carbon: 'Methyl carbon (highest intensity)' },
                                 ]}
                                 moleculeName="Lactic Acid"
                                 formula="C₃H₆O₃"
@@ -439,14 +459,15 @@ export default function ChapterPage() {
                         {section.id === 'nmr-symmetry' && (
                             <NMRSpectrumViewer
                                 peaks={[
-                                    { ppm: 151.7, intensity: 50, label: 'C-OH', carbon: 'Phenolic C' },
-                                    { ppm: 136.0, intensity: 60, label: 'Quat', carbon: 'Quaternary Ar-C' },
-                                    { ppm: 125.8, intensity: 90, label: 'Ar-CH', carbon: 'Aromatic CH' },
-                                    { ppm: 34.3, intensity: 70, label: 'C(CH₃)₃', carbon: 't-Butyl quat' },
-                                    { ppm: 30.4, intensity: 100, label: 't-Bu', carbon: 't-Butyl CH₃' },
-                                    { ppm: 21.0, intensity: 85, label: 'Ar-CH₃', carbon: 'Aromatic methyl' },
+                                    { ppm: 152.3, intensity: 45, label: 'C-O', carbon: 'Phenolic C (C-1, 1C)' },
+                                    { ppm: 135.6, intensity: 55, label: 'C-t-Bu', carbon: 'C-2,6 bearing t-butyl (2C)' },
+                                    { ppm: 128.5, intensity: 50, label: 'C-CH₃', carbon: 'C-4 bearing methyl (1C)' },
+                                    { ppm: 125.4, intensity: 95, label: 'Ar-H', carbon: 'C-3,5 aromatic CH (2C)' },
+                                    { ppm: 34.2, intensity: 65, label: 'C(CH₃)₃', carbon: 'Quaternary t-butyl C (2C)' },
+                                    { ppm: 30.3, intensity: 100, label: 't-Bu CH₃', carbon: 't-Butyl methyls (6C, highest)' },
+                                    { ppm: 21.2, intensity: 80, label: 'Ar-CH₃', carbon: 'Para-methyl (1C)' },
                                 ]}
-                                moleculeName="BHT (Butylated Hydroxytoluene)"
+                                moleculeName="BHT (15 carbons → 7 signals)"
                                 formula="C₁₅H₂₄O"
                                 type="13C"
                             />
@@ -469,6 +490,55 @@ export default function ChapterPage() {
 
                         {section.id === 'dbe-calculation' && (
                             <DBECalculator />
+                        )}
+
+                        {/* ¹H NMR: Ethyl Acetate - Integration example (Page 18) */}
+                        {section.id === 'nmr-1h-introduction' && (
+                            <NMRSpectrumViewer
+                                peaks={[
+                                    { ppm: 4.12, intensity: 45, label: 'OCH₂', carbon: 'Quartet (2H)' },
+                                    { ppm: 2.04, intensity: 75, label: 'CH₃CO', carbon: 'Singlet (3H)' },
+                                    { ppm: 1.26, intensity: 75, label: 'CH₃', carbon: 'Triplet (3H)' },
+                                ]}
+                                moleculeName="Ethyl Acetate"
+                                formula="C₄H₈O₂"
+                                type="1H"
+                            />
+                        )}
+
+                        {/* IR: Benzoic Acid - Carboxylic acid O-H pattern (Page 25) */}
+                        {section.id === 'ir-hydrogen-bonding' && (
+                            <IRSpectrumViewer
+                                peaks={[
+                                    { wavenumber: 2900, intensity: 'broad', bondType: 'O-H stretch (carboxylic acid, very broad 2500-3300)' },
+                                    { wavenumber: 3070, intensity: 'medium', bondType: 'Aromatic C-H stretch' },
+                                    { wavenumber: 1690, intensity: 'strong', bondType: 'C=O stretch (conjugated acid)' },
+                                    { wavenumber: 1600, intensity: 'medium', bondType: 'C=C aromatic stretch' },
+                                    { wavenumber: 1450, intensity: 'medium', bondType: 'C-C aromatic ring' },
+                                    { wavenumber: 1320, intensity: 'strong', bondType: 'C-O stretch' },
+                                    { wavenumber: 940, intensity: 'broad', bondType: 'O-H out-of-plane bend (dimer)' },
+                                    { wavenumber: 710, intensity: 'strong', bondType: 'C-H aromatic bend' },
+                                ]}
+                                moleculeName="Benzoic Acid"
+                                formula="C₇H₆O₂"
+                            />
+                        )}
+
+                        {/* MS: Compound X - Problem solving example (Page 34) */}
+                        {section.id === 'problem-solving-strategy' && (
+                            <MassSpectrumViewer
+                                peaks={[
+                                    { mz: 181, intensity: 85, label: 'M⁺ (⁷⁹Br)', isM: true },
+                                    { mz: 183, intensity: 83, label: 'M+2 (⁸¹Br)' },
+                                    { mz: 101, intensity: 60, label: 'M - Br' },
+                                    { mz: 73, intensity: 100, label: 'Dioxolane⁺', isBase: true },
+                                    { mz: 45, intensity: 35, label: 'CHO₂⁺' },
+                                ]}
+                                molecularWeight={181}
+                                moleculeName="Compound X (Cyclic Acetal)"
+                                formula="C₅H₉BrO₂"
+                                halogen="Br"
+                            />
                         )}
 
                         {/* Fun Fact */}

@@ -51,7 +51,7 @@ export default function IRSpectrumViewer({
 
     // Get peak width for broad peaks
     const getPeakWidth = (intensity?: string): number => {
-        return intensity === 'broad' ? 40 : 8;
+        return intensity === 'broad' ? 80 : 12;
     };
 
     return (

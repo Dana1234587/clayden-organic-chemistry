@@ -219,10 +219,13 @@ export default function NMRSpectrumViewer({
                     fontSize: '0.85rem',
                 }}>
                     <strong style={{ color: '#8b5cf6' }}>δ = {hoveredPeak.ppm} ppm</strong>
+                    {hoveredPeak.label && (
+                        <span style={{ color: '#fbbf24', marginLeft: '0.75rem' }}>{hoveredPeak.label}</span>
+                    )}
                     {hoveredPeak.carbon && (
-                        <span style={{ color: 'rgba(255,255,255,0.7)', marginLeft: '1rem' }}>
-                            {hoveredPeak.carbon}
-                        </span>
+                        <div style={{ color: 'rgba(255,255,255,0.7)', marginTop: '0.25rem' }}>
+                            {type === '1H' ? '🔢 ' : '🔬 '}{hoveredPeak.carbon}
+                        </div>
                     )}
                 </div>
             )}
