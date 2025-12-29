@@ -812,6 +812,143 @@ How do we distinguish them?
     },
 
     // ========================================
+    // DETAILED MS EXAMPLES
+    // ========================================
+    {
+        id: 'ms-example-propane',
+        title: 'Detailed Example: Propane Fragmentation',
+        content: `<h4>📊 Complete Analysis of Propane (C₃H₈)</h4>
+
+<p>This example demonstrates <strong>alkane fragmentation</strong> in detail, showing how C-C bonds break and why larger carbocations are more abundant.</p>
+
+<div class="highlight-box">
+<strong>Learning Objectives:</strong>
+<ul>
+<li>Understand C-C bond cleavage in alkanes</li>
+<li>See why ethyl cation (C₂H₅⁺) is more stable than methyl cation (CH₃⁺)</li>
+<li>Learn to interpret mass spectra with multiple peaks</li>
+<li>Practice mass accounting (M⁺ → fragments)</li>
+</ul>
+</div>
+
+<p><em>The interactive diagram below shows the complete mass spectrum, molecular structure, fragmentation pathways, and detailed explanations.</em></p>`,
+        keyPoints: [
+            'Propane: MW = 44, base peak = 29 (C₂H₅⁺)',
+            'C-C cleavage produces ethyl cation (29) and methyl cation (15)',
+            'Larger carbocations more stable due to hyperconjugation',
+            'Example of simple alkane fragmentation pattern'
+        ]
+    },
+    {
+        id: 'ms-example-acetone',
+        title: 'Detailed Example: Acetone α-Cleavage',
+        content: `<h4>⚡ Complete Analysis of Acetone (CH₃COCH₃)</h4>
+
+<p>This example demonstrates <strong>α-cleavage in ketones</strong>, one of the most important fragmentation patterns in mass spectrometry!</p>
+
+<div class="highlight-box">
+<strong>Learning Objectives:</strong>
+<ul>
+<li>Understand α-cleavage mechanism (bond next to C=O)</li>
+<li>See how acylium ion (CH₃CO⁺) forms and why it's so stable</li>
+<li>Learn about resonance stabilization in MS fragments</li>
+<li>Recognize diagnostic m/z = 43 for methyl ketones</li>
+</ul>
+</div>
+
+<p><em>The interactive diagram shows symmetric α-cleavage on both sides of the carbonyl.</em></p>
+
+<div class="warning-box">
+<strong>🔑 Diagnostic Peak:</strong> m/z = 43 (CH₃CO⁺) is one of the MOST COMMON peaks in organic MS!
+</div>`,
+        keyPoints: [
+            'Acetone: MW = 58, base peak = 43 (CH₃CO⁺)',
+            'α-Cleavage produces acylium ion - resonance stabilized',
+            'm/z = 43 diagnostic for CH₃CO⁺ (acetyl cation)',
+            'Even-electron cation more stable than radical cations'
+        ]
+    },
+    {
+        id: 'ms-example-ethanol',
+        title: 'Detailed Example: Ethanol Fragmentation',
+        content: `<h4>🍺 Complete Analysis of Ethanol (CH₃CH₂OH)</h4>
+
+<p>This example demonstrates <strong>alcohol fragmentation</strong>, including characteristic water loss and weak molecular ions.</p>
+
+<div class="highlight-box">
+<strong>Learning Objectives:</strong>
+<ul>
+<li>Understand why alcohols show WEAK molecular ions</li>
+<li>Learn about M-18 peak (water loss) - diagnostic for alcohols</li>
+<li>See how oxonium ions (CH₂OH⁺) form via α-cleavage</li>
+<li>Understand competing fragmentation pathways</li>
+</ul>
+</div>
+
+<p><em>The diagram shows TWO competing pathways: H₂O loss and α-cleavage.</em></p>`,
+        keyPoints: [
+            'Ethanol: MW = 46 (weak M⁺), base peak = 28 (water loss)',
+            'M-18 peak diagnostic for alcohols (H₂O loss)',
+            'm/z = 31 (CH₂OH⁺) suggests primary alcohol',
+            'Secondary fragmentation: CH₂OH⁺ → CHO⁺ (m/z = 29)'
+        ]
+    },
+    {
+        id: 'ms-example-cyclopropane',
+        title: 'Detailed Example: Cyclopropane Ring Stability',
+        content: `<h4>💍 Complete Analysis of Cyclopropane (C₃H₆)</h4>
+
+<p>This example demonstrates how <strong>ring structures affect fragmentation</strong> and how to distinguish structural isomers.</p>
+
+<div class="highlight-box">
+<strong>Learning Objectives:</strong>
+<ul>
+<li>Understand why cyclopropane's M⁺ is the BASE PEAK (unlike propane)</li>
+<li>See how ring stability prevents simple C-C cleavage</li>
+<li>Learn to distinguish cyclic vs acyclic isomers</li>
+<li>Recognize importance of ABSENT peaks</li>
+</ul>
+</div>
+
+<p><em>Comparison table with propane highlights key spectral differences.</em></p>`,
+        keyPoints: [
+            'Cyclopropane: MW = 42 (M⁺ is BASE PEAK!)',
+            'Ring structure stabilizes molecular ion',
+            'Absence of m/z = 29 distinguishes from propane',
+            'Allyl cation (m/z = 41) from H loss'
+        ]
+    },
+    {
+        id: 'ms-example-butanone',
+        title: 'Detailed Example: 2-Butanone McLafferty',
+        content: `<h4>🔄 Complete Analysis of 2-Butanone (CH₃COCH₂CH₃)</h4>
+
+<p>This example demonstrates <strong>McLafferty rearrangement</strong> - a key rearrangement fragmentation!</p>
+
+<div class="highlight-box">
+<strong>Learning Objectives:</strong>
+<ul>
+<li>Understand McLafferty rearrangement mechanism (γ-H transfer)</li>
+<li>See the 6-membered ring transition state</li>
+<li>Learn how McLafferty COMPETES with α-cleavage</li>
+<li>Recognize enol cation formation (m/z = 58)</li>
+</ul>
+</div>
+
+<p><em>Toggle button switches between α-cleavage and McLafferty views!</em></p>
+
+<div class="warning-box">
+<strong>Mass Balance:</strong> 72 = 58 + 28 ✓
+</div>`,
+        keyPoints: [
+            '2-Butanone: MW = 72, base peak = 58 (McLafferty)',
+            'McLafferty requires γ-hydrogen (3 bonds from C=O)',
+            '6-membered ring transition state (low strain)',
+            'Competing pathways: McLafferty (58) vs α-cleavage (43, 57)'
+        ]
+    },
+
+    // ========================================
     // MODULE 2: 13C NMR
     // ========================================
     {

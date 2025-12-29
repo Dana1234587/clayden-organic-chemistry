@@ -30,7 +30,12 @@ import {
     MassSpectrumViewer,
     NMRSpectrumViewer,
     IRSpectrumViewer,
-    DBECalculator
+    DBECalculator,
+    PropaneFragmentation,
+    AcetoneFragmentation,
+    EthanolFragmentation,
+    CyclopropaneFragmentation,
+    ButanoneFragmentation
 } from '@/components/diagrams';
 import QuickCheck from '@/components/QuickCheck';
 import OnePageSummary from '@/components/OnePageSummary';
@@ -540,6 +545,13 @@ export default function ChapterPage() {
                                 halogen="Br"
                             />
                         )}
+
+                        {/* Detailed MS Examples - Interactive Fragmentation Analyses */}
+                        {section.id === 'ms-example-propane' && <PropaneFragmentation />}
+                        {section.id === 'ms-example-acetone' && <AcetoneFragmentation />}
+                        {section.id === 'ms-example-ethanol' && <EthanolFragmentation />}
+                        {section.id === 'ms-example-cyclopropane' && <CyclopropaneFragmentation />}
+                        {section.id === 'ms-example-butanone' && <ButanoneFragmentation />}
 
                         {/* Fun Fact */}
                         {section.funFact && (

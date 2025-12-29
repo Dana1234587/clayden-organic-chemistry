@@ -23,3 +23,12 @@ export { default as McLaffertyDiagram } from './McLaffertyDiagram';
 export { default as CarbonIsotopeDiagram } from './CarbonIsotopeDiagram';
 export { default as ESIMechanismDiagram } from './ESIMechanismDiagram';
 export { default as MALDIDiagram } from './MALDIDiagram';
+
+// MS Example Diagrams (detailed fragmentation analyses)
+export { default as MSSpectrumExample } from './ms-examples/MSSpectrumExample';
+export { default as PropaneFragmentation } from './ms-examples/PropaneFragmentation';
+export { default as AcetoneFragmentation } from './ms-examples/AcetoneFragmentation';
+export { default as EthanolFragmentation } from './ms-examples/EthanolFragmentation';
+export { default as CyclopropaneFragmentation } from './ms-examples/CyclopropaneFragmentation';
+export { default as ButanoneFragmentation } from './ms-examples/ButanoneFragmentation';
+
