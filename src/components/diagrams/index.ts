@@ -32,3 +32,8 @@ export { default as EthanolFragmentation } from './ms-examples/EthanolFragmentat
 export { default as CyclopropaneFragmentation } from './ms-examples/CyclopropaneFragmentation';
 export { default as ButanoneFragmentation } from './ms-examples/ButanoneFragmentation';
 
+// Chapter 4: Orbital Theory Interactive Components
+export { HybridizationWizard } from './orbital-theory';
+export { VSEPRLaboratory } from './orbital-theory';
+export { BondOrderCalculator } from './orbital-theory';
+export { RotationSimulator } from './orbital-theory';

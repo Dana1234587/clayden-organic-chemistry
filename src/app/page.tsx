@@ -34,7 +34,7 @@ const featuredChapters = [
     description: "Explore 3D molecular geometry and its importance in chemistry.",
     icon: "💎",
     color: "#f59e0b",
-    available: false
+    available: true
   },
   {
     id: 5,

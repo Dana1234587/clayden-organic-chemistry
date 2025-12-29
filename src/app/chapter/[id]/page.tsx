@@ -35,7 +35,12 @@ import {
     AcetoneFragmentation,
     EthanolFragmentation,
     CyclopropaneFragmentation,
-    ButanoneFragmentation
+    ButanoneFragmentation,
+    // Chapter 4: Orbital Theory Components
+    HybridizationWizard,
+    VSEPRLaboratory,
+    BondOrderCalculator,
+    RotationSimulator
 } from '@/components/diagrams';
 import QuickCheck from '@/components/QuickCheck';
 import OnePageSummary from '@/components/OnePageSummary';
@@ -552,6 +557,12 @@ export default function ChapterPage() {
                         {section.id === 'ms-example-ethanol' && <EthanolFragmentation />}
                         {section.id === 'ms-example-cyclopropane' && <CyclopropaneFragmentation />}
                         {section.id === 'ms-example-butanone' && <ButanoneFragmentation />}
+
+                        {/* Chapter 4: Orbital Theory Interactive Components */}
+                        {section.id === 'molecular-orbitals' && <BondOrderCalculator />}
+                        {section.id === 'hybridization' && <HybridizationWizard />}
+                        {section.id === 'vsepr-theory' && <VSEPRLaboratory />}
+                        {section.id === 'molecular-rotation' && <RotationSimulator />}
 
                         {/* Fun Fact */}
                         {section.funFact && (
