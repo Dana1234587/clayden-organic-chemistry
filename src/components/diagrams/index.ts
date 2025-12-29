@@ -42,3 +42,4 @@ export { RotationSimulator } from './orbital-theory';
 export { NucleoElectroIdentifier } from './reactions';
 export { CurlyArrowSimulator } from './reactions';
 export { HOMOLUMOVisualizer } from './reactions';
+export { DrugDiscoveryReactions } from './reactions';

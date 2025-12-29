@@ -44,7 +44,8 @@ import {
     // Chapter 5: Organic Reactions Components
     NucleoElectroIdentifier,
     CurlyArrowSimulator,
-    HOMOLUMOVisualizer
+    HOMOLUMOVisualizer,
+    DrugDiscoveryReactions
 } from '@/components/diagrams';
 import QuickCheck from '@/components/QuickCheck';
 import OnePageSummary from '@/components/OnePageSummary';
@@ -573,6 +574,7 @@ export default function ChapterPage() {
                         {section.id === 'homo-lumo' && <HOMOLUMOVisualizer />}
                         {section.id === 'curly-arrows' && <CurlyArrowSimulator />}
                         {section.id === 'making-breaking-bonds' && <CurlyArrowSimulator />}
+                        {section.id === 'reaction-types-overview' && <DrugDiscoveryReactions />}
 
                         {/* Fun Fact */}
                         {section.funFact && (
