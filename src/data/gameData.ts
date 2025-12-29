@@ -328,6 +328,60 @@ export const CHAPTER_5_GAMES: ChapterGameData = {
     ]
 };
 
+// ==================== CHAPTER 6: Carbonyl Chemistry ====================
+export const CHAPTER_6_GAMES: ChapterGameData = {
+    sortingSets: [
+        {
+            title: 'Carbonyl Reactivity (Least → Most)',
+            difficulty: 'easy',
+            items: [
+                { id: '6a1', text: 'Ketone (2 R groups)', correctOrder: 0 },
+                { id: '6a2', text: 'Aldehyde (1 R group)', correctOrder: 1 },
+                { id: '6a3', text: 'Formaldehyde (no R)', correctOrder: 2 },
+                { id: '6a4', text: 'Cyclopropanone (strained)', correctOrder: 3 },
+            ]
+        },
+        {
+            title: 'Reducing Agent Strength (Mild → Strong)',
+            difficulty: 'medium',
+            items: [
+                { id: '6b1', text: 'NaBH₄ (selective)', correctOrder: 0 },
+                { id: '6b2', text: 'NaBH₄ + CeCl₃', correctOrder: 1 },
+                { id: '6b3', text: 'LiAlH₄', correctOrder: 2 },
+                { id: '6b4', text: 'LiAlH₄ (excess)', correctOrder: 3 },
+            ]
+        },
+        {
+            title: 'Product Type (Grignard → Carbonyl)',
+            difficulty: 'hard',
+            items: [
+                { id: '6c1', text: 'Formaldehyde → 1° alcohol', correctOrder: 0 },
+                { id: '6c2', text: 'Aldehyde → 2° alcohol', correctOrder: 1 },
+                { id: '6c3', text: 'Ketone → 3° alcohol', correctOrder: 2 },
+                { id: '6c4', text: 'CO₂ → Carboxylic acid', correctOrder: 3 },
+            ]
+        },
+    ],
+    speedQuestions: [
+        { id: 'c6q1', question: 'Carbonyl C is...?', options: ['Nucleophilic', 'Electrophilic', 'Neutral', 'Radical'], correctIndex: 1, difficulty: 'easy' },
+        { id: 'c6q2', question: 'The Bürgi-Dunitz angle is ~?', options: ['90°', '107°', '120°', '180°'], correctIndex: 1, difficulty: 'easy' },
+        { id: 'c6q3', question: 'NaBH₄ works in...?', options: ['Dry ether', 'Water', 'Gas phase', 'Vacuum'], correctIndex: 1, difficulty: 'easy' },
+        { id: 'c6q4', question: 'LiAlH₄ + H₂O causes?', options: ['Nothing', 'Violent reaction', 'Slow reaction', 'Crystallization'], correctIndex: 1, difficulty: 'medium' },
+        { id: 'c6q5', question: 'Grignard + aldehyde gives?', options: ['1° alcohol', '2° alcohol', '3° alcohol', 'Ester'], correctIndex: 1, difficulty: 'medium' },
+        { id: 'c6q6', question: 'Cyanohydrin has...?', options: ['-OH only', '-CN only', '-OH + -CN', '-OR'], correctIndex: 2, difficulty: 'medium' },
+        { id: 'c6q7', question: 'Hemiacetal has...?', options: ['2 OR groups', 'OH + OR', 'gem-diol', 'Carbonyl'], correctIndex: 1, difficulty: 'hard' },
+        { id: 'c6q8', question: 'Glucose is mainly a?', options: ['Open chain', 'Cyclic hemiacetal', 'Acetal', 'gem-diol'], correctIndex: 1, difficulty: 'hard' },
+    ],
+    fillBlanks: [
+        { sentence: 'Carbonyl carbon is δ___.', answer: '⁺', options: ['⁺', '⁻', '0', '2+'], difficulty: 'easy' },
+        { sentence: 'Nucleophile attacks the π* ___.', answer: 'LUMO', options: ['HOMO', 'LUMO', 'sigma', 'bond'], difficulty: 'easy' },
+        { sentence: 'NaBH₄ reduces aldehydes and ___.', answer: 'ketones', options: ['esters', 'ketones', 'acids', 'all'], difficulty: 'medium' },
+        { sentence: 'Grignard reagents need ___ conditions.', answer: 'anhydrous', options: ['wet', 'anhydrous', 'acidic', 'hot'], difficulty: 'medium' },
+        { sentence: 'Aldehydes > ketones in reactivity due to ___ effects.', answer: 'steric', options: ['ionic', 'steric', 'thermal', 'magnetic'], difficulty: 'hard' },
+        { sentence: 'Acetals are stable to ___ but cleave with acid.', answer: 'base', options: ['acid', 'base', 'water', 'heat'], difficulty: 'hard' },
+    ]
+};
+
 // Get game data by chapter ID
 export const getChapterGameData = (chapterId: number): ChapterGameData => {
     switch (chapterId) {
@@ -336,6 +390,7 @@ export const getChapterGameData = (chapterId: number): ChapterGameData => {
         case 3: return CHAPTER_3_GAMES;
         case 4: return CHAPTER_4_GAMES;
         case 5: return CHAPTER_5_GAMES;
+        case 6: return CHAPTER_6_GAMES;
         default: return CHAPTER_1_GAMES;
     }
 };
@@ -348,4 +403,5 @@ export const filterByDifficulty = <T extends { difficulty: string }>(
     if (difficulty === 'all') return items;
     return items.filter(item => item.difficulty === difficulty);
 };
+
 

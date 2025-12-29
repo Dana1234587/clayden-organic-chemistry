@@ -4,9 +4,10 @@ import { chapter2 } from './chapter2/index';
 import { chapter3 } from './chapter3/index';
 import { chapter4 } from './chapter4/index';
 import { chapter5 } from './chapter5/index';
+import { chapter6 } from './chapter6/index';
 
 // Export individual chapters
-export { chapter1, chapter2, chapter3, chapter4, chapter5 };
+export { chapter1, chapter2, chapter3, chapter4, chapter5, chapter6 };
 
 // Export a map of all chapters for easy lookup
 export const chapters: Record<string, ChapterData> = {
@@ -15,6 +16,7 @@ export const chapters: Record<string, ChapterData> = {
     '3': chapter3,
     '4': chapter4,
     '5': chapter5,
+    '6': chapter6,
 };
 
 // Export a list of all chapters for iteration (e.g., table of contents)
@@ -24,4 +26,5 @@ export const allChapters = [
     chapter3,
     chapter4,
     chapter5,
+    chapter6,
 ];

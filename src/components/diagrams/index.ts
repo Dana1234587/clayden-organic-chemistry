@@ -43,3 +43,7 @@ export { NucleoElectroIdentifier } from './reactions';
 export { CurlyArrowSimulator } from './reactions';
 export { HOMOLUMOVisualizer } from './reactions';
 export { DrugDiscoveryReactions } from './reactions';
+
+// Chapter 6: Carbonyl Chemistry Components
+export { CarbonylAdditionSimulator } from './carbonyl';
+export { ReagentComparisonTool } from './carbonyl';

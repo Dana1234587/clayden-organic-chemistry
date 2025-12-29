@@ -50,7 +50,7 @@ const featuredChapters = [
     description: "Understand carbonyl chemistry and nucleophilic attack.",
     icon: "🎯",
     color: "#3b82f6",
-    available: false
+    available: true
   }
 ];
 

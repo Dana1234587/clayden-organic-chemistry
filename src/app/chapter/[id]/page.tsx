@@ -45,7 +45,10 @@ import {
     NucleoElectroIdentifier,
     CurlyArrowSimulator,
     HOMOLUMOVisualizer,
-    DrugDiscoveryReactions
+    DrugDiscoveryReactions,
+    // Chapter 6: Carbonyl Chemistry Components
+    CarbonylAdditionSimulator,
+    ReagentComparisonTool
 } from '@/components/diagrams';
 import QuickCheck from '@/components/QuickCheck';
 import OnePageSummary from '@/components/OnePageSummary';
@@ -575,6 +578,12 @@ export default function ChapterPage() {
                         {section.id === 'curly-arrows' && <CurlyArrowSimulator />}
                         {section.id === 'making-breaking-bonds' && <CurlyArrowSimulator />}
                         {section.id === 'reaction-types-overview' && <DrugDiscoveryReactions />}
+
+                        {/* Chapter 6: Carbonyl Chemistry Interactive Components */}
+                        {section.id === 'cyanohydrin' && <CarbonylAdditionSimulator />}
+                        {section.id === 'hydride-reduction' && <ReagentComparisonTool />}
+                        {section.id === 'grignard-reaction' && <CarbonylAdditionSimulator />}
+                        {section.id === 'hydration-hemiacetal' && <CarbonylAdditionSimulator />}
 
                         {/* Fun Fact */}
                         {section.funFact && (
