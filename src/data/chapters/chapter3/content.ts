@@ -236,6 +236,87 @@ For singly charged ions (most common), m/z = mass.
         ]
     },
     {
+        id: 'ms-instrumentation',
+        title: 'Mass Spectrometer Components',
+        content: `<h4>🔬 Three Essential Functions</h4>
+
+<p>A mass spectrometer has three main components that work together to analyze molecules:</p>
+
+<div class="highlight-box">
+<strong>The Three Components:</strong>
+<ol>
+<li><strong>Ion Source</strong> - Converts sample molecules into gas-phase ions</li>
+<li><strong>Mass Analyzer</strong> - Separates ions based on their m/z ratios</li>
+<li><strong>Detector</strong> - Measures ion abundance and generates the mass spectrum</li>
+</ol>
+</div>
+
+<h4>⚡ Electron Impact (EI) Ionization</h4>
+
+<p>The most common ionization method for small organic molecules is <strong>Electron Impact (EI)</strong>:</p>
+
+<div class="highlight-box">
+<strong>How EI Works:</strong>
+<ol>
+<li>Sample is vaporized and enters the ion source as a gas</li>
+<li>High-energy electron beam (70 eV) bombards the molecules</li>
+<li>Collision knocks out an electron: <strong>M + e⁻ → M⁺• + 2e⁻</strong></li>
+<li>This creates a <strong>radical cation (M⁺•)</strong> - the molecular ion</li>
+</ol>
+</div>
+
+<h4>🌌 The Need for Vacuum</h4>
+
+<p>Mass spectrometry must be performed under <strong>high vacuum</strong> (10⁻⁵ to 10⁻⁸ torr):</p>
+
+<ul>
+<li>✓ Ions are highly reactive and short-lived</li>
+<li>✓ Collisions with air molecules would destroy ions</li>
+<li>✓ Allows ions to travel freely from source to detector</li>
+<li>✓ One billionth of atmospheric pressure!</li>
+</ul>
+
+<h4>🧲 Magnetic Sector Mass Analyzer</h4>
+
+<p>Classic design uses a magnetic field to separate ions:</p>
+
+<table class="reference-table">
+<thead>
+<tr><th>Step</th><th>What Happens</th></tr>
+</thead>
+<tbody>
+<tr><td>Acceleration</td><td>Ions are accelerated by electric field</td></tr>
+<tr><td>Magnetic Deflection</td><td>Perpendicular magnetic field bends ion path</td></tr>
+<tr><td>Separation</td><td>Light ions curve more than heavy ions</td></tr>
+<tr><td>Detection</td><td>Only ions with specific m/z reach detector</td></tr>
+</tbody>
+</table>
+
+<div class="warning-box">
+<strong>⚠️ Important:</strong> By varying the magnetic field strength, ions of different m/z can be focused on the detector one at a time, building up the complete mass spectrum.
+</div>
+
+<h4>📊 Radical Cations vs Carbocations</h4>
+
+<p>Two types of ions form in a mass spectrometer:</p>
+
+<ul>
+<li><strong>Radical cation (M⁺•):</strong> Odd number of electrons, has both a charge and unpaired electron</li>
+<li><strong>Carbocation:</strong> Even number of electrons, only has a positive charge</li>
+</ul>
+
+<div class="tip-box">
+<strong>💡 Key Insight:</strong> The molecular ion (M⁺•) is always a radical cation because we remove ONE electron. Fragment ions can be either type depending on how fragmentation occurs.
+</div>`,
+        keyPoints: [
+            'Three components: Ion Source, Mass Analyzer, Detector',
+            'EI ionization uses 70 eV electron beam',
+            'High vacuum (10⁻⁵ to 10⁻⁸ torr) is essential',
+            'Magnetic field separates ions by m/z',
+            'Molecular ion M⁺• is a radical cation'
+        ]
+    },
+    {
         id: 'ms-isotopes',
         title: 'Isotope Patterns: Detecting Cl and Br',
         content: `<h4>🎲 Nature's Fingerprint</h4>
@@ -297,6 +378,373 @@ See M+2 that's ⅓ of M? Think CHLORINE!
         molecules: [
             { name: 'Chloroform', description: 'CHCl₃ - complex isotope pattern' },
             { name: 'Bromoethane', description: 'C₂H₅Br - classic 1:1 pattern' }
+        ]
+    },
+    {
+        id: 'ms-carbon-counting',
+        title: 'Carbon Counting with ¹³C (M+1 Peak)',
+        content: `<h4>📐 Using Isotopes to Count Carbons</h4>
+
+<p>Natural carbon contains <strong>1.1% ¹³C</strong>. This creates a small "M+1" peak that tells us how many carbons are present!</p>
+
+<div class="highlight-box">
+<strong>The M+1 Formula:</strong>
+<p style="font-size: 1.2em; text-center;"><strong>M+1 intensity ≈ n × 1.1%</strong></p>
+<p>where <em>n</em> = number of carbon atoms</p>
+</div>
+
+<h4>🔢 Worked Examples</h4>
+
+<table class="reference-table">
+<thead>
+<tr><th>Compound</th><th># Carbons</th><th>M+1 Intensity</th></tr>
+</thead>
+<tbody>
+<tr><td>Acetone (C₃H₆O)</td><td>3</td><td>3 × 1.1 = 3.3%</td></tr>
+<tr><td>Benzene (C₆H₆)</td><td>6</td><td>6 × 1.1 = 6.6%</td></tr>
+<tr><td>Decane (C₁₀H₂₂)</td><td>10</td><td>10 × 1.1 = 11.0%</td></tr>
+<tr><td>Cholesterol (C₂₇H₄₆O)</td><td>27</td><td>27 × 1.1 = 29.7%</td></tr>
+</tbody>
+</table>
+
+<div class="tip-box">
+<strong>💡 Pro Tip:</strong> You can work backwards! If you see M+1 = 8.8%, you know there are approximately 8 carbons (8.8 ÷ 1.1 ≈ 8).
+</div>
+
+<h4>⚠️ When M+1 is Complicated</h4>
+
+<p>The M+1 peak can also arise from:</p>
+<ul>
+<li>¹⁵N (0.37% natural abundance)</li>
+<li>¹⁸O (0.20% natural abundance)</li>
+<li>²H (0.015% - usually negligible)</li>
+</ul>
+
+<p>For organic compounds with only C, H, and O, the ¹³C contribution dominates.</p>`,
+        keyPoints: [
+            'M+1 peak = molecules with one ¹³C atom',
+            'M+1 intensity ≈ 1.1% per carbon',
+            'Reverse calculation: # carbons ≈ (M+1 %) / 1.1',
+            'Works best without Cl/Br present'
+        ]
+    },
+    {
+        id: 'ms-fragmentation-intro',
+        title: 'Fragmentation Patterns',
+        content: `<h4>💥 Breaking Bonds</h4>
+
+<p>After ionization, the molecular ion M⁺• often fragments into smaller pieces. These fragments provide structural clues!</p>
+
+<div class="highlight-box">
+<strong>Why Molecules Fragment:</strong>
+<ul>
+<li>70 eV electron beam gives <strong>excess energy</strong></li>
+<li>Weakest bonds break first</li>
+<li>Most stable fragments survive to be detected</li>
+<li>Fragmentation patterns are <strong>reproducible</strong> - like fingerprints!</li>
+</ul>
+</div>
+
+<h4>🎯 Types of Fragment Ions</h4>
+
+<table class="reference-table">
+<thead>
+<tr><th>Ion Type</th><th># Electrons</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td>Radical Cation (M⁺•)</td><td>Odd</td><td>CH₃OH⁺• (m/z = 32)</td></tr>
+<tr><td>Even-Electron Cation</td><td>Even</td><td>CH₃CO⁺ (m/z = 43)</td></tr>
+<tr><td>Odd-Electron Fragment</td><td>Odd</td><td>CH₂=OH⁺• (m/z = 31)</td></tr>
+</tbody>
+</table>
+
+<h4>📊 Fragmentation Rules</h4>
+
+<ul>
+<li><strong>Rule 1:</strong> Cleavage occurs at <strong>weakest bonds</strong> (C-C weaker than C-H)</li>
+<li><strong>Rule 2:</strong> Fragments that form <strong>stable cations</strong> are more abundant</li>
+<li><strong>Rule 3:</strong> Resonance stabilization increases fragment intensity</li>
+<li><strong>Rule 4:</strong> Heteroatoms (O, N, S) direct fragmentation to adjacent bonds</li>
+</ul>
+
+<div class="warning-box">
+<strong>⚠️ The Nitrogen Rule Revisited:</strong><br>
+• Odd-electron ions: Even mass if no N or even # N; Odd mass if odd # N<br>
+• Even-electron ions: Odd mass if no N or even # N; Even mass if odd # N
+</div>
+
+<h4>🔑 Common Neutral Losses</h4>
+
+<p>Recognizing these losses helps identify functional groups:</p>
+
+<table class="reference-table">
+<thead>
+<tr><th>Loss</th><th>Mass</th><th>Suggests</th></tr>
+</thead>
+<tbody>
+<tr><td>H₂O</td><td>-18</td><td>Alcohol or acid</td></tr>
+<tr><td>CO</td><td>-28</td><td>Aldehyde or ketone</td></tr>
+<tr><td>CO₂</td><td>-44</td><td>Carboxylic acid or ester</td></tr>
+<tr><td>CH₃</td><td>-15</td><td>Methyl group</td></tr>
+<tr><td>C₂H₅</td><td>-29</td><td>Ethyl group</td></tr>
+</tbody>
+</table>`,
+        keyPoints: [
+            'Fragmentation provides structural information',
+            'Weakest bonds break preferentially',
+            'Stable cations are more abundant (base peak)',
+            'Common neutral losses reveal functional groups'
+        ]
+    },
+    {
+        id: 'ms-alpha-cleavage',
+        title: 'α-Cleavage: Breaking Next to Heteroatoms',
+        content: `<h4>🔪 The Most Important Fragmentation</h4>
+
+<p><strong>α-Cleavage</strong> is the cleavage of a bond <strong>adjacent (α) to a heteroatom</strong> (O, N, S). It's one of the most common and predictable fragmentation patterns!</p>
+
+<div class="highlight-box">
+<strong>Why α-Cleavage Happens:</strong>
+<ul>
+<li>The heteroatom's <strong>lone pair</strong> stabilizes the resulting cation through resonance</li>
+<li>Produces <strong>even-electron cations</strong> (usually the base peak)</li>
+<li>Loss of a radical (odd-electron neutral fragment)</li>
+</ul>
+</div>
+
+<h4>⚗️ α-Cleavage in Ketones</h4>
+
+<p><strong>Example: Acetone (CH₃COCH₃)</strong></p>
+
+<p>The C-C bond next to C=O breaks, giving:</p>
+<ul>
+<li><strong>CH₃CO⁺</strong> (m/z = 43) - acylium ion (base peak!)</li>
+<li><strong>•CH₃</strong> - methyl radical (neutral, not detected)</li>
+</ul>
+
+<div class="tip-box">
+<strong>💡 Acylium Ion Stability:</strong> The CH₃CO⁺ ion is resonance-stabilized:<br>
+CH₃-C≡O⁺ ↔ CH₃-C⁺=O<br>
+This makes m/z = 43 one of the most common peaks in ketone spectra!
+</div>
+
+<h4>🍺 α-Cleavage in Alcohols</h4>
+
+<p><strong>Example: Ethanol (CH₃CH₂OH)</strong></p>
+
+<p>Cleavage at the C-C bond gives:</p>
+<ul>
+<li><strong>CH₂=OH⁺</strong> (m/z = 31) - oxonium ion</li>
+<li>Further loss of H → <strong>CHO⁺</strong> (m/z = 29)</li>
+</ul>
+
+<h4>🧪 α-Cleavage in Amines</h4>
+
+<p><strong>Example: Diethylamine ((CH₃CH₂)₂NH)</strong></p>
+
+<p>Produces characteristic iminium ion:</p>
+<ul>
+<li><strong>CH₂=NH₂⁺</strong> (m/z = 30)</li>
+<li>Or larger <strong>[R-CH=NH₂]⁺</strong> depending on R group</li>
+</ul>
+
+<div class="highlight-box">
+<strong>Recognition Pattern:</strong><br>
+If you see a strong peak at m/z = 43, think <strong>ketone</strong> (CH₃CO⁺).<br>
+If you see m/z = 31, think <strong>alcohol</strong> (CH₂OH⁺).<br>
+If you see m/z = 30, think <strong>primary amine</strong> (CH₂NH₂⁺).
+</div>`,
+        keyPoints: [
+            'α-Cleavage = breaking bond next to O, N, or S',
+            'Produces even-electron cations (often base peak)',
+            'Ketones give acylium ions (RCO⁺)',
+            'Alcohols give oxonium ions (often m/z = 31)',
+            'Amines give iminium ions (often m/z = 30)'
+        ]
+    },
+    {
+        id: 'ms-mclafferty',
+        title: 'McLafferty Rearrangement',
+        content: `<h4>🔄 The Six-Membered Ring Dance</h4>
+
+<p>The <strong>McLafferty rearrangement</strong> is a characteristic fragmentation of carbonyl compounds with a <strong>γ-hydrogen</strong> (hydrogen three bonds away from C=O).</p>
+
+<div class="highlight-box">
+<strong>Requirements for McLafferty:</strong>
+<ol>
+<li>Must have a <strong>carbonyl group</strong> (C=O)</li>
+<li>Must have a <strong>γ-hydrogen</strong> (H on the carbon 3 bonds from C=O)</li>
+<li>Proceeds through a <strong>6-membered ring</strong> transition state</li>
+</ol>
+</div>
+
+<h4>🧩 The Mechanism</h4>
+
+<p><strong>Example: 2-Pentanone (CH₃COCH₂CH₂CH₃)</strong></p>
+
+<div class="highlight-box">
+<strong>Step-by-Step:</strong>
+<ol>
+<li>Molecular ion M⁺• = 86</li>
+<li>γ-Hydrogen transfers to C=O through 6-membered ring</li>
+<li>β-bond (C-C bond) cleaves simultaneously</li>
+<li>Products:
+   <ul>
+   <li><strong>Enol radical cation</strong> (m/z = 58, contains C=O)</li>
+   <li><strong>Neutral alkene</strong> (ethene, 28 amu)</li>
+   </ul>
+</li>
+</ol>
+</div>
+
+<h4>📐 The 6-Membered Ring</h4>
+
+<p>The rearrangement is geometrically favorable because:</p>
+<ul>
+<li>Forms a 6-membered transition state (low strain)</li>
+<li>Hydrogen transfer and bond cleavage happen together</li>
+<li>Results in an <strong>odd-electron enol cation</strong></li>
+</ul>
+
+<h4>🎯 Why McLafferty is Important</h4>
+
+<table class="reference-table">
+<thead>
+<tr><th>Compound Type</th><th>McLafferty Product</th><th>Common m/z</th></tr>
+</thead>
+<tbody>
+<tr><td>Methyl ketones</td><td>CH₃-C(OH)=CH₂⁺•</td><td>58</td></tr>
+<tr><td>Aliphatic ketones</td><td>R-C(OH)=CH₂⁺•</td><td>Variable</td></tr>
+<tr><td>Esters</td><td>Similar enol cations</td><td>Variable</td></tr>
+<tr><td>Aldehydes</td><td>HC(OH)=CH₂⁺•</td><td>44</td></tr>
+</tbody>
+</table>
+
+<div class="tip-box">
+<strong>💡 Diagnostic Value:</strong> McLafferty rearrangement often produces the <strong>base peak</strong> in carbonyl spectra. Seeing m/z = 58 in a ketone spectrum is a strong indicator of McLafferty rearrangement!
+</div>
+
+<div class="warning-box">
+<strong>⚠️ Mass Balance Check:</strong><br>
+Always verify: M⁺• = Enol cation + Neutral alkene<br>
+Example: 86 = 58 + 28 ✓
+</div>`,
+        keyPoints: [
+            'McLafferty = γ-H transfer through 6-membered ring',
+            'Requires carbonyl + γ-hydrogen',
+            'Produces odd-electron enol cation + neutral alkene',
+            'Methyl ketones give m/z = 58',
+            'Often the base peak in carbonyl spectra'
+        ]
+    },
+    {
+        id: 'ms-soft-ionization',
+        title: 'Soft Ionization: ESI and MALDI',
+        content: `<h4>🌸 Gentle Ionization for Large Molecules</h4>
+
+<p>Electron Impact (EI) is great for small molecules, but it <strong>fragments large biomolecules</strong>. For proteins, carbohydrates, and glycoconjugates, we need <strong>soft ionization</strong> techniques!</p>
+
+<div class="highlight-box">
+<strong>The Problem with EI:</strong>
+<ul>
+<li>❌ High energy (70 eV) causes extensive fragmentation</li>
+<li>❌ Destroys delicate molecules like proteins</li>
+<li>❌ Molecular ion often too weak or absent</li>
+<li>❌ Only works for volatile, thermally stable compounds</li>
+</ul>
+</div>
+
+<h4>🌊 Electrospray Ionization (ESI)</h4>
+
+<p>ESI is the <strong>gold standard</strong> for analyzing large biomolecules:</p>
+
+<div class="highlight-box">
+<strong>How ESI Works:</strong>
+<ol>
+<li>Sample solution sprayed through charged needle (+3 to +5 kV)</li>
+<li>Creates fine droplets with excess charge</li>
+<li>Solvent evaporates → droplets shrink</li>
+<li>Coulombic repulsion ejects ions: <strong>[M+nH]ⁿ⁺</strong></li>
+</ol>
+</div>
+
+<h4>🔋 Multiple Charging - ESI's Superpower</h4>
+
+<p>Large molecules gain <strong>many protons</strong>, creating multiply charged ions:</p>
+
+<table class="reference-table">
+<thead>
+<tr><th>Ion Type</th><th>Example</th><th>m/z</th></tr>
+</thead>
+<tbody>
+<tr><td>Protein (MW 50,000)</td><td>[M+20H]²⁰⁺</td><td>2,500</td></tr>
+<tr><td>Peptide (MW 2,000)</td><td>[M+2H]²⁺</td><td>1,000</td></tr>
+<tr><td>Small molecule</td><td>[M+H]⁺</td><td>MW+1</td></tr>
+</tbody>
+</table>
+
+<div class="tip-box">
+<strong>💡 Why Multiple Charging Matters:</strong> A 100,000 Da protein with 50 charges gives m/z = 2,000 - easily detectable! Without multiple charging, m/z = 100,000 would be out of range for most instruments.
+</div>
+
+<h4>💥 MALDI: Matrix-Assisted Laser Desorption/Ionization</h4>
+
+<p>MALDI uses a <strong>laser</strong> to ionize molecules embedded in a crystalline matrix:</p>
+
+<div class="highlight-box">
+<strong>How MALDI Works:</strong>
+<ol>
+<li>Sample mixed with <strong>matrix</strong> (light-absorbing small molecule)</li>
+<li>Co-crystallize onto metal target plate</li>
+<li>UV laser pulse (337 nm) hits the sample</li>
+<li>Matrix absorbs energy and transfers to analyte</li>
+<li>Gentle desorption/ionization: <strong>[M+H]⁺</strong></li>
+</ol>
+</div>
+
+<h4>🧪 Common MALDI Matrices</h4>
+
+<table class="reference-table">
+<thead>
+<tr><th>Matrix</th><th>Best Application</th></tr>
+</thead>
+<tbody>
+<tr><td>CHCA (α-cyano)</td><td>Peptides \u003c 5 kDa</td></tr>
+<tr><td>DHB</td><td>Carbohydrates, glycoproteins</td></tr>
+<tr><td>Sinapinic acid</td><td>Proteins \u003e 5 kDa</td></tr>
+</tbody>
+</table>
+
+<h4>⚖️ ESI vs MALDI Comparison</h4>
+
+<table class="reference-table">
+<thead>
+<tr><th>Feature</th><th>ESI</th><th>MALDI</th></tr>
+</thead>
+<tbody>
+<tr><td>Charging</td><td>Multiple [M+nH]ⁿ⁺</td><td>Singly [M+H]⁺</td></tr>
+<tr><td>Sample Prep</td><td>Liquid solution</td><td>Co-crystallized with matrix</td></tr>
+<tr><td>Speed</td><td>Moderate</td><td>Very fast</td></tr>
+<tr><td>Salt Tolerance</td><td>Low</td><td>High</td></tr>
+<tr><td>Best For</td><td>Online LC-MS</td><td>High-throughput screening</td></tr>
+</tbody>
+</table>
+
+<div class="highlight-box">
+<strong>🧬 Applications to Biomolecules:</strong>
+<ul>
+<li><strong>Proteins/Peptides:</strong> Both ESI and MALDI excellent</li>
+<li><strong>Carbohydrates:</strong> MALDI with DHB matrix preferred</li>
+<li><strong>Glycoconjugates:</strong> ESI for intact analysis, MALDI for mapping</li>
+<li><strong>Oligonucleotides:</strong> ESI (negative mode) commonly used</li>
+</ul>
+</div>`,
+        keyPoints: [
+            'EI fragments large molecules; soft ionization preserves them',
+            'ESI: Multiple charging brings large MW into detectable range',
+            'MALDI: Laser desorption produces singly-charged ions',
+            'ESI best for LC-MS; MALDI best for high-throughput',
+            'Perfect for proteins, carbohydrates, glycoconjugates'
         ]
     },
     {
