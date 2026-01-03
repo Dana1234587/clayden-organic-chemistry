@@ -17,21 +17,84 @@ interface ColorMoleculesGridProps {
     examples: ColorExample[];
 }
 
-// Inline 3D Viewer - Auto-loads and auto-rotates without click-to-expand
-function Inline3DViewer({ pdbId, color }: { pdbId: string; color: string }) {
+type ViewStyle = 'stick' | 'sphere' | 'line' | 'colored';
+
+const ELEMENT_COLORS: Record<string, { color: string; name: string }> = {
+    'C': { color: '#909090', name: 'Carbon' },
+    'O': { color: '#FF0D0D', name: 'Oxygen' },
+    'N': { color: '#3050F8', name: 'Nitrogen' },
+    'H': { color: '#FFFFFF', name: 'Hydrogen' },
+    'S': { color: '#FFFF30', name: 'Sulfur' },
+    'Cl': { color: '#1FF01F', name: 'Chlorine' },
+    'Br': { color: '#A62929', name: 'Bromine' },
+    'Mg': { color: '#8AFF00', name: 'Magnesium' },
+    'P': { color: '#FF8000', name: 'Phosphorus' },
+};
+
+// Full-featured Inline 3D Viewer matching Lessons 1/2
+function Inline3DViewer({ pdbId, moleculeColor }: { pdbId: string; moleculeColor: string }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const viewerRef = useRef<any>(null);
     const rotationRef = useRef<number | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [viewStyle, setViewStyle] = useState<ViewStyle>('stick');
+    const [isRotating, setIsRotating] = useState(true);
 
     const moleculeData = getMolecule(pdbId);
+
+    const applyStyle = (viewer: any, style: ViewStyle) => {
+        if (!viewer) return;
+        viewer.setStyle({}, {});
+        viewer.removeAllLabels();
+
+        switch (style) {
+            case 'stick':
+                viewer.setStyle({}, {
+                    stick: { radius: 0.18, colorscheme: 'Jmol' },
+                    sphere: { scale: 0.35, colorscheme: 'Jmol' }
+                });
+                break;
+            case 'sphere':
+                viewer.setStyle({}, {
+                    sphere: { scale: 0.9, colorscheme: 'Jmol' }
+                });
+                break;
+            case 'line':
+                viewer.setStyle({}, {
+                    line: { colorscheme: 'Jmol', linewidth: 3 }
+                });
+                break;
+            case 'colored':
+                viewer.setStyle({}, {
+                    stick: { radius: 0.22, color: moleculeColor },
+                    sphere: { scale: 0.4, color: moleculeColor }
+                });
+                break;
+        }
+
+        // Add labels for non-H atoms
+        const atoms = viewer.getModel()?.atoms || [];
+        atoms.forEach((atom: any) => {
+            if (atom.elem !== 'H') {
+                viewer.addLabel(atom.elem, {
+                    position: { x: atom.x, y: atom.y, z: atom.z },
+                    backgroundColor: 'rgba(0,0,0,0.5)',
+                    fontColor: ELEMENT_COLORS[atom.elem]?.color || '#FFFFFF',
+                    fontSize: 11,
+                    inFront: true
+                });
+            }
+        });
+
+        viewer.render();
+    };
 
     useEffect(() => {
         if (!containerRef.current) return;
 
         if (!moleculeData) {
-            setError('Molecule not in registry: ' + pdbId);
+            setError('Molecule not found: ' + pdbId);
             setIsLoading(false);
             return;
         }
@@ -57,7 +120,7 @@ function Inline3DViewer({ pdbId, color }: { pdbId: string; color: string }) {
                 let modelData = moleculeData.pdb;
                 let modelFormat = moleculeData.format || 'pdb';
 
-                // Try PubChem for accurate 3D
+                // Try PubChem for 3D structure
                 if (moleculeData.pubchemCid) {
                     try {
                         const pubchemUrl = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${moleculeData.pubchemCid}/SDF?record_type=3d`;
@@ -70,50 +133,14 @@ function Inline3DViewer({ pdbId, color }: { pdbId: string; color: string }) {
                             }
                         }
                     } catch (err) {
-                        console.warn('PubChem fetch failed');
+                        console.warn('PubChem 3D fetch failed');
                     }
                 }
 
                 viewer.addModel(modelData, modelFormat);
-
-                // Bigger atoms & clear bonds
-                viewer.setStyle({}, {
-                    stick: { radius: 0.18, colorscheme: 'Jmol' },
-                    sphere: { scale: 0.38, colorscheme: 'Jmol' }
-                });
-
-                // Add labels for non-H atoms
-                const atoms = viewer.getModel().atoms;
-                const elementColors: Record<string, string> = {
-                    'C': '#909090', 'O': '#FF0D0D', 'N': '#3050F8',
-                    'H': '#FFFFFF', 'S': '#FFFF00', 'Cl': '#1FF01F',
-                    'Br': '#A62929', 'Mg': '#00FF00', 'P': '#FF8000'
-                };
-                atoms.forEach((atom: any) => {
-                    if (atom.elem !== 'H') {
-                        viewer.addLabel(atom.elem, {
-                            position: { x: atom.x, y: atom.y, z: atom.z },
-                            backgroundColor: 'rgba(0,0,0,0.5)',
-                            fontColor: elementColors[atom.elem] || '#FFFFFF',
-                            fontSize: 12,
-                            inFront: true,
-                            showBackground: true
-                        });
-                    }
-                });
-
+                applyStyle(viewer, viewStyle);
                 viewer.zoomTo();
                 viewer.render();
-
-                // Auto-rotate continuously
-                const rotate = () => {
-                    if (viewerRef.current) {
-                        viewerRef.current.rotate(0.6, 'y');
-                        viewerRef.current.render();
-                        rotationRef.current = requestAnimationFrame(rotate);
-                    }
-                };
-                rotate();
 
                 setIsLoading(false);
             } catch (err) {
@@ -135,12 +162,41 @@ function Inline3DViewer({ pdbId, color }: { pdbId: string; color: string }) {
         };
     }, [pdbId, moleculeData]);
 
+    // Apply style changes
+    useEffect(() => {
+        if (viewerRef.current && !isLoading) {
+            applyStyle(viewerRef.current, viewStyle);
+        }
+    }, [viewStyle, isLoading]);
+
+    // Handle rotation
+    useEffect(() => {
+        const rotate = () => {
+            if (viewerRef.current && isRotating) {
+                viewerRef.current.rotate(0.6, 'y');
+                viewerRef.current.render();
+                rotationRef.current = requestAnimationFrame(rotate);
+            }
+        };
+
+        if (isRotating && viewerRef.current && !isLoading) {
+            rotate();
+        } else if (rotationRef.current) {
+            cancelAnimationFrame(rotationRef.current);
+            rotationRef.current = null;
+        }
+
+        return () => {
+            if (rotationRef.current) cancelAnimationFrame(rotationRef.current);
+        };
+    }, [isRotating, isLoading]);
+
     if (!moleculeData) {
         return (
             <div style={{
                 height: '100%', display: 'flex', flexDirection: 'column',
                 alignItems: 'center', justifyContent: 'center',
-                background: 'rgba(15, 17, 22, 1)', color: '#94a3b8'
+                background: '#0F1116', color: '#94a3b8'
             }}>
                 <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🧬</div>
                 <div>3D not available for: {pdbId}</div>
@@ -148,41 +204,119 @@ function Inline3DViewer({ pdbId, color }: { pdbId: string; color: string }) {
         );
     }
 
+    const styleButtons: { id: ViewStyle; label: string }[] = [
+        { id: 'stick', label: 'Stick' },
+        { id: 'sphere', label: 'Sphere' },
+        { id: 'line', label: 'Line' },
+        { id: 'colored', label: 'Colored' },
+    ];
+
     return (
-        <div style={{ position: 'relative', height: '100%', minHeight: '280px', background: '#0F1116' }}>
-            {isLoading && (
-                <div style={{
-                    position: 'absolute', inset: 0, display: 'flex',
-                    alignItems: 'center', justifyContent: 'center',
-                    background: 'rgba(15, 17, 22, 0.9)', zIndex: 10
-                }}>
-                    <div style={{ textAlign: 'center', color: '#94a3b8' }}>
-                        <div style={{ fontSize: '1.5rem', animation: 'pulse 1.5s infinite' }}>🔬</div>
-                        <div style={{ fontSize: '0.8rem' }}>Loading 3D...</div>
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#0F1116' }}>
+            {/* 3D Viewer Container */}
+            <div style={{ position: 'relative', flex: 1, minHeight: '200px' }}>
+                {isLoading && (
+                    <div style={{
+                        position: 'absolute', inset: 0, display: 'flex',
+                        alignItems: 'center', justifyContent: 'center',
+                        background: 'rgba(15, 17, 22, 0.9)', zIndex: 10
+                    }}>
+                        <div style={{ textAlign: 'center', color: '#94a3b8' }}>
+                            <div style={{ fontSize: '1.5rem', animation: 'pulse 1.5s infinite' }}>🔬</div>
+                            <div style={{ fontSize: '0.8rem' }}>Loading 3D...</div>
+                        </div>
                     </div>
-                </div>
-            )}
-            {error && (
-                <div style={{
-                    position: 'absolute', inset: 0, display: 'flex',
-                    alignItems: 'center', justifyContent: 'center', color: '#ef4444'
-                }}>
-                    {error}
-                </div>
-            )}
-            <div
-                ref={containerRef}
-                style={{ width: '100%', height: '100%', minHeight: '280px', touchAction: 'none' }}
-            />
-            {/* Controls hint */}
+                )}
+                {error && (
+                    <div style={{
+                        position: 'absolute', inset: 0, display: 'flex',
+                        alignItems: 'center', justifyContent: 'center', color: '#ef4444'
+                    }}>
+                        {error}
+                    </div>
+                )}
+                <div
+                    ref={containerRef}
+                    style={{ width: '100%', height: '100%', minHeight: '200px', touchAction: 'none' }}
+                />
+            </div>
+
+            {/* Controls Bar */}
             <div style={{
-                position: 'absolute', bottom: '8px', left: '50%', transform: 'translateX(-50%)',
-                background: 'rgba(0,0,0,0.6)', borderRadius: '8px', padding: '4px 12px',
-                fontSize: '0.65rem', color: '#94a3b8', display: 'flex', gap: '8px'
+                padding: '10px 12px',
+                background: 'rgba(0,0,0,0.3)',
+                borderTop: '1px solid rgba(255,255,255,0.1)'
             }}>
-                <span>↻ Auto-rotating</span>
-                <span>•</span>
-                <span>Drag to interact</span>
+                {/* Style Buttons */}
+                <div style={{ display: 'flex', gap: '6px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                    {styleButtons.map(btn => (
+                        <button
+                            key={btn.id}
+                            onClick={() => setViewStyle(btn.id)}
+                            style={{
+                                padding: '6px 12px',
+                                background: viewStyle === btn.id
+                                    ? 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)'
+                                    : 'rgba(255,255,255,0.08)',
+                                border: 'none',
+                                borderRadius: '8px',
+                                color: viewStyle === btn.id ? 'white' : 'rgba(255,255,255,0.6)',
+                                fontSize: '0.75rem',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                            }}
+                        >
+                            {btn.label}
+                        </button>
+                    ))}
+
+                    {/* Rotate Button */}
+                    <button
+                        onClick={() => setIsRotating(!isRotating)}
+                        style={{
+                            padding: '6px 12px',
+                            background: isRotating
+                                ? 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)'
+                                : 'rgba(255,255,255,0.08)',
+                            border: 'none',
+                            borderRadius: '8px',
+                            color: isRotating ? 'white' : 'rgba(255,255,255,0.6)',
+                            fontSize: '0.75rem',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                        }}
+                    >
+                        {isRotating ? '⏸' : '▶'} Rotate
+                    </button>
+                </div>
+
+                {/* Color Legend */}
+                <div style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '8px',
+                    fontSize: '0.65rem',
+                    color: 'rgba(255,255,255,0.6)'
+                }}>
+                    <span style={{ fontWeight: 600 }}>Colors:</span>
+                    {Object.entries(ELEMENT_COLORS).slice(0, 5).map(([elem, data]) => (
+                        <span key={elem} style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                            <span style={{
+                                width: '10px',
+                                height: '10px',
+                                borderRadius: '50%',
+                                background: data.color,
+                                border: elem === 'H' ? '1px solid rgba(255,255,255,0.3)' : 'none'
+                            }} />
+                            <span style={{ color: data.color }}>{elem}</span>
+                            <span>{data.name}</span>
+                        </span>
+                    ))}
+                </div>
             </div>
         </div>
     );
@@ -198,7 +332,7 @@ export default function ColorMoleculesGrid({ examples }: ColorMoleculesGridProps
     return (
         <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
             gap: '1.5rem',
             marginTop: '2rem',
             marginBottom: '2rem'
@@ -223,7 +357,7 @@ export default function ColorMoleculesGrid({ examples }: ColorMoleculesGridProps
                             display: 'flex',
                             flexDirection: 'column',
                             position: 'relative',
-                            minHeight: '420px'
+                            minHeight: '480px'
                         }}
                     >
                         {/* Header */}
@@ -258,8 +392,8 @@ export default function ColorMoleculesGrid({ examples }: ColorMoleculesGridProps
                         }}>
                             {[
                                 { id: 'info', label: '📖 Info' },
-                                { id: '2d', label: '📝 2D' },
-                                { id: '3d', label: '🧊 3D' }
+                                { id: '2d', label: '📝 2D Skeletal' },
+                                { id: '3d', label: '🧊 3D Model' }
                             ].map(tab => (
                                 <button
                                     key={tab.id}
@@ -279,7 +413,7 @@ export default function ColorMoleculesGrid({ examples }: ColorMoleculesGridProps
                         </div>
 
                         {/* Content */}
-                        <div style={{ flex: 1, position: 'relative', minHeight: '280px' }}>
+                        <div style={{ flex: 1, position: 'relative', minHeight: '320px' }}>
                             <AnimatePresence mode="wait">
                                 {activeMode === 'info' && (
                                     <motion.div
@@ -324,14 +458,14 @@ export default function ColorMoleculesGrid({ examples }: ColorMoleculesGridProps
                                                 <img
                                                     src={`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${pubchemCid}/PNG?image_size=300x300`}
                                                     alt={`${example.name} structure`}
-                                                    style={{ maxWidth: '100%', maxHeight: '200px', objectFit: 'contain' }}
+                                                    style={{ maxWidth: '100%', maxHeight: '220px', objectFit: 'contain' }}
                                                 />
                                                 <div style={{
                                                     marginTop: '0.75rem', padding: '0.5rem',
                                                     background: '#f1f5f9', borderRadius: '8px',
                                                     fontSize: '0.7rem', color: '#475569', textAlign: 'center'
                                                 }}>
-                                                    <strong>Conjugation:</strong> Alternating single/double bonds
+                                                    <strong>Conjugation:</strong> Alternating single/double bonds cause color
                                                 </div>
                                             </>
                                         ) : (
@@ -348,10 +482,10 @@ export default function ColorMoleculesGrid({ examples }: ColorMoleculesGridProps
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
-                                        style={{ height: '100%', minHeight: '280px' }}
+                                        style={{ height: '100%', minHeight: '320px' }}
                                     >
                                         {example.pdbId ? (
-                                            <Inline3DViewer pdbId={example.pdbId} color={example.color} />
+                                            <Inline3DViewer pdbId={example.pdbId} moleculeColor={example.color} />
                                         ) : (
                                             <div style={{
                                                 height: '100%', display: 'flex',
