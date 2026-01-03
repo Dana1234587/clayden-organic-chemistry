@@ -209,37 +209,44 @@ export const sections: ChapterSection[] = [
         name: "Azulene",
         description: "A beautiful deep blue LIQUID with a peppery smell! Unusual for a small organic molecule (10 carbons).",
         color: "#0000FF", // Deep Blue
-        type: "liquid"
+        type: "liquid",
+        pdbId: "azulene",
+        structure2d: "/molecules/azulene-2d.svg"
       },
       {
         name: "DDQ",
         description: "Forms stunning orange-amber needle crystals. Used as an oxidizing agent.",
         color: "#FF8C00", // Dark Orange
-        type: "crystal"
+        type: "crystal",
+        pdbId: "ddq"
       },
       {
         name: "Diazomethane",
         description: "A bright YELLOW gas. Explosive and toxic - colorful doesn't mean safe!",
         color: "#FFD700", // Yellow
-        type: "gas"
+        type: "gas",
+        pdbId: "diazomethane"
       },
       {
         name: "9-Nitrosojulolidine",
         description: "Green prisms with a remarkable steel-blue metallic lustre.",
         color: "#2E8B57", // Sea Green
-        type: "crystal"
+        type: "crystal",
+        pdbId: "nitrosojulolidine"
       },
       {
         name: "Chlorophyll",
         description: "The molecule that makes plants green! Captures sunlight energy for photosynthesis.",
         color: "#008000", // Green
-        type: "solid"
+        type: "solid",
+        pdbId: "chlorophyll"
       },
       {
         name: "Beta-Carotene",
         description: "The orange pigment in carrots! Also makes flamingos pink (from their diet).",
         color: "#FF4500", // Orange Red
-        type: "solid"
+        type: "solid",
+        pdbId: "beta_carotene"
       }
     ],
     video: {

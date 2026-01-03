@@ -7,6 +7,9 @@ import { ChapterSection, ChapterQuiz } from '@/data/types';
 import VideoEmbed from './VideoEmbed';
 import ContentRenderer from '../ContentRenderer';
 
+import ColorMoleculesGrid from '../content/ColorMoleculesGrid';
+import ConjugationDiagram from '../content/ConjugationDiagram';
+
 // Dynamic import for MoleculeViewer
 const MoleculeViewer = dynamic(() => import('../MoleculeViewer'), {
     ssr: false,
@@ -25,91 +28,9 @@ const MoleculeViewer = dynamic(() => import('../MoleculeViewer'), {
     )
 });
 
-// Dynamic import for VisionSimulator
-const VisionSimulator = dynamic(() => import('../simulations/VisionSimulator'), {
-    ssr: false,
-    loading: () => (
-        <div style={{
-            height: '300px',
-            background: 'var(--gradient-card)',
-            borderRadius: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--neutral-400)'
-        }}>
-            Loading simulation...
-        </div>
-    )
-});
+// ... imports ...
 
-// Dynamic import for DrugDockingSimulator
-const DrugDockingSimulator = dynamic(() => import('../simulations/DrugDockingSimulator'), {
-    ssr: false,
-    loading: () => (
-        <div style={{
-            height: '400px',
-            background: 'var(--gradient-card)',
-            borderRadius: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--neutral-400)'
-        }}>
-            Loading DNA Docking Challenge...
-        </div>
-    )
-});
-
-// Dynamic import for DrugDiscoveryPanel
-const DrugDiscoveryPanel = dynamic(() => import('../simulations/DrugDiscoveryPanel'), {
-    ssr: false,
-    loading: () => (
-        <div style={{
-            height: '500px',
-            background: 'var(--gradient-card)',
-            borderRadius: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--neutral-400)'
-        }}>
-            Loading Drug Discovery Application...
-        </div>
-    )
-});
-
-// Dynamic import for AspirinDiscoveryPanel (Drug Discovery story panels)
-const AspirinDiscoveryPanel = dynamic(() => import('../simulations/AspirinDiscoveryPanel'), {
-    ssr: false,
-    loading: () => (
-        <div style={{
-            height: '400px',
-            background: 'var(--gradient-card)',
-            borderRadius: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--neutral-400)'
-        }}>
-            Loading Drug Discovery Story...
-        </div>
-    )
-});
-
-interface LessonViewerProps {
-    section: ChapterSection;
-    sectionNumber: number;
-    totalSections: number;
-    isCompleted: boolean;
-    onMarkComplete: () => void;
-    onNavigate: (direction: 'prev' | 'next') => void;
-    hasPrev: boolean;
-    hasNext: boolean;
-    sectionQuiz?: ChapterQuiz[];
-}
-
-type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery';
+type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors';
 
 export default function LessonViewer({
     section,
@@ -151,8 +72,10 @@ export default function LessonViewer({
     // Build tabs - always show Lesson, Quick Check, Molecules; conditionally show Simulation and Drug Discovery
     const tabs = [
         { id: 'lesson' as const, icon: '📖', label: 'Lesson' },
+        ...(section.conjugationDiagram ? [{ id: 'conjugation' as const, icon: '🌈', label: 'Conjugation Rule' }] : []),
+        ...(section.colorExamples ? [{ id: 'colors' as const, icon: '🧪', label: 'Featured Molecules' }] : []),
         { id: 'quickCheck' as const, icon: '✅', label: 'Quick Check' },
-        { id: 'molecules' as const, icon: '🧪', label: 'Molecules' },
+        { id: 'molecules' as const, icon: '🧬', label: 'Molecules' },
         ...(section.simulation ? [{ id: 'simulation' as const, icon: '🎮', label: 'Simulation' }] : []),
         ...(showDrugDiscoveryTab ? [{ id: 'drugDiscovery' as const, icon: '💊', label: 'Drug Discovery' }] : [])
     ];
@@ -460,6 +383,50 @@ export default function LessonViewer({
                                     </div>
                                 </div>
                             )}
+                        </motion.div>
+                    )}
+
+                    {/* CONJUGATION TAB */}
+                    {activeTab === 'conjugation' && section.conjugationDiagram && (
+                        <motion.div
+                            key="conjugation"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                        >
+                            <ConjugationDiagram />
+                        </motion.div>
+                    )}
+
+                    {/* COLORS (FEATURED MOLECULES) TAB */}
+                    {activeTab === 'colors' && section.colorExamples && (
+                        <motion.div
+                            key="colors"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                        >
+                            <div style={{
+                                textAlign: 'center',
+                                marginBottom: '2rem'
+                            }}>
+                                <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>🧪</div>
+                                <h3 style={{
+                                    fontSize: '1.5rem',
+                                    fontWeight: 700,
+                                    color: 'var(--neutral-100)',
+                                    marginBottom: '0.5rem'
+                                }}>
+                                    Featured Color Molecules
+                                </h3>
+                                <p style={{
+                                    color: 'var(--neutral-400)',
+                                    fontSize: '0.95rem'
+                                }}>
+                                    Discover why these molecules have such vibrant colors!
+                                </p>
+                            </div>
+                            <ColorMoleculesGrid examples={section.colorExamples} />
                         </motion.div>
                     )}
 

@@ -64,14 +64,16 @@ export interface ChapterSection {
             name: string;
             description: string;
         }[];
-        // Color examples for "Colors of Organic Chemistry" section
-        colorExamples?: {
-            name: string;
-            description: string;
-            color: string;
-            type: 'liquid' | 'solid' | 'gas' | 'crystal';
-        }[];
     };
+    // Color examples for "Colors of Organic Chemistry" section
+    colorExamples?: {
+        name: string;
+        description: string;
+        color: string;
+        type: 'liquid' | 'solid' | 'gas' | 'crystal';
+        structure2d?: string; // Image path or SMILES
+        pdbId?: string; // For 3D viewer
+    }[];
     conjugationDiagram?: boolean;
 }
 
