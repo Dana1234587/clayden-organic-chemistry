@@ -315,7 +315,8 @@ export const sections: ChapterSection[] = [
       duration: '15:00'
     },
     molecules: [
-      { name: "Benzene", description: "The parent aromatic compound - a hexagonal ring" }
+      { name: "Prontosil", description: "The first antibacterial drug - a red azo dye that is metabolized to release Sulfanilamide" },
+      { name: "Sulfanilamide", description: "The TRUE antibiotic - active metabolite that inhibits bacterial folate synthesis" }
     ],
     keyPoints: [
       "William Perkin accidentally discovered Mauveine in 1856",
