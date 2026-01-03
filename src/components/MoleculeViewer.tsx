@@ -241,7 +241,7 @@ export default function MoleculeViewer({
     const [isLoading, setIsLoading] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
     const [isRotating, setIsRotating] = useState(true); // Default to rotating
-    const [showLabels, setShowLabels] = useState(true); // Default to showing labels
+    const [showLabels, setShowLabels] = useState(false); // Default to NO labels for cleaner view
     const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d'); // Toggle between 3D and 2D
     const isMobile = useIsMobile();
 
@@ -789,7 +789,45 @@ export default function MoleculeViewer({
                 )}
             </div>
 
-            {/* 3D/2D Toggle */}
+            {/* Color Legend for 3D view */}
+            {viewMode === '3d' && (
+                <div style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    padding: '8px 16px',
+                    background: 'rgba(0, 0, 0, 0.3)',
+                    margin: '0 16px',
+                    borderRadius: '8px'
+                }}>
+                    {[
+                        { elem: 'C', color: '#909090', name: 'Carbon' },
+                        { elem: 'O', color: '#FF0D0D', name: 'Oxygen' },
+                        { elem: 'N', color: '#3050F8', name: 'Nitrogen' },
+                        { elem: 'H', color: '#FFFFFF', name: 'Hydrogen' },
+                        { elem: 'S', color: '#FFFF00', name: 'Sulfur' },
+                        { elem: 'Cl', color: '#1FF01F', name: 'Chlorine' },
+                    ].map(item => (
+                        <div key={item.elem} style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            fontSize: '0.7rem',
+                            color: 'var(--neutral-400)'
+                        }}>
+                            <div style={{
+                                width: 12,
+                                height: 12,
+                                borderRadius: '50%',
+                                background: item.color,
+                                border: item.elem === 'H' ? '1px solid #666' : 'none'
+                            }} />
+                            <span>{item.name}</span>
+                        </div>
+                    ))}
+                </div>
+            )}
             <div style={{
                 display: 'flex',
                 justifyContent: 'center',
