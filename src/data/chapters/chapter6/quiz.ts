@@ -11,21 +11,21 @@ export const quiz: QuizQuestion[] = [
             'Carbon has a full positive charge',
             'The π bond donates electrons'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Oxygen is more electronegative (3.5 vs 2.5) than carbon, so it pulls electron density toward itself, leaving carbon with partial positive charge (δ⁺).'
     },
     {
         id: 'ch6-q2',
         question: 'What is the hybridization of carbonyl carbon before nucleophilic attack?',
         options: ['sp', 'sp²', 'sp³', 'sp³d'],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'The carbonyl carbon is sp² hybridized with trigonal planar geometry (120° angles) before the attack.'
     },
     {
         id: 'ch6-q3',
         question: 'After nucleophilic attack, the carbonyl carbon becomes:',
         options: ['sp hybridized and linear', 'sp² and trigonal', 'sp³ and tetrahedral', 'sp³d and octahedral'],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'The nucleophile adds to the carbon, which gains a fourth substituent and becomes sp³ with tetrahedral geometry (109.5°).'
     },
     // Bürgi-Dunitz
@@ -38,7 +38,7 @@ export const quiz: QuizQuestion[] = [
             'The H-C-H angle in products',
             'The angle between orbitals'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Bürgi and Dunitz discovered that nucleophiles approach at ~107° to the C=O bond, not perpendicular (90°).'
     },
     {
@@ -50,7 +50,7 @@ export const quiz: QuizQuestion[] = [
             'It minimizes the distance traveled',
             'It produces the fastest reaction'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'The ~107° angle maximizes overlap between the nucleophile HOMO and the carbonyl π* LUMO, which has its larger lobe on carbon.'
     },
     // Cyanohydrin
@@ -58,14 +58,14 @@ export const quiz: QuizQuestion[] = [
         id: 'ch6-q6',
         question: 'What is the product of adding HCN to an aldehyde?',
         options: ['Alcohol', 'Cyanohydrin', 'Acetal', 'Hemiacetal'],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Adding HCN gives a cyanohydrin, which has both -OH and -CN groups on the same carbon.'
     },
     {
         id: 'ch6-q7',
         question: 'Cyanohydrin formation is:',
         options: ['Irreversible', 'Reversible', 'Endothermic only', 'Only acid-catalyzed'],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Cyanohydrin formation is an equilibrium reaction. The position depends on the carbonyl (aldehydes favor product more than ketones).'
     },
     {
@@ -77,7 +77,7 @@ export const quiz: QuizQuestion[] = [
             'Nothing useful',
             'Halogens only'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'The -CN group is versatile: hydrolysis gives carboxylic acids, reduction gives amines. This makes cyanohydrins valuable synthetic intermediates.'
     },
     // Hydride Reduction
@@ -85,28 +85,28 @@ export const quiz: QuizQuestion[] = [
         id: 'ch6-q9',
         question: 'Which reducing agent can be used in water?',
         options: ['LiAlH₄', 'NaBH₄', 'Both', 'Neither'],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'NaBH₄ is mild and can be used in water or alcohols. LiAlH₄ reacts violently with water and must be used in dry ether.'
     },
     {
         id: 'ch6-q10',
         question: 'LiAlH₄ reduces all of the following EXCEPT:',
         options: ['Aldehydes', 'Ketones', 'Esters', 'Alkenes'],
-        correctAnswer: 3,
+        correctIndex: 3,
         explanation: 'LiAlH₄ reduces most carbonyl compounds (aldehydes, ketones, esters, carboxylic acids, amides) but does NOT reduce simple alkenes.'
     },
     {
         id: 'ch6-q11',
         question: 'Reduction of a ketone with NaBH₄ gives:',
         options: ['Primary alcohol', 'Secondary alcohol', 'Tertiary alcohol', 'Aldehyde'],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Ketones (R₂C=O) are reduced to secondary alcohols (R₂CH-OH). The carbonyl carbon gains one H.'
     },
     {
         id: 'ch6-q12',
         question: 'In hydride reduction, the hydride (H⁻) acts as:',
         options: ['Electrophile', 'Nucleophile', 'Leaving group', 'Catalyst'],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Hydride is a nucleophile – it donates its electrons to the electrophilic carbonyl carbon.'
     },
     // Grignard
@@ -114,7 +114,7 @@ export const quiz: QuizQuestion[] = [
         id: 'ch6-q13',
         question: 'In a Grignard reagent (RMgBr), the carbon attached to Mg is:',
         options: ['Electrophilic (δ⁺)', 'Nucleophilic (δ⁻)', 'Neutral', 'A leaving group'],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'The C-Mg bond is polarized with δ⁻ on carbon, making it nucleophilic. This is why Grignards attack electrophiles.'
     },
     {
@@ -126,7 +126,7 @@ export const quiz: QuizQuestion[] = [
             'At high temperature',
             'With acid catalyst'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Water destroys Grignard reagents (RMgBr + H₂O → R-H + Mg(OH)Br). Completely dry conditions are essential.'
     },
     {
@@ -138,14 +138,14 @@ export const quiz: QuizQuestion[] = [
             'Tertiary alcohol',
             'Ketone'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'A Grignard (CH₃⁻) attacking an aldehyde (CH₃CHO) gives a secondary alcohol: CH₃CH(OH)CH₃ (2-propanol).'
     },
     {
         id: 'ch6-q16',
         question: 'To make a tertiary alcohol using Grignard, you should react RMgBr with:',
         options: ['Aldehyde', 'Ketone', 'Formaldehyde', 'CO₂'],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Ketones (R₂C=O) + Grignard gives tertiary alcohols (R₃C-OH, three carbon substituents).'
     },
     // Hydration/Hemiacetal
@@ -158,7 +158,7 @@ export const quiz: QuizQuestion[] = [
             'A cyclic ether',
             'An aromatic alcohol'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Gem-diols have two -OH groups on the same carbon ("geminal"). They form when water adds to carbonyls.'
     },
     {
@@ -170,7 +170,7 @@ export const quiz: QuizQuestion[] = [
             'Reduces the carbonyl',
             'Blocks the reaction'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Protonation of carbonyl oxygen makes the carbon MORE electrophilic (more δ⁺), activating it for water attack.'
     },
     {
@@ -182,7 +182,7 @@ export const quiz: QuizQuestion[] = [
             'Only an alcohol group',
             'A carboxylic acid'
         ],
-        correctAnswer: 0,
+        correctIndex: 0,
         explanation: 'Hemiacetals have both -OH and -OR on the same carbon. Acetals have two -OR groups (no -OH).'
     },
     {
@@ -194,7 +194,7 @@ export const quiz: QuizQuestion[] = [
             'Cyclic acetal',
             'gem-diol'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'In aqueous solution, glucose forms a stable 6-membered cyclic hemiacetal (pyranose form). The open chain form is less than 1%.'
     },
     // Reactivity
@@ -207,7 +207,7 @@ export const quiz: QuizQuestion[] = [
             'Aldehydes have stronger C=O bonds',
             'Ketones are more polar'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Ketones have two alkyl groups that both block nucleophilic approach (steric) and donate electrons (reducing δ⁺ on carbon).'
     },
     {
@@ -219,7 +219,7 @@ export const quiz: QuizQuestion[] = [
             'It is the largest aldehyde',
             'It has the most resonance'
         ],
-        correctAnswer: 0,
+        correctIndex: 0,
         explanation: 'Formaldehyde (H₂C=O) has no alkyl groups, so there is no steric hindrance and no electron donation to reduce electrophilicity.'
     },
     {
@@ -231,7 +231,7 @@ export const quiz: QuizQuestion[] = [
             'The carbonyl is not polarized',
             'It cannot form tetrahedral products'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'The sp² angles (120°) are strained in a 3-membered ring (60°). Converting to sp³ (109.5°) partially relieves this strain, driving reactivity.'
     },
     // Applications
@@ -244,14 +244,14 @@ export const quiz: QuizQuestion[] = [
             'Acetals',
             'Cyanohydrins'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Bisulfite adds to aldehydes to give soluble sulfonate salts. This is used to make water-soluble pro-drugs.'
     },
     {
         id: 'ch6-q25',
         question: 'What percentage of FDA-approved drugs involve carbonyl chemistry?',
         options: ['About 25%', 'About 50%', 'About 75%', 'About 90%'],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'Approximately 75% of FDA-approved drugs either contain carbonyl groups or are synthesized using carbonyl reactions.'
     }
 ];

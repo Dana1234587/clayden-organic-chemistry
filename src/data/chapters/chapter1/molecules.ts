@@ -520,4 +520,209 @@ ATOM     20  C19 RET     1       8.700   2.400   0.000  1.00  0.00           C
 ATOM     21  C20 RET     1      13.100   4.800   0.000  1.00  0.00           C
 END`
     },
+    '11-cis-retinal': {
+        color: '#3b82f6',
+        emoji: '👁️',
+        formula: 'C₂₀H₂₈O',
+        skeletal: '11-cis configuration - BENT chain at C11=C12, pre-light absorption',
+        functionalGroups: ['Aldehyde (-CHO)', 'Conjugated double bonds (cis at C11)', 'Cyclohexene ring'],
+        pubchemCid: 5280490,
+        pdb: `COMPND    11-CIS-RETINAL
+ATOM      1  C1  RET     1       0.000   0.000   0.000  1.00  0.00           C
+ATOM      2  C2  RET     1       1.400   0.000   0.000  1.00  0.00           C
+ATOM      3  C3  RET     1       2.100   1.200   0.000  1.00  0.00           C
+ATOM      4  C4  RET     1       3.600   1.200   0.000  1.00  0.00           C
+ATOM      5  C5  RET     1       4.300   2.400   0.000  1.00  0.00           C
+ATOM      6  C6  RET     1       5.800   2.400   0.000  1.00  0.00           C
+ATOM      7  C7  RET     1       6.800   3.500   0.000  1.00  0.00           C
+ATOM      8  C8  RET     1       8.200   3.500   0.000  1.00  0.00           C
+ATOM      9  C9  RET     1       9.200   4.500   0.000  1.00  0.00           C
+ATOM     10  C10 RET     1      10.600   4.500   0.000  1.00  0.00           C
+ATOM     11  C11 RET     1      11.600   5.500   0.000  1.00  0.00           C
+ATOM     12  C12 RET     1      11.000   6.800   1.500  1.00  0.00           C
+ATOM     13  C13 RET     1       9.500   7.200   2.000  1.00  0.00           C
+ATOM     14  C14 RET     1       8.500   8.200   2.500  1.00  0.00           C
+ATOM     15  C15 RET     1       7.100   8.500   3.000  1.00  0.00           C
+ATOM     16  O1  RET     1       6.000   9.200   3.300  1.00  0.00           O
+ATOM     17  C16 RET     1      -0.700   1.200   0.000  1.00  0.00           C
+ATOM     18  C17 RET     1      -0.700  -1.200   0.000  1.00  0.00           C
+ATOM     19  C18 RET     1       1.400   2.400   0.000  1.00  0.00           C
+ATOM     20  C19 RET     1       8.200   2.300   0.000  1.00  0.00           C
+END`
+    },
+    'all-trans-retinal': {
+        color: '#f97316',
+        emoji: '☀️',
+        formula: 'C₂₀H₂₈O',
+        skeletal: 'All-trans configuration - STRAIGHT chain, post-light absorption',
+        functionalGroups: ['Aldehyde (-CHO)', 'Conjugated double bonds (all trans)', 'Cyclohexene ring'],
+        pubchemCid: 1070,
+        pdb: `COMPND    ALL-TRANS-RETINAL
+ATOM      1  C1  RET     1       0.000   0.000   0.000  1.00  0.00           C
+ATOM      2  C2  RET     1       1.400   0.000   0.000  1.00  0.00           C
+ATOM      3  C3  RET     1       2.100   1.200   0.000  1.00  0.00           C
+ATOM      4  C4  RET     1       3.600   1.200   0.000  1.00  0.00           C
+ATOM      5  C5  RET     1       4.300   2.400   0.000  1.00  0.00           C
+ATOM      6  C6  RET     1       5.800   2.400   0.000  1.00  0.00           C
+ATOM      7  C7  RET     1       6.500   3.600   0.000  1.00  0.00           C
+ATOM      8  C8  RET     1       8.000   3.600   0.000  1.00  0.00           C
+ATOM      9  C9  RET     1       8.700   4.800   0.000  1.00  0.00           C
+ATOM     10  C10 RET     1      10.200   4.800   0.000  1.00  0.00           C
+ATOM     11  C11 RET     1      10.900   6.000   0.000  1.00  0.00           C
+ATOM     12  C12 RET     1      12.400   6.000   0.000  1.00  0.00           C
+ATOM     13  C13 RET     1      13.100   7.200   0.000  1.00  0.00           C
+ATOM     14  C14 RET     1      14.600   7.200   0.000  1.00  0.00           C
+ATOM     15  C15 RET     1      15.300   8.400   0.000  1.00  0.00           C
+ATOM     16  O1  RET     1      16.500   8.400   0.000  1.00  0.00           O
+ATOM     17  C16 RET     1      -0.700   1.200   0.000  1.00  0.00           C
+ATOM     18  C17 RET     1      -0.700  -1.200   0.000  1.00  0.00           C
+ATOM     19  C18 RET     1       1.400   2.400   0.000  1.00  0.00           C
+ATOM     20  C19 RET     1       8.700   2.400   0.000  1.00  0.00           C
+ATOM     21  C20 RET     1      13.100   4.800   0.000  1.00  0.00           C
+END`
+    },
+
+    // ========================================
+    // Section: Drug Discovery (Cis/Trans in Medicine)
+    // ========================================
+    'cisplatin': {
+        color: '#10b981',
+        emoji: '💚',
+        formula: 'Pt(NH₃)₂Cl₂',
+        skeletal: 'Square planar platinum complex with cis configuration (Cl-Pt-Cl angle = 90°)',
+        functionalGroups: ['Platinum(II) center', 'Amine ligands (NH₃)', 'Chloride ligands (Cl⁻)'],
+        // Correct cis geometry: Cl atoms ADJACENT (90° apart), NH3 groups ADJACENT (90° apart)
+        // Square planar: all atoms in same plane (z=0)
+        // Pt-Cl bond: ~2.33 Å, Pt-N bond: ~2.05 Å
+        pdb: `COMPND    CISPLATIN - CIS-DIAMMINEDICHLOROPLATINUM(II)
+AUTHOR    CORRECT SQUARE PLANAR GEOMETRY
+ATOM      1  PT  CPT     1       0.000   0.000   0.000  1.00  0.00          PT
+ATOM      2  CL1 CPT     1       2.330   0.000   0.000  1.00  0.00          CL
+ATOM      3  CL2 CPT     1       0.000   2.330   0.000  1.00  0.00          CL
+ATOM      4  N1  CPT     1      -2.050   0.000   0.000  1.00  0.00           N
+ATOM      5  N2  CPT     1       0.000  -2.050   0.000  1.00  0.00           N
+ATOM      6  H11 CPT     1      -2.500   0.850   0.300  1.00  0.00           H
+ATOM      7  H12 CPT     1      -2.500  -0.400   0.850  1.00  0.00           H
+ATOM      8  H13 CPT     1      -2.500  -0.400  -0.850  1.00  0.00           H
+ATOM      9  H21 CPT     1       0.850  -2.500   0.300  1.00  0.00           H
+ATOM     10  H22 CPT     1      -0.400  -2.500   0.850  1.00  0.00           H
+ATOM     11  H23 CPT     1      -0.400  -2.500  -0.850  1.00  0.00           H
+CONECT    1    2    3    4    5
+CONECT    4    6    7    8
+CONECT    5    9   10   11
+END`
+    },
+    'transplatin': {
+        color: '#ef4444',
+        emoji: '❌',
+        formula: 'Pt(NH₃)₂Cl₂',
+        skeletal: 'Square planar platinum complex with trans configuration (Cl-Pt-Cl angle = 180°)',
+        functionalGroups: ['Platinum(II) center', 'Amine ligands (NH₃)', 'Chloride ligands (Cl⁻)'],
+        // Correct trans geometry: Cl atoms OPPOSITE (180° apart), NH3 groups OPPOSITE (180° apart)
+        // Square planar: all atoms in same plane (z=0)
+        pdb: `COMPND    TRANSPLATIN - TRANS-DIAMMINEDICHLOROPLATINUM(II)
+AUTHOR    CORRECT SQUARE PLANAR GEOMETRY
+ATOM      1  PT  TPT     1       0.000   0.000   0.000  1.00  0.00          PT
+ATOM      2  CL1 TPT     1       2.330   0.000   0.000  1.00  0.00          CL
+ATOM      3  CL2 TPT     1      -2.330   0.000   0.000  1.00  0.00          CL
+ATOM      4  N1  TPT     1       0.000   2.050   0.000  1.00  0.00           N
+ATOM      5  N2  TPT     1       0.000  -2.050   0.000  1.00  0.00           N
+ATOM      6  H11 TPT     1       0.850   2.500   0.300  1.00  0.00           H
+ATOM      7  H12 TPT     1      -0.400   2.500   0.850  1.00  0.00           H
+ATOM      8  H13 TPT     1      -0.400   2.500  -0.850  1.00  0.00           H
+ATOM      9  H21 TPT     1       0.850  -2.500   0.300  1.00  0.00           H
+ATOM     10  H22 TPT     1      -0.400  -2.500   0.850  1.00  0.00           H
+ATOM     11  H23 TPT     1      -0.400  -2.500  -0.850  1.00  0.00           H
+CONECT    1    2    3    4    5
+CONECT    4    6    7    8
+CONECT    5    9   10   11
+END`
+    },
+    'tamoxifen': {
+        color: '#ec4899',
+        emoji: '🎀',
+        formula: 'C₂₆H₂₉NO',
+        skeletal: 'Triphenylethylene derivative with aminoethoxy side chain',
+        functionalGroups: ['Phenyl rings', 'Ethylene core', 'Tertiary amine', 'Ether linkage'],
+        pubchemCid: 2733526,
+        pdb: `COMPND    TAMOXIFEN
+ATOM      1  C1  TAM     1       0.000   0.000   0.000  1.00  0.00           C
+ATOM      2  C2  TAM     1       1.400   0.000   0.000  1.00  0.00           C
+ATOM      3  C3  TAM     1       2.100   1.200   0.000  1.00  0.00           C
+ATOM      4  C4  TAM     1       1.400   2.400   0.000  1.00  0.00           C
+ATOM      5  C5  TAM     1       0.000   2.400   0.000  1.00  0.00           C
+ATOM      6  C6  TAM     1      -0.700   1.200   0.000  1.00  0.00           C
+ATOM      7  C7  TAM     1      -2.200   1.200   0.000  1.00  0.00           C
+ATOM      8  C8  TAM     1      -2.900   2.400   0.000  1.00  0.00           C
+ATOM      9  O1  TAM     1      -4.300   2.400   0.000  1.00  0.00           O
+ATOM     10  C9  TAM     1      -5.000   3.600   0.000  1.00  0.00           C
+ATOM     11  C10 TAM     1      -6.500   3.600   0.000  1.00  0.00           C
+ATOM     12  N1  TAM     1      -7.200   4.800   0.000  1.00  0.00           N
+END`
+    },
+
+    // ========================================
+    // Section: Aspirin Discovery Story (From Vitalism to Synthesis)
+    // ========================================
+    'salicin': {
+        color: '#059669',
+        emoji: '🌿',
+        formula: 'C₁₃H₁₈O₇',
+        skeletal: 'Glucoside of salicyl alcohol - the natural precursor from willow bark',
+        functionalGroups: ['Glucose ring', 'Phenolic ring', 'Glycosidic bond', 'Hydroxyl groups'],
+        pubchemCid: 439503,
+        pdb: `COMPND    SALICIN - NATURAL PRECURSOR FROM WILLOW BARK
+ATOM      1  C1  SAL     1       0.000   0.000   0.000  1.00  0.00           C
+ATOM      2  C2  SAL     1       1.400   0.000   0.000  1.00  0.00           C
+ATOM      3  C3  SAL     1       2.100   1.200   0.000  1.00  0.00           C
+ATOM      4  C4  SAL     1       1.400   2.400   0.000  1.00  0.00           C
+ATOM      5  C5  SAL     1       0.000   2.400   0.000  1.00  0.00           C
+ATOM      6  C6  SAL     1      -0.700   1.200   0.000  1.00  0.00           C
+ATOM      7  O1  SAL     1       3.500   1.200   0.000  1.00  0.00           O
+ATOM      8  C7  SAL     1       4.200   2.400   0.000  1.00  0.00           C
+END`
+    },
+    'salicylic-acid': {
+        color: '#dc2626',
+        emoji: '⚗️',
+        formula: 'C₇H₆O₃',
+        skeletal: 'Benzene ring with carboxylic acid and hydroxyl groups - bitter and causes stomach irritation',
+        functionalGroups: ['Carboxylic acid (-COOH)', 'Phenolic hydroxyl (-OH)', 'Aromatic ring'],
+        pubchemCid: 338,
+        pdb: `COMPND    SALICYLIC ACID - ACTIVE BUT CAUSES STOMACH IRRITATION
+ATOM      1  C1  SLA     1       0.000   0.000   0.000  1.00  0.00           C
+ATOM      2  C2  SLA     1       1.400   0.000   0.000  1.00  0.00           C
+ATOM      3  C3  SLA     1       2.100   1.200   0.000  1.00  0.00           C
+ATOM      4  C4  SLA     1       1.400   2.400   0.000  1.00  0.00           C
+ATOM      5  C5  SLA     1       0.000   2.400   0.000  1.00  0.00           C
+ATOM      6  C6  SLA     1      -0.700   1.200   0.000  1.00  0.00           C
+ATOM      7  C7  SLA     1      -2.200   1.200   0.000  1.00  0.00           C
+ATOM      8  O1  SLA     1      -2.900   0.000   0.000  1.00  0.00           O
+ATOM      9  O2  SLA     1      -2.900   2.400   0.000  1.00  0.00           O
+ATOM     10  O3  SLA     1       2.100   0.000   0.000  1.00  0.00           O
+END`
+    },
+    'aspirin': {
+        color: '#2563eb',
+        emoji: '💊',
+        formula: 'C₉H₈O₄',
+        skeletal: 'Acetylsalicylic acid - Hoffmann\'s 1897 breakthrough with acetyl group modification',
+        functionalGroups: ['Carboxylic acid (-COOH)', 'Ester (acetyl -OCOCH₃)', 'Aromatic ring'],
+        pubchemCid: 2244,
+        pdb: `COMPND    ASPIRIN - ACETYLSALICYLIC ACID (HOFFMANN 1897)
+ATOM      1  C1  ASP     1       0.000   0.000   0.000  1.00  0.00           C
+ATOM      2  C2  ASP     1       1.400   0.000   0.000  1.00  0.00           C
+ATOM      3  C3  ASP     1       2.100   1.200   0.000  1.00  0.00           C
+ATOM      4  C4  ASP     1       1.400   2.400   0.000  1.00  0.00           C
+ATOM      5  C5  ASP     1       0.000   2.400   0.000  1.00  0.00           C
+ATOM      6  C6  ASP     1      -0.700   1.200   0.000  1.00  0.00           C
+ATOM      7  C7  ASP     1      -2.200   1.200   0.000  1.00  0.00           C
+ATOM      8  O1  ASP     1      -2.900   0.000   0.000  1.00  0.00           O
+ATOM      9  O2  ASP     1      -2.900   2.400   0.000  1.00  0.00           O
+ATOM     10  O3  ASP     1       2.100   0.000   0.000  1.00  0.00           O
+ATOM     11  C8  ASP     1       3.500   0.000   0.000  1.00  0.00           C
+ATOM     12  O4  ASP     1       4.200  -1.200   0.000  1.00  0.00           O
+ATOM     13  C9  ASP     1       4.200   1.200   0.000  1.00  0.00           C
+END`
+    },
 };

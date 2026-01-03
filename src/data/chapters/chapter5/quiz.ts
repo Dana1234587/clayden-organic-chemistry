@@ -11,7 +11,7 @@ export const quiz: QuizQuestion[] = [
             'The energy difference between reactants and products',
             'The kinetic energy of moving molecules'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Activation energy is the minimum energy barrier that reactant molecules must overcome to reach the transition state and undergo reaction.'
     },
     {
@@ -23,7 +23,7 @@ export const quiz: QuizQuestion[] = [
             'Collide with correct orientation and sufficient energy',
             'Be at absolute zero temperature'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'Both conditions are necessary - molecules must collide with the correct orientation AND have enough energy to overcome the activation barrier.'
     },
     // Nucleophiles and Electrophiles
@@ -36,7 +36,7 @@ export const quiz: QuizQuestion[] = [
             'A neutral species with no reactivity',
             'A positively charged ion'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Nucleophiles are electron-rich species that donate electrons to electrophiles. "Nucleus-loving" - they seek positive charges.'
     },
     {
@@ -48,7 +48,7 @@ export const quiz: QuizQuestion[] = [
             'OH⁻',
             'AlCl₃'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'OH⁻ is a nucleophile - it has lone pairs and a negative charge, making it electron-rich. The others are electrophiles with empty orbitals or positive centers.'
     },
     {
@@ -60,7 +60,7 @@ export const quiz: QuizQuestion[] = [
             'Being bonded to a more electronegative atom (like O or Br)',
             'Having four single bonds'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'When carbon is bonded to electronegative atoms like oxygen or halogens, it becomes δ⁺ (partially positive) and thus electrophilic.'
     },
     {
@@ -72,7 +72,7 @@ export const quiz: QuizQuestion[] = [
             'Both equally',
             'Neither'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'The carbonyl carbon is δ⁺ because oxygen is more electronegative and pulls electron density, making carbon electrophilic.'
     },
     // HOMO-LUMO
@@ -85,7 +85,7 @@ export const quiz: QuizQuestion[] = [
             'Horizontal Orbital Movement Organization',
             'Heterolytic Orbital Mechanism Order'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'HOMO = Highest Occupied Molecular Orbital - the highest energy orbital that contains electrons.'
     },
     {
@@ -97,7 +97,7 @@ export const quiz: QuizQuestion[] = [
             'HOMO of nucleophile to LUMO of electrophile',
             'LUMO of both species'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'Electrons flow from the filled HOMO of the nucleophile into the empty LUMO of the electrophile.'
     },
     {
@@ -109,7 +109,7 @@ export const quiz: QuizQuestion[] = [
             'A stronger, faster interaction',
             'Reverse reaction direction'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'Smaller energy gaps mean better orbital matching, leading to stronger interactions and faster reactions.'
     },
     // Curly Arrows
@@ -122,7 +122,7 @@ export const quiz: QuizQuestion[] = [
             'Movement of an electron pair',
             'Direction of the reaction'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'A full curly arrow represents the movement of a pair of electrons (2 electrons).'
     },
     {
@@ -134,7 +134,7 @@ export const quiz: QuizQuestion[] = [
             'A lone pair, bond, or negative charge',
             'The product molecule'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'Arrows must start from electrons - either a lone pair, a bond (which contains electrons), or a negative charge (indicating excess electrons).'
     },
     {
@@ -146,7 +146,7 @@ export const quiz: QuizQuestion[] = [
             'Three electrons',
             'No electrons'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Fishhook arrows show movement of single electrons, used in radical (homolytic) mechanisms.'
     },
     {
@@ -158,7 +158,7 @@ export const quiz: QuizQuestion[] = [
             'They must point toward electrophilic centers',
             'They represent heat energy'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'Electrons flow toward electrophiles (electron-poor species), so arrows point toward electrophilic centers.'
     },
     // Bond Making and Breaking
@@ -171,7 +171,7 @@ export const quiz: QuizQuestion[] = [
             'The atom is eliminated',
             'Nothing changes'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'When a curly arrow points to an atom, a new bond is being formed between the electron source and that atom.'
     },
     {
@@ -183,7 +183,7 @@ export const quiz: QuizQuestion[] = [
             'The bond is broken',
             'The molecule rotates'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'An arrow pointing into a bond shows that bond is breaking, with electrons moving to one of the atoms.'
     },
     {
@@ -195,7 +195,7 @@ export const quiz: QuizQuestion[] = [
             'I⁻',
             'H⁻'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'I⁻ is the best leaving group among these because iodine is large and can stabilize the negative charge by dispersing it over a larger area.'
     },
     {
@@ -207,7 +207,7 @@ export const quiz: QuizQuestion[] = [
             'Because water is a strong base',
             'Because water is very small'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Water is a good leaving group because it departs as a neutral, stable molecule rather than as a charged species.'
     },
     // Mechanisms
@@ -220,7 +220,7 @@ export const quiz: QuizQuestion[] = [
             'Bond formation and bond breaking in one step',
             'Two separate steps'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'SN2 is a concerted mechanism - the new C-O bond forms while the C-Br bond breaks in a single step.'
     },
     {
@@ -232,7 +232,7 @@ export const quiz: QuizQuestion[] = [
             'Total charge and mass',
             'Only the energy'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'Both charge and mass must be conserved in each step of a reaction mechanism.'
     },
     {
@@ -244,7 +244,7 @@ export const quiz: QuizQuestion[] = [
             'A bond between two metals',
             'A bond that can rotate freely'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'A dative bond forms when both electrons in the bonding pair come from a single atom (the nucleophile donating to an empty orbital).'
     },
     // Reaction Types
@@ -257,7 +257,7 @@ export const quiz: QuizQuestion[] = [
             'A multiple bond is formed by removing atoms',
             'Atoms rearrange within the molecule'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Addition reactions add atoms across a double or triple bond, converting it to a single bond or double bond.'
     },
     {
@@ -269,7 +269,7 @@ export const quiz: QuizQuestion[] = [
             'One group replaces another',
             'The molecule isomerizes'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'Substitution reactions involve replacement of one atom or group with another (e.g., Br replaced by OH).'
     },
     {
@@ -281,7 +281,7 @@ export const quiz: QuizQuestion[] = [
             'Alkenes or alkynes (multiple bonds)',
             'Carboxylic acids'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'Elimination reactions remove atoms (often H and a leaving group) to form multiple bonds like C=C or C≡C.'
     },
     {
@@ -293,7 +293,7 @@ export const quiz: QuizQuestion[] = [
             'Neutral conditions',
             'Aqueous solution only'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Strong bases and higher temperatures favor elimination reactions over substitution.'
     },
     {
@@ -305,7 +305,7 @@ export const quiz: QuizQuestion[] = [
             'They move to the carbon atom',
             'Nothing happens to them'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'As the nucleophile attacks the carbonyl carbon, the π bond electrons move to the more electronegative oxygen, creating an alkoxide (C-O⁻).'
     }
 ];

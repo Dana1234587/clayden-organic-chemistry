@@ -11,7 +11,7 @@ export const quiz: ChapterQuiz[] = [
             'Four-leaf clover',
             'Ring-shaped'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'p orbitals have a dumbbell shape with two lobes on opposite sides of the nucleus, separated by a planar node.',
         topic: 'Atomic Orbitals'
     },
@@ -24,7 +24,7 @@ export const quiz: ChapterQuiz[] = [
             'The direction of electron spin',
             'The probability of finding electrons'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'The signs represent the mathematical phase of the wave function, NOT electrical charge. This is crucial for understanding how orbitals combine.',
         topic: 'Atomic Orbitals'
     },
@@ -37,7 +37,7 @@ export const quiz: ChapterQuiz[] = [
             'A region where the probability of finding an electron is zero',
             'The boundary of the orbital'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'A node is a region where the wave function (and therefore the probability of finding an electron) equals zero.',
         topic: 'Atomic Orbitals'
     },
@@ -52,7 +52,7 @@ export const quiz: ChapterQuiz[] = [
             'With different energies',
             'From different atom types'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Bonding orbitals form from in-phase (constructive) overlap, which increases electron density between the nuclei.',
         topic: 'Molecular Orbital Theory'
     },
@@ -65,7 +65,7 @@ export const quiz: ChapterQuiz[] = [
             'They strengthen the bond',
             'They form from in-phase overlap'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Antibonding orbitals have a node between the nuclei (destructive interference) and are higher in energy than the original atomic orbitals.',
         topic: 'Molecular Orbital Theory'
     },
@@ -78,7 +78,7 @@ export const quiz: ChapterQuiz[] = [
             'Bonding electrons / Antibonding electrons',
             'Total electrons / 2'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Bond Order = ½(bonding electrons − antibonding electrons). A higher bond order means a stronger, shorter bond.',
         topic: 'Molecular Orbital Theory'
     },
@@ -91,7 +91,7 @@ export const quiz: ChapterQuiz[] = [
             'Helium has no electrons to share',
             'The atomic orbitals cannot overlap'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'He₂ would have 4 electrons: 2 in σ (bonding) and 2 in σ* (antibonding). Bond Order = ½(2-2) = 0, meaning no net bonding.',
         topic: 'Molecular Orbital Theory'
     },
@@ -106,7 +106,7 @@ export const quiz: ChapterQuiz[] = [
             'Tetrahedral (109.5°)',
             'Square planar (90°)'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'sp³ hybridization creates 4 equivalent hybrid orbitals pointing to the corners of a tetrahedron with 109.5° angles.',
         topic: 'Hybridization'
     },
@@ -119,7 +119,7 @@ export const quiz: ChapterQuiz[] = [
             'Ethene (C₂H₄)',
             'Ethyne (C₂H₂)'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'Ethene has a C=C double bond. Each carbon is sp² hybridized (trigonal planar) with one unhybridized p orbital forming the π bond.',
         topic: 'Hybridization'
     },
@@ -132,7 +132,7 @@ export const quiz: ChapterQuiz[] = [
             '120°',
             '180°'
         ],
-        correctAnswer: 3,
+        correctIndex: 3,
         explanation: 'sp hybridization creates 2 hybrid orbitals pointing in opposite directions (180°), giving a linear geometry.',
         topic: 'Hybridization'
     },
@@ -145,7 +145,7 @@ export const quiz: ChapterQuiz[] = [
             '2',
             '3'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'sp² uses one s and two p orbitals, leaving one unhybridized p orbital perpendicular to the sp² plane for π bonding.',
         topic: 'Hybridization'
     },
@@ -160,7 +160,7 @@ export const quiz: ChapterQuiz[] = [
             'The mass of atoms',
             'Nuclear magnetic resonance'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'VSEPR (Valence Shell Electron Pair Repulsion) predicts that electron pairs arrange to minimize repulsion.',
         topic: 'VSEPR Theory'
     },
@@ -173,7 +173,7 @@ export const quiz: ChapterQuiz[] = [
             'Oxygen is sp hybridized',
             'Water molecules attract each other'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Water has 2 bonding pairs and 2 lone pairs. The lone pairs repel more strongly, pushing the H-O-H angle to about 104.5°.',
         topic: 'VSEPR Theory'
     },
@@ -186,7 +186,7 @@ export const quiz: ChapterQuiz[] = [
             'Hydrogen atoms are very small',
             'There are only 3 bonds'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Ammonia has 1 lone pair which repels the bonding pairs more strongly, compressing the H-N-H angle from 109.5° to 107°.',
         topic: 'VSEPR Theory'
     },
@@ -199,7 +199,7 @@ export const quiz: ChapterQuiz[] = [
             'Lone-Lone',
             'All repulsions are equal'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'Repulsion order: Lone-Lone > Lone-Bonding > Bonding-Bonding. Lone pairs spread out more because they are only attracted to one nucleus.',
         topic: 'VSEPR Theory'
     },
@@ -214,7 +214,7 @@ export const quiz: ChapterQuiz[] = [
             'Overlap of two lone pairs',
             'Ionic bonding'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Sigma bonds form from head-on overlap along the bond axis, creating cylindrical electron density between atoms.',
         topic: 'Sigma and Pi Bonds'
     },
@@ -227,7 +227,7 @@ export const quiz: ChapterQuiz[] = [
             'One sigma bond and one pi bond',
             'One sigma bond and two pi bonds'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'A double bond = 1 σ bond (from sp² hybrid orbitals) + 1 π bond (from parallel p orbitals).',
         topic: 'Sigma and Pi Bonds'
     },
@@ -240,7 +240,7 @@ export const quiz: ChapterQuiz[] = [
             'Pi bonds are longer',
             'Sigma bonds have a node'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Pi bonds form from side-on overlap of p orbitals, which gives less electron density between nuclei than head-on sigma overlap.',
         topic: 'Sigma and Pi Bonds'
     },
@@ -253,7 +253,7 @@ export const quiz: ChapterQuiz[] = [
             '1 sigma + 2 pi bonds',
             '2 sigma + 1 pi bond'
         ],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'A triple bond = 1 σ bond + 2 π bonds. The sigma forms from sp hybrid orbitals, the two pi bonds from two sets of parallel p orbitals.',
         topic: 'Sigma and Pi Bonds'
     },
@@ -268,7 +268,7 @@ export const quiz: ChapterQuiz[] = [
             'There are no electrons between atoms',
             'Carbon atoms are small'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Sigma bonds have cylindrical (axial) symmetry—the electron density looks the same from any angle around the bond axis.',
         topic: 'Molecular Rotation'
     },
@@ -281,7 +281,7 @@ export const quiz: ChapterQuiz[] = [
             'Carbon is too heavy',
             'There are too many electrons'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Pi bonds require p orbitals to remain parallel. Rotation would break this overlap, costing ~250 kJ/mol of energy.',
         topic: 'Molecular Rotation'
     },
@@ -294,7 +294,7 @@ export const quiz: ChapterQuiz[] = [
             'Carbon has 4 electrons',
             'Pi bonds are magnetic'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Since rotation around C=C is restricted, groups attached to the double bond are locked either on the same side (cis) or opposite sides (trans).',
         topic: 'Molecular Rotation'
     },
@@ -309,7 +309,7 @@ export const quiz: ChapterQuiz[] = [
             'Hydrogen-Oxygen Molecular Orientation',
             'High-Order Magnetic Orientation'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'HOMO = Highest Occupied Molecular Orbital. Along with LUMO (Lowest Unoccupied), these frontier orbitals control chemical reactivity.',
         topic: 'Molecular Orbital Theory'
     },
@@ -324,7 +324,7 @@ export const quiz: ChapterQuiz[] = [
             'Carbon atoms repel hydrogen atoms',
             'There are no lone pairs'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'For the π bond in ethene to form, the unhybridized p orbitals on each carbon must be parallel, forcing all atoms into the same plane.',
         topic: 'Sigma and Pi Bonds'
     },
@@ -337,7 +337,7 @@ export const quiz: ChapterQuiz[] = [
             'Oxygen atoms repel each other',
             'There are ionic bonds'
         ],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Carbon in CO₂ is sp hybridized (2 bonds, 0 lone pairs), giving a linear geometry with 180° angle.',
         topic: 'Hybridization'
     }

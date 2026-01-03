@@ -5,6 +5,94 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getMolecule, hasMolecule as checkMolecule } from '@/data/moleculeRegistry';
 import { MoleculeData } from '@/data/moleculeTypes';
 
+// Custom SVG for Platinum Complexes (Cisplatin/Transplatin)
+function PlatinumComplexSVG({ type }: { type: 'cisplatin' | 'transplatin' }) {
+    const isCis = type === 'cisplatin';
+    return (
+        <svg viewBox="0 0 200 200" style={{ width: '100%', height: '100%', maxHeight: '250px' }}>
+            {/* Background grid */}
+            <defs>
+                <radialGradient id="ptGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#e5e5e5" />
+                    <stop offset="100%" stopColor="#a3a3a3" />
+                </radialGradient>
+                <radialGradient id={isCis ? "clGradCis" : "clGradTrans"} cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor={isCis ? "#4ade80" : "#f87171"} />
+                    <stop offset="100%" stopColor={isCis ? "#22c55e" : "#ef4444"} />
+                </radialGradient>
+                <radialGradient id="nGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#60a5fa" />
+                    <stop offset="100%" stopColor="#3b82f6" />
+                </radialGradient>
+            </defs>
+
+            {/* Center Pt */}
+            <circle cx="100" cy="100" r="18" fill="url(#ptGrad)" stroke="#737373" strokeWidth="2" />
+            <text x="100" y="106" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#1f2937">Pt</text>
+
+            {isCis ? (
+                /* CIS Configuration: Cl adjacent (90°), NH3 adjacent */
+                <>
+                    {/* Cl atoms - top and right (adjacent) */}
+                    <line x1="100" y1="82" x2="100" y2="52" stroke="#22c55e" strokeWidth="3" />
+                    <circle cx="100" cy="42" r="14" fill="url(#clGradCis)" />
+                    <text x="100" y="47" textAnchor="middle" fontSize="11" fontWeight="bold" fill="white">Cl</text>
+
+                    <line x1="118" y1="100" x2="148" y2="100" stroke="#22c55e" strokeWidth="3" />
+                    <circle cx="158" cy="100" r="14" fill="url(#clGradCis)" />
+                    <text x="158" y="105" textAnchor="middle" fontSize="11" fontWeight="bold" fill="white">Cl</text>
+
+                    {/* NH3 groups - bottom and left (adjacent) */}
+                    <line x1="100" y1="118" x2="100" y2="148" stroke="#3b82f6" strokeWidth="3" />
+                    <circle cx="100" cy="158" r="12" fill="url(#nGrad)" />
+                    <text x="100" y="154" textAnchor="middle" fontSize="7" fill="white">NH₃</text>
+
+                    <line x1="82" y1="100" x2="52" y2="100" stroke="#3b82f6" strokeWidth="3" />
+                    <circle cx="42" cy="100" r="12" fill="url(#nGrad)" />
+                    <text x="42" y="96" textAnchor="middle" fontSize="7" fill="white">NH₃</text>
+
+                    {/* Distance annotation */}
+                    <path d="M 100 42 Q 130 70, 158 100" fill="none" stroke="#22c55e" strokeWidth="1" strokeDasharray="3,2" opacity="0.6" />
+                    <text x="145" y="60" fontSize="8" fill="#22c55e" fontWeight="bold">3.3 Å</text>
+                </>
+            ) : (
+                /* TRANS Configuration: Cl opposite (180°), NH3 opposite */
+                <>
+                    {/* Cl atoms - left and right (opposite) */}
+                    <line x1="82" y1="100" x2="52" y2="100" stroke="#ef4444" strokeWidth="3" />
+                    <circle cx="42" cy="100" r="14" fill="url(#clGradTrans)" />
+                    <text x="42" y="105" textAnchor="middle" fontSize="11" fontWeight="bold" fill="white">Cl</text>
+
+                    <line x1="118" y1="100" x2="148" y2="100" stroke="#ef4444" strokeWidth="3" />
+                    <circle cx="158" cy="100" r="14" fill="url(#clGradTrans)" />
+                    <text x="158" y="105" textAnchor="middle" fontSize="11" fontWeight="bold" fill="white">Cl</text>
+
+                    {/* NH3 groups - top and bottom (opposite) */}
+                    <line x1="100" y1="82" x2="100" y2="52" stroke="#3b82f6" strokeWidth="3" />
+                    <circle cx="100" cy="42" r="12" fill="url(#nGrad)" />
+                    <text x="100" y="38" textAnchor="middle" fontSize="7" fill="white">NH₃</text>
+
+                    <line x1="100" y1="118" x2="100" y2="148" stroke="#3b82f6" strokeWidth="3" />
+                    <circle cx="100" cy="158" r="12" fill="url(#nGrad)" />
+                    <text x="100" y="154" textAnchor="middle" fontSize="7" fill="white">NH₃</text>
+
+                    {/* Distance annotation */}
+                    <line x1="42" y1="115" x2="158" y2="115" stroke="#ef4444" strokeWidth="1" strokeDasharray="3,2" opacity="0.6" />
+                    <text x="100" y="130" textAnchor="middle" fontSize="8" fill="#ef4444" fontWeight="bold">4.66 Å</text>
+                </>
+            )}
+
+            {/* Labels */}
+            <text x="100" y="188" textAnchor="middle" fontSize="10" fill={isCis ? "#22c55e" : "#ef4444"} fontWeight="bold">
+                {isCis ? "cis-[Pt(NH₃)₂Cl₂]" : "trans-[Pt(NH₃)₂Cl₂]"}
+            </text>
+            <text x="100" y="15" textAnchor="middle" fontSize="8" fill="#9ca3af">
+                Square Planar Geometry
+            </text>
+        </svg>
+    );
+}
+
 // Structure2DRenderer - renders 2D skeletal structures from PubChem
 function Structure2DRenderer({ pubchemCid, smiles, moleculeName }: {
     pubchemCid?: number;
@@ -14,6 +102,27 @@ function Structure2DRenderer({ pubchemCid, smiles, moleculeName }: {
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    // Check for platinum complexes first - render custom SVG
+    const lowerName = moleculeName.toLowerCase();
+    if (lowerName === 'cisplatin' || lowerName === 'transplatin') {
+        return (
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                height: '100%',
+                padding: '15px',
+                boxSizing: 'border-box',
+                background: '#fafafa',
+                borderRadius: '8px'
+            }}>
+                <PlatinumComplexSVG type={lowerName as 'cisplatin' | 'transplatin'} />
+            </div>
+        );
+    }
 
     useEffect(() => {
         setIsLoading(true);
