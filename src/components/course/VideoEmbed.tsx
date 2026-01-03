@@ -34,22 +34,26 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
         const video = videoRef.current;
 
         if (Hls.isSupported()) {
-            // Browser needs HLS.js
             const hls = new Hls({
                 enableWorker: true,
                 lowLatencyMode: true,
-                xhrSetup: function (xhr, url) {
-                    xhr.withCredentials = false; // Important for CORS on some CDNs
+                xhrSetup: function (xhr) {
+                    xhr.withCredentials = false;
                 }
             });
 
             hlsRef.current = hls;
-            hls.loadSource(url);
             hls.attachMedia(video);
+
+            hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+                hls.loadSource(url);
+            });
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 setIsLoading(false);
                 setShowFallback(false);
+                // Try to play if not blocked
+                video.play().catch(() => console.log('Autoplay blocked'));
             });
 
             hls.on(Hls.Events.ERROR, (event, data) => {
@@ -57,15 +61,12 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
                 if (data.fatal) {
                     switch (data.type) {
                         case Hls.ErrorTypes.NETWORK_ERROR:
-                            console.error("fatal network error encountered, try to recover");
                             hls.startLoad();
                             break;
                         case Hls.ErrorTypes.MEDIA_ERROR:
-                            console.error("fatal media error encountered, try to recover");
                             hls.recoverMediaError();
                             break;
                         default:
-                            console.error("cannot recover");
                             hls.destroy();
                             setHasError(true);
                             setIsLoading(false);
@@ -79,11 +80,12 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
                 hlsRef.current = null;
             };
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            // Safari has native HLS support
             video.src = url;
-            video.addEventListener('loadedmetadata', () => setIsLoading(false));
-            video.addEventListener('error', (e) => {
-                console.error("Native video error", e);
+            video.addEventListener('loadedmetadata', () => {
+                setIsLoading(false);
+                video.play().catch(() => console.log('Autoplay blocked'));
+            });
+            video.addEventListener('error', () => {
                 setHasError(true);
                 setIsLoading(false);
             });
@@ -233,6 +235,8 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
                     ref={videoRef}
                     controls
                     playsInline
+                    autoPlay
+                    muted
                     poster={thumbnail}
                     style={{
                         width: '100%',
