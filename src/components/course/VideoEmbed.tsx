@@ -17,15 +17,6 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
     const videoRef = useRef<HTMLVideoElement>(null);
     const hlsRef = useRef<Hls | null>(null);
 
-    const [showFallback, setShowFallback] = useState(false);
-
-    // Timeout safety net: if loading takes > 8 seconds, show fallback
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (isLoading) setShowFallback(true);
-        }, 8000); // 8 seconds timeout
-        return () => clearTimeout(timer);
-    }, [isLoading]);
 
     // Handle HLS video for Bunny Stream or direct HLS
     useEffect(() => {
@@ -51,7 +42,6 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 setIsLoading(false);
-                setShowFallback(false);
                 // Try to play if not blocked
                 video.play().catch(() => console.log('Autoplay blocked'));
             });
@@ -144,49 +134,6 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
                 }}
             >
 
-                {/* Timeout Fallback */}
-                {showFallback && !hasError && (
-                    <div style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        zIndex: 20,
-                        backgroundColor: 'rgba(20,20,20,0.9)',
-                        padding: '1.5rem',
-                        borderRadius: '16px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        border: '1px solid var(--neutral-700)',
-                        maxWidth: '90%',
-                        textAlign: 'center'
-                    }}>
-                        <span style={{ color: 'var(--neutral-300)', marginBottom: '1rem', fontSize: '0.95rem' }}>
-                            Video is taking longer than usual...
-                        </span>
-                        <a
-                            href={url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                                padding: '0.6rem 1.2rem',
-                                background: 'var(--primary-600)',
-                                color: 'white',
-                                borderRadius: '8px',
-                                fontSize: '0.95rem',
-                                textDecoration: 'none',
-                                fontWeight: 600,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.5rem'
-                            }}
-                        >
-                            <span>📺</span> Watch Directly
-                        </a>
-                    </div>
-                )}
-
                 {/* Error state */}
                 {hasError && (
                     <div style={{
@@ -206,7 +153,7 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
                         <div style={{ fontSize: '3rem' }}>⚠️</div>
                         <span style={{ color: 'var(--neutral-400)', fontWeight: 600 }}>Unable to load video</span>
                         <span style={{ color: 'var(--neutral-500)', fontSize: '0.8rem' }}>
-                            The video stream could not be initialized.
+                            Please refresh the page to try again.
                         </span>
                         <a
                             href={url}
