@@ -240,7 +240,8 @@ export default function MoleculeViewer({
     const [viewStyle, setViewStyle] = useState<ViewStyle>('stick');
     const [isLoading, setIsLoading] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
-    const [isRotating, setIsRotating] = useState(false);
+    const [isRotating, setIsRotating] = useState(true); // Default to rotating
+    const [showLabels, setShowLabels] = useState(true); // Default to showing labels
     const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d'); // Toggle between 3D and 2D
     const isMobile = useIsMobile();
 
@@ -337,7 +338,7 @@ export default function MoleculeViewer({
                 }
 
                 viewer.addModel(modelData, modelFormat);
-                applyStyle(viewer, viewStyle, molecule.color);
+                applyStyle(viewer, viewStyle, molecule.color, showLabels);
                 viewer.zoomTo();
                 viewer.render();
 
@@ -386,12 +387,12 @@ export default function MoleculeViewer({
 
     useEffect(() => {
         if (viewerRef.current && hasMolecule) {
-            applyStyle(viewerRef.current, viewStyle, molecule.color);
+            applyStyle(viewerRef.current, viewStyle, molecule.color, showLabels);
             viewerRef.current.render();
         }
-    }, [viewStyle, moleculeName, hasMolecule, molecule?.color]);
+    }, [viewStyle, moleculeName, hasMolecule, molecule?.color, showLabels]);
 
-    const applyStyle = (viewer: any, style: ViewStyle, color: string) => {
+    const applyStyle = (viewer: any, style: ViewStyle, color: string, showLabels: boolean) => {
         viewer.setStyle({}, {});
         viewer.removeAllLabels();
 
@@ -405,14 +406,18 @@ export default function MoleculeViewer({
             'F': '#90E050', // Light green - Fluorine
             'Cl': '#1FF01F', // Green - Chlorine
             'Br': '#A62929', // Brown - Bromine
+            'I': '#940094', // Purple - Iodine
+            'P': '#FF8000', // Orange - Phosphorus
+            'Mg': '#00FF00', // Green - Magnesium
+            'Fe': '#E06633' // Orange-brown - Iron
         };
 
         switch (style) {
             case 'stick':
                 // Ball and stick with clear bonds
                 viewer.setStyle({}, {
-                    stick: { radius: 0.12, colorscheme: 'Jmol' },
-                    sphere: { scale: 0.3, colorscheme: 'Jmol' }
+                    stick: { radius: 0.2, colorscheme: 'Jmol' }, // Thicker sticks
+                    sphere: { scale: 0.4, colorscheme: 'Jmol' }  // Visible joints
                 });
                 break;
             case 'sphere':
@@ -420,25 +425,10 @@ export default function MoleculeViewer({
                 viewer.setStyle({}, {
                     sphere: { scale: 0.9, colorscheme: 'Jmol' }
                 });
-                // Add labels on spheres
-                const atoms = viewer.getModel().atoms;
-                atoms.forEach((atom: any) => {
-                    if (atom.elem !== 'H') { // Skip hydrogen labels for clarity
-                        viewer.addLabel(atom.elem, {
-                            position: { x: atom.x, y: atom.y, z: atom.z },
-                            backgroundColor: 'rgba(0,0,0,0.7)',
-                            fontColor: elementColors[atom.elem] || '#FFFFFF',
-                            fontSize: 14,
-                            fontOpacity: 1,
-                            borderRadius: 4,
-                            padding: 2,
-                        });
-                    }
-                });
                 break;
             case 'line':
                 viewer.setStyle({}, {
-                    line: { colorscheme: 'Jmol', linewidth: 2 }
+                    line: { colorscheme: 'Jmol', linewidth: 3 }
                 });
                 break;
             case 'cartoon':
@@ -449,6 +439,26 @@ export default function MoleculeViewer({
                 });
                 break;
         }
+
+        // Add labels if enabled
+        if (showLabels) {
+            const atoms = viewer.getModel().atoms;
+            atoms.forEach((atom: any) => {
+                if (atom.elem !== 'H') { // Skip H for clarity unless requested? Keep it clean.
+                    viewer.addLabel(atom.elem, {
+                        position: { x: atom.x, y: atom.y, z: atom.z },
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        fontColor: elementColors[atom.elem] || '#FFFFFF',
+                        fontSize: 14,
+                        fontOpacity: 1,
+                        backgroundOpacity: 0.6,
+                        borderThickness: 0,
+                        inFront: true,
+                        showBackground: true
+                    });
+                }
+            });
+        }
     };
 
     const startRotation = () => {
@@ -456,7 +466,7 @@ export default function MoleculeViewer({
 
         const rotate = () => {
             if (viewerRef.current && isRotating) {
-                viewerRef.current.rotate(0.5, 'y');
+                viewerRef.current.rotate(0.8, 'y'); // Slightly faster rotation
                 viewerRef.current.render();
                 rotationRef.current = requestAnimationFrame(rotate);
             }
