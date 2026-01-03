@@ -9,6 +9,8 @@ import ContentRenderer from '../ContentRenderer';
 
 import ColorMoleculesGrid from '../content/ColorMoleculesGrid';
 import ConjugationDiagram from '../content/ConjugationDiagram';
+import ClinicalColorCases from '../content/ClinicalColorCases';
+import ClinicalDetectiveGame from '../content/ClinicalDetectiveGame';
 
 // Dynamic import for MoleculeViewer
 const MoleculeViewer = dynamic(() => import('../MoleculeViewer'), {
@@ -30,7 +32,7 @@ const MoleculeViewer = dynamic(() => import('../MoleculeViewer'), {
 
 // ... imports ...
 
-type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors';
+type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective';
 
 export default function LessonViewer({
     section,
@@ -70,14 +72,19 @@ export default function LessonViewer({
     const showDrugDiscoveryTab = section.id === 'organic-chemistry-and-you' || !!section.drugDiscovery;
 
     // Build tabs - always show Lesson, Quick Check, Molecules; conditionally show Simulation and Drug Discovery
+    // Check if this is Lesson 3 (colors) to show Clinical tabs
+    const isColorLesson = !!section.colorExamples;
+
     const tabs = [
         { id: 'lesson' as const, icon: '📖', label: 'Lesson' },
         ...(section.conjugationDiagram ? [{ id: 'conjugation' as const, icon: '🌈', label: 'Conjugation Rule' }] : []),
         ...(section.colorExamples ? [{ id: 'colors' as const, icon: '🧪', label: 'Featured Molecules' }] : []),
+        ...(isColorLesson ? [{ id: 'clinical' as const, icon: '💊', label: 'Clinical Colors' }] : []),
+        ...(isColorLesson ? [{ id: 'detective' as const, icon: '🔬', label: 'Color Detective' }] : []),
         { id: 'quickCheck' as const, icon: '✅', label: 'Quick Check' },
         { id: 'molecules' as const, icon: '🧬', label: 'Molecules' },
         ...(section.simulation ? [{ id: 'simulation' as const, icon: '🎮', label: 'Simulation' }] : []),
-        ...(showDrugDiscoveryTab ? [{ id: 'drugDiscovery' as const, icon: '💊', label: 'Drug Discovery' }] : [])
+        ...(showDrugDiscoveryTab ? [{ id: 'drugDiscovery' as const, icon: '💉', label: 'Drug Discovery' }] : [])
     ];
 
     return (
@@ -427,6 +434,30 @@ export default function LessonViewer({
                                 </p>
                             </div>
                             <ColorMoleculesGrid examples={section.colorExamples} />
+                        </motion.div>
+                    )}
+
+                    {/* CLINICAL COLORS TAB */}
+                    {activeTab === 'clinical' && (
+                        <motion.div
+                            key="clinical"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                        >
+                            <ClinicalColorCases />
+                        </motion.div>
+                    )}
+
+                    {/* CLINICAL DETECTIVE GAME TAB */}
+                    {activeTab === 'detective' && (
+                        <motion.div
+                            key="detective"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                        >
+                            <ClinicalDetectiveGame />
                         </motion.div>
                     )}
 
