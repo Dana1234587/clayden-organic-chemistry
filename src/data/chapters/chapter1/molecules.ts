@@ -110,21 +110,55 @@ END`
         color: '#3b82f6',
         emoji: '💎',
         formula: 'C₁₀H₈',
-        skeletal: 'Fused 5-membered and 7-membered aromatic rings (blue color!)',
-        functionalGroups: ['Non-benzenoid aromatic', 'Fused ring system'],
+        skeletal: 'Fused 5,7-ring aromatic system. Non-alternant hydrocarbon.',
+        functionalGroups: ['Non-benzenoid aromatic', 'Fused rings'],
         pubchemCid: 9231,
-        pdb: `COMPND    AZULENE
-ATOM      1  C1  AZU     1       0.000   0.000   0.000  1.00  0.00           C
-ATOM      2  C2  AZU     1       1.400   0.000   0.000  1.00  0.00           C
-ATOM      3  C3  AZU     1       2.100   1.200   0.000  1.00  0.00           C
-ATOM      4  C4  AZU     1       1.400   2.400   0.000  1.00  0.00           C
-ATOM      5  C5  AZU     1       0.000   2.400   0.000  1.00  0.00           C
-ATOM      6  C6  AZU     1      -0.700   1.200   0.000  1.00  0.00           C
-ATOM      7  C7  AZU     1      -0.700   3.600   0.000  1.00  0.00           C
-ATOM      8  C8  AZU     1       2.100   3.600   0.000  1.00  0.00           C
-ATOM      9  C9  AZU     1       1.400   4.800   0.000  1.00  0.00           C
-ATOM     10  C10 AZU     1       0.000   4.800   0.000  1.00  0.00           C
-END`
+        pdb: `COMPND    AZULENE` // Will rely on PubChem fetch
+    },
+    'ddq': {
+        color: '#ea580c', // Dark orange/red
+        emoji: '🔶',
+        formula: 'C₈Cl₂N₂O₂',
+        skeletal: 'Quinone ring with two cyano and two chloro groups',
+        functionalGroups: ['Quinone', 'Nitrile (-CN)', 'Chloride'],
+        pubchemCid: 6586,
+        pdb: `COMPND    DDQ`
+    },
+    'diazomethane': {
+        color: '#facc15', // Yellow
+        emoji: '⚡',
+        formula: 'CH₂N₂',
+        skeletal: 'Linear C=N=N structure with resonance',
+        functionalGroups: ['Diazo group (=N2)', 'Methylidene'],
+        pubchemCid: 9551,
+        pdb: `COMPND    DIAZOMETHANE`
+    },
+    '9-nitrosojulolidine': {
+        color: '#ef4444', // Red/Orange
+        emoji: '🔴',
+        formula: 'C₁₂H₁₄N₂O',
+        skeletal: 'Fused tricyclic nitrogen system with nitroso group',
+        functionalGroups: ['Nitroso (-N=O)', 'Tertiary amine', 'Fused rings'],
+        pubchemCid: 70831,
+        pdb: `COMPND    9-NITROSOJULOLIDINE`
+    },
+    'beta-carotene': {
+        color: '#f97316', // Orange
+        emoji: '🥕',
+        formula: 'C₄₀H₅₆',
+        skeletal: 'Long conjugated polyene chain (11 double bonds)',
+        functionalGroups: ['Conjugated system', 'Cyclohexene rings'],
+        pubchemCid: 5280489,
+        pdb: `COMPND    BETA-CAROTENE`
+    },
+    'chlorophyll': {
+        color: '#22c55e', // Green
+        emoji: '🍃',
+        formula: 'C₅₅H₇₂MgN₄O₅',
+        skeletal: 'Porphyrin ring with Magnesium center + phytol tail',
+        functionalGroups: ['Porphyrin', 'Magnesium complex', 'Ester', 'Phytol chain'],
+        pubchemCid: 5748352,
+        pdb: `COMPND    CHLOROPHYLL A`
     },
     'benzene': {
         color: '#ec4899',

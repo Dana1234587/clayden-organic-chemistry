@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { getMolecule } from '@/data/moleculeRegistry';
 
 // Dynamic import for MoleculeViewer
 const MoleculeViewer = dynamic(() => import('../MoleculeViewer'), {
@@ -40,6 +41,10 @@ export default function ColorMoleculesGrid({ examples }: ColorMoleculesGridProps
         }}>
             {examples.map((example, index) => {
                 const activeMode = viewModes[example.name] || 'info';
+
+                // Fetch molecule data to get PubChem CID for 2D structure
+                const moleculeData = example.pdbId ? getMolecule(example.pdbId) : undefined;
+                const pubchemCid = moleculeData?.pubchemCid;
 
                 return (
                     <motion.div
@@ -158,9 +163,8 @@ export default function ColorMoleculesGrid({ examples }: ColorMoleculesGridProps
                                                 Why this color?
                                             </strong>
                                             <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>
-                                                {/* Logic to explain color based on conjugation could go here dynamically 
-                                                    or be part of description. For now using generic helpful text */}
-                                                Specific electron transitions in the conjugated system absorb complementary light.
+                                                {/* Logic to explain color based on conjugation */}
+                                                Long conjugated systems (alternating double bonds) lower the energy gap, absorbing visible light.
                                             </span>
                                         </div>
                                     </motion.div>
@@ -176,20 +180,46 @@ export default function ColorMoleculesGrid({ examples }: ColorMoleculesGridProps
                                         style={{
                                             height: '100%',
                                             display: 'flex',
+                                            flexDirection: 'column',
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             background: 'white',
-                                            padding: '1rem'
+                                            padding: '1rem',
+                                            minHeight: '250px'
                                         }}
                                     >
-                                        {/* Placeholder for 2D structure - would link to SVG/Image in real app */}
-                                        <div style={{ textAlign: 'center', color: '#334155' }}>
-                                            <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>⬡</div>
-                                            <div style={{ fontWeight: 600 }}>2D Structure</div>
-                                            <div style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '0.5rem' }}>
-                                                Conjugated system highlighted
+                                        {pubchemCid ? (
+                                            <>
+                                                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                                                    <img
+                                                        src={`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${pubchemCid}/PNG?image_size=300x300`}
+                                                        alt={`${example.name} structure`}
+                                                        style={{ maxWidth: '100%', maxHeight: '200px', objectFit: 'contain' }}
+                                                    />
+                                                </div>
+                                                <div style={{
+                                                    marginTop: '1rem',
+                                                    padding: '0.5rem',
+                                                    background: '#f1f5f9',
+                                                    borderRadius: '8px',
+                                                    fontSize: '0.75rem',
+                                                    color: '#475569',
+                                                    textAlign: 'center',
+                                                    width: '100%'
+                                                }}>
+                                                    <strong>Conjugation Highlight:</strong><br />
+                                                    Look for alternating single (-) and double (=) bonds.
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <div style={{ textAlign: 'center', color: '#334155' }}>
+                                                <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>⬡</div>
+                                                <div style={{ fontWeight: 600 }}>Structure Unavailable</div>
+                                                <div style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                                                    Could not load structure for {example.name}
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </motion.div>
                                 )}
 
@@ -204,7 +234,7 @@ export default function ColorMoleculesGrid({ examples }: ColorMoleculesGridProps
                                     >
                                         {example.pdbId ? (
                                             <MoleculeViewer
-                                                moleculeName={example.pdbId} // Using ID as name proxy for now
+                                                moleculeName={example.pdbId}
                                                 height={300}
                                                 description={example.description}
                                             />
