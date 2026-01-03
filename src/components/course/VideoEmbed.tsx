@@ -39,10 +39,24 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
             });
 
             hls.on(Hls.Events.ERROR, (event, data) => {
-                console.error('HLS error:', data);
+                console.warn('HLS error:', data);
                 if (data.fatal) {
-                    setHasError(true);
-                    setIsLoading(false);
+                    switch (data.type) {
+                        case Hls.ErrorTypes.NETWORK_ERROR:
+                            console.error("fatal network error encountered, try to recover");
+                            hls.startLoad();
+                            break;
+                        case Hls.ErrorTypes.MEDIA_ERROR:
+                            console.error("fatal media error encountered, try to recover");
+                            hls.recoverMediaError();
+                            break;
+                        default:
+                            console.error("cannot recover");
+                            hls.destroy();
+                            setHasError(true);
+                            setIsLoading(false);
+                            break;
+                    }
                 }
             });
 
@@ -54,11 +68,13 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
             // Safari has native HLS support
             video.src = url;
             video.addEventListener('loadedmetadata', () => setIsLoading(false));
-            video.addEventListener('error', () => {
+            video.addEventListener('error', (e) => {
+                console.error("Native video error", e);
                 setHasError(true);
                 setIsLoading(false);
             });
         } else {
+            console.error("HLS not supported");
             setHasError(true);
             setIsLoading(false);
         }
@@ -151,13 +167,34 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
                         background: 'var(--neutral-900)',
                         gap: '1rem',
                         zIndex: 10,
-                        aspectRatio: '16/9'
+                        aspectRatio: '16/9',
+                        padding: '1rem',
+                        textAlign: 'center'
                     }}>
                         <div style={{ fontSize: '3rem' }}>⚠️</div>
-                        <span style={{ color: 'var(--neutral-400)' }}>Unable to load video</span>
+                        <span style={{ color: 'var(--neutral-400)', fontWeight: 600 }}>Unable to load video</span>
                         <span style={{ color: 'var(--neutral-500)', fontSize: '0.8rem' }}>
-                            Please check if the video URL is accessible
+                            The video stream could not be initialized.
                         </span>
+                        <a
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                                marginTop: '0.5rem',
+                                padding: '0.5rem 1rem',
+                                background: 'var(--primary-600)',
+                                color: 'white',
+                                borderRadius: '8px',
+                                fontSize: '0.9rem',
+                                textDecoration: 'none',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem'
+                            }}
+                        >
+                            <span>📺</span> Watch Directly
+                        </a>
                     </div>
                 )}
 
@@ -166,6 +203,7 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
                     ref={videoRef}
                     controls
                     playsInline
+                    crossOrigin="anonymous"
                     poster={thumbnail}
                     style={{
                         width: '100%',
