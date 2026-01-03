@@ -249,6 +249,11 @@ export const sections: ChapterSection[] = [
         pdbId: "beta-carotene"
       }
     ],
+    video: {
+      type: 'hls' as const,
+      url: 'https://vz-2adfd2e0-f8c.b-cdn.net/3cd3146b-3c0f-4527-b63c-6b2d8f779343/playlist.m3u8',
+      duration: '12:00'
+    },
     keyPoints: [
       "Organic compounds can be brilliantly colored, not just white powders",
       "Color comes from absorption of visible light by conjugated electron systems",
