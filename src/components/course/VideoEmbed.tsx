@@ -27,7 +27,8 @@ export default function VideoEmbed({ type, url, title, thumbnail }: VideoEmbedPr
         if (Hls.isSupported()) {
             const hls = new Hls({
                 enableWorker: true,
-                lowLatencyMode: true,
+                lowLatencyMode: false, // Changed to false for better stability
+                backBufferLength: 90,
                 xhrSetup: function (xhr) {
                     xhr.withCredentials = false;
                 }
