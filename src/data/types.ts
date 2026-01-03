@@ -64,8 +64,14 @@ export interface ChapterSection {
             name: string;
             description: string;
         }[];
-    };
-}
+        // Color examples for "Colors of Organic Chemistry" section
+        colorExamples?: {
+            name: string;
+            description: string;
+            color: string;
+            type: 'liquid' | 'solid' | 'gas' | 'crystal';
+        }[];
+    }
 
 export interface ChapterQuiz {
     id: number;

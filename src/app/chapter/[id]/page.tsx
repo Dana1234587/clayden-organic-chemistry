@@ -53,6 +53,7 @@ import {
 } from '@/components/diagrams';
 import QuickCheck from '@/components/QuickCheck';
 import OnePageSummary from '@/components/OnePageSummary';
+import ColorMoleculesGrid from '@/components/content/ColorMoleculesGrid';
 import { ExamTip, PlainEnglish, CommonQuestion, ComparisonCard } from '@/components/LearningAids';
 
 // Dynamic import for MoleculeViewer (client-side only)
@@ -835,6 +836,11 @@ export default function ChapterPage() {
                                 questions={miniQuiz.questions}
                                 onComplete={() => console.log(`Completed mini quiz: ${miniQuiz.id}`)}
                             />
+                        )}
+
+                        {/* Color Examples Grid */}
+                        {section.colorExamples && (
+                            <ColorMoleculesGrid examples={section.colorExamples} />
                         )}
                     </motion.div>
                 );

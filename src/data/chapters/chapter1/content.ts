@@ -201,32 +201,50 @@ export const sections: ChapterSection[] = [
       single and double bonds (called CONJUGATED systems) are often colored because these electrons 
       are easily excited by visible light.
       
-      STUNNING EXAMPLES:
-      
-      • AZULENE: A beautiful deep blue LIQUID with a peppery smell! Unlike most blue compounds, 
-        azulene is a small molecule with just 10 carbons. Its unusual color comes from its 
-        non-alternating ring structure.
-      
-      • DDQ (Dichlorodicyanoquinone): Forms stunning orange-amber needle crystals. Used by 
-        chemists as an oxidizing agent in synthesis.
-      
-      • DIAZOMETHANE: A bright YELLOW gas. It's also explosive and toxic—a reminder that 
-        colorful doesn't mean safe! Organic chemists handle it with extreme care.
-      
-      • 9-NITROSOJULOLIDINE: Green prisms with a remarkable steel-blue metallic lustre.
-      
-      • CHLOROPHYLL: The molecule that makes plants green! It captures sunlight energy 
-        for photosynthesis. Its green color comes from a magnesium ion held in an organic ring.
-      
-      • BETA-CAROTENE: The orange pigment in carrots! It's also why flamingos are pink 
-        (they eat shrimp that ate algae containing carotenoids).
-      
       THE CONJUGATION RULE:
       Generally, the more conjugated double bonds a molecule has, the longer the wavelength 
       of light it absorbs, and the more "red-shifted" its color becomes:
       • Few conjugated bonds → absorbs UV (colorless)
       • Medium conjugation → absorbs blue/violet (appears yellow/orange)
       • Extensive conjugation → absorbs across visible spectrum (appears red, purple, or blue)`,
+    colorExamples: [
+      {
+        name: "Azulene",
+        description: "A beautiful deep blue LIQUID with a peppery smell! Unusual for a small organic molecule (10 carbons).",
+        color: "#0000FF", // Deep Blue
+        type: "liquid"
+      },
+      {
+        name: "DDQ",
+        description: "Forms stunning orange-amber needle crystals. Used as an oxidizing agent.",
+        color: "#FF8C00", // Dark Orange
+        type: "crystal"
+      },
+      {
+        name: "Diazomethane",
+        description: "A bright YELLOW gas. Explosive and toxic - colorful doesn't mean safe!",
+        color: "#FFD700", // Yellow
+        type: "gas"
+      },
+      {
+        name: "9-Nitrosojulolidine",
+        description: "Green prisms with a remarkable steel-blue metallic lustre.",
+        color: "#2E8B57", // Sea Green
+        type: "crystal"
+      },
+      {
+        name: "Chlorophyll",
+        description: "The molecule that makes plants green! Captures sunlight energy for photosynthesis.",
+        color: "#008000", // Green
+        type: "solid"
+      },
+      {
+        name: "Beta-Carotene",
+        description: "The orange pigment in carrots! Also makes flamingos pink (from their diet).",
+        color: "#FF4500", // Orange Red
+        type: "solid"
+      }
+    ],
     video: {
       type: 'hls' as const,
       url: 'https://vz-2adfd2e0-f8c.b-cdn.net/3cd3146b-3c0f-4527-b63c-6b2d8f779343/playlist.m3u8',
