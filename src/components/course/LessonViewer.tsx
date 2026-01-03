@@ -139,9 +139,27 @@ const SulfaDrugDiscoveryPanel = dynamic(() => import('../content/SulfaDrugDiscov
     )
 });
 
+// Dynamic import for VirtualLabContainer (Lesson 4 - Full Virtual Lab Experience)
+const VirtualLabContainer = dynamic(() => import('../virtuallab/VirtualLabContainer'), {
+    ssr: false,
+    loading: () => (
+        <div style={{
+            height: '500px',
+            background: 'var(--gradient-card)',
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--neutral-400)'
+        }}>
+            Loading Virtual Lab...
+        </div>
+    )
+});
+
 // ... imports ...
 
-type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective' | 'research';
+type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective' | 'research' | 'virtualLab';
 
 export default function LessonViewer({
     section,
@@ -186,6 +204,7 @@ export default function LessonViewer({
 
     const tabs = [
         { id: 'lesson' as const, icon: '📖', label: 'Lesson' },
+        ...(section.id === 'synthetic-dyes' ? [{ id: 'virtualLab' as const, icon: '🔬', label: 'Virtual Lab' }] : []),
         ...(section.conjugationDiagram ? [{ id: 'conjugation' as const, icon: '🌈', label: 'Conjugation Rule' }] : []),
         ...(section.colorExamples ? [{ id: 'colors' as const, icon: '🧪', label: 'Featured Molecules' }] : []),
         ...(isColorLesson ? [{ id: 'clinical' as const, icon: '💊', label: 'Clinical Colors' }] : []),
@@ -948,6 +967,18 @@ export default function LessonViewer({
                                         </p>
                                     </div>
                                 )}
+                        </motion.div>
+                    )}
+
+                    {/* VIRTUAL LAB TAB (Lesson 4 - Synthetic Dyes) */}
+                    {activeTab === 'virtualLab' && section.id === 'synthetic-dyes' && (
+                        <motion.div
+                            key="virtualLab"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                        >
+                            <VirtualLabContainer />
                         </motion.div>
                     )}
 

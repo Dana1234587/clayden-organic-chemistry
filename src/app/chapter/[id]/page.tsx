@@ -59,6 +59,7 @@ import ClinicalColorCases from '@/components/content/ClinicalColorCases';
 import DrugDiscoveryTools from '@/components/content/DrugDiscoveryTools';
 import ClinicalDetectiveGame from '@/components/content/ClinicalDetectiveGame';
 import SulfaDrugDiscoveryPanel from '@/components/content/SulfaDrugDiscoveryPanel';
+import { VirtualLabContainer } from '@/components/virtuallab';
 import { ExamTip, PlainEnglish, CommonQuestion, ComparisonCard } from '@/components/LearningAids';
 
 // Dynamic import for MoleculeViewer (client-side only)
