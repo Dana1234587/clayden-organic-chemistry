@@ -75,22 +75,7 @@ function Inline3DViewer({ pdbId, moleculeColor }: { pdbId: string; moleculeColor
                     break;
             }
 
-            // Add labels for non-H atoms - with safety checks
-            const model = viewer.getModel();
-            if (model && model.atoms && Array.isArray(model.atoms)) {
-                model.atoms.forEach((atom: any) => {
-                    if (atom && atom.elem && atom.elem !== 'H') {
-                        viewer.addLabel(atom.elem, {
-                            position: { x: atom.x, y: atom.y, z: atom.z },
-                            backgroundColor: 'rgba(0,0,0,0.5)',
-                            fontColor: ELEMENT_COLORS[atom.elem]?.color || '#FFFFFF',
-                            fontSize: 11,
-                            inFront: true
-                        });
-                    }
-                });
-            }
-
+            // No atom labels - color legend below is sufficient for a clean, professional look
             viewer.render();
         } catch (err) {
             console.warn('Error applying style:', err);
