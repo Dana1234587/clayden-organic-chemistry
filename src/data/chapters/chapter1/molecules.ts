@@ -759,4 +759,26 @@ ATOM     12  O4  ASP     1       4.200  -1.200   0.000  1.00  0.00           O
 ATOM     13  C9  ASP     1       4.200   1.200   0.000  1.00  0.00           C
 END`
     },
+
+    // ========================================
+    // Section: Sulfa Drugs (Dyes to Drugs)
+    // ========================================
+    'prontosil': {
+        color: '#dc2626',
+        emoji: '🔴',
+        formula: 'C₁₂H₁₃N₅O₂S',
+        skeletal: 'Red azo dye - first commercially available antibacterial drug (1935)',
+        functionalGroups: ['Azo group (-N=N-)', 'Sulfonamide (-SO₂NH₂)', 'Aniline (-NH₂)'],
+        pubchemCid: 66895,
+        pdb: `COMPND    PRONTOSIL - FIRST ANTIBACTERIAL DRUG`
+    },
+    'sulfanilamide': {
+        color: '#10b981',
+        emoji: '💊',
+        formula: 'C₆H₈N₂O₂S',
+        skeletal: 'Active metabolite of Prontosil - the true antibiotic',
+        functionalGroups: ['Sulfonamide (-SO₂NH₂)', 'Para-amino group (p-NH₂)', 'Benzene ring'],
+        pubchemCid: 5333,
+        pdb: `COMPND    SULFANILAMIDE - ACTIVE ANTIBIOTIC`
+    },
 };
