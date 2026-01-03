@@ -43,17 +43,17 @@ export default function CourseSidebar({
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             style={{
-                width: '300px',
-                minWidth: '300px',
+                width: '320px',
+                minWidth: '320px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1rem',
                 height: 'fit-content',
-                maxHeight: 'calc(100vh - 120px)',
+                maxHeight: 'calc(100vh - 100px)',
                 overflowY: 'auto',
                 position: 'sticky',
-                top: '100px',
-                paddingBottom: '1rem'
+                top: '90px',
+                paddingBottom: '2rem'
             }}
         >
             {/* Progress & Mode Toggle Card */}
@@ -140,8 +140,7 @@ export default function CourseSidebar({
                 borderRadius: '16px',
                 border: '1px solid var(--neutral-800)',
                 padding: '1rem',
-                maxHeight: '400px',
-                overflowY: 'auto'
+                // Removed maxHeight to allow full expansion
             }}>
                 <button
                     onClick={() => setIsLessonsExpanded(!isLessonsExpanded)}
@@ -202,7 +201,7 @@ export default function CourseSidebar({
                                             style={{
                                                 width: '100%',
                                                 display: 'flex',
-                                                alignItems: 'flex-start',
+                                                alignItems: 'flex-start', // Align to top for multi-line
                                                 gap: '0.75rem',
                                                 padding: '0.75rem',
                                                 background: isActive
@@ -227,6 +226,7 @@ export default function CourseSidebar({
                                                 fontSize: '0.75rem',
                                                 fontWeight: 600,
                                                 flexShrink: 0,
+                                                marginTop: '2px', // Slight optical adjustment
                                                 background: isCompleted
                                                     ? 'var(--accent-emerald)'
                                                     : isActive
@@ -248,9 +248,7 @@ export default function CourseSidebar({
                                                         : isCompleted
                                                             ? 'var(--neutral-300)'
                                                             : 'var(--neutral-400)',
-                                                    whiteSpace: 'nowrap',
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis'
+                                                    lineHeight: 1.4 // Better line height for text
                                                 }}>
                                                     {section.title}
                                                 </div>
