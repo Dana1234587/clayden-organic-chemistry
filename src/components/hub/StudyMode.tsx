@@ -213,13 +213,7 @@ export default function StudyMode({ chapter, completedSections, onSectionComplet
                         </InteractiveInfoBox>
                     )}
 
-                    {/* Molecules */}
-                    {section.molecules && section.molecules.length > 0 && (
-                        <MoleculeComparisonTable
-                            title={`🔬 ${section.title} - Interactive Molecules`}
-                            molecules={section.molecules}
-                        />
-                    )}
+                    {/* Molecules - Moved to bottom to avoid duplication */}
 
                     {/* Key Points */}
                     {section.keyPoints && (
@@ -279,6 +273,16 @@ export default function StudyMode({ chapter, completedSections, onSectionComplet
                             questions={getMiniQuiz()!.questions}
                             onComplete={() => console.log('Mini quiz completed')}
                         />
+                    )}
+
+                    {/* Featured Molecules - Synced with Course Mode */}
+                    {section.molecules && section.molecules.length > 0 && (
+                        <div style={{ marginTop: '2.5rem' }}>
+                            <MoleculeComparisonTable
+                                title="🧪 Featured Molecules"
+                                molecules={section.molecules}
+                            />
+                        </div>
                     )}
 
                     {/* Navigation */}

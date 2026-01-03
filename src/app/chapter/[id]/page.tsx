@@ -734,17 +734,8 @@ export default function ChapterPage() {
                             </InteractiveInfoBox>
                         )}
 
-                        {/* Molecules - Premium Comparison Table */}
-                        {section.molecules && section.molecules.length > 0 && (
-                            <MoleculeComparisonTable
-                                title={`🔬 ${section.title} - Interactive Molecules`}
-                                molecules={section.molecules.map((mol, idx) => ({
-                                    ...mol,
-                                    level: section.id === 'oxidation-levels' ? idx : undefined,
-                                }))}
-                                showLevels={section.id === 'oxidation-levels'}
-                            />
-                        )}
+
+
 
                         {/* Key Points */}
                         {section.keyPoints && (
@@ -791,46 +782,15 @@ export default function ChapterPage() {
 
                         {/* Featured Molecules - Synced with Course Mode */}
                         {section.molecules && section.molecules.length > 0 && (
-                            <div style={{
-                                marginTop: '2rem',
-                                padding: '1.5rem',
-                                background: 'rgba(139, 92, 246, 0.05)',
-                                borderRadius: '16px',
-                                border: '1px solid rgba(139, 92, 246, 0.2)'
-                            }}>
-                                <h4 style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '0.5rem',
-                                    marginTop: 0,
-                                    marginBottom: '1rem',
-                                    color: 'var(--primary-400)'
-                                }}>
-                                    🧪 Featured Molecules
-                                </h4>
-                                <div style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                                    gap: '1rem'
-                                }}>
-                                    {section.molecules.map((mol, molIdx) => (
-                                        <div
-                                            key={molIdx}
-                                            style={{
-                                                background: 'var(--neutral-900)',
-                                                borderRadius: '12px',
-                                                border: '1px solid var(--neutral-800)',
-                                                overflow: 'hidden'
-                                            }}
-                                        >
-                                            <MoleculeViewer
-                                                moleculeName={mol.name}
-                                                description={mol.description}
-                                                height={200}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
+                            <div style={{ marginTop: '2.5rem' }}>
+                                <MoleculeComparisonTable
+                                    title="🧪 Featured Molecules"
+                                    molecules={section.molecules.map((mol, idx) => ({
+                                        ...mol,
+                                        level: section.id === 'oxidation-levels' ? idx : undefined,
+                                    }))}
+                                    showLevels={section.id === 'oxidation-levels'}
+                                />
                             </div>
                         )}
 
