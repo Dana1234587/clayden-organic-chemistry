@@ -211,9 +211,27 @@ const ChiralDrugDiscoveryLab = dynamic(() => import('../content/ChiralDrugDiscov
     )
 });
 
+// Dynamic import for BioisosterismLab (Lesson 7 - PhD level bioisosterism)
+const BioisosterismLab = dynamic(() => import('../content/BioisosterismLab'), {
+    ssr: false,
+    loading: () => (
+        <div style={{
+            height: '500px',
+            background: 'var(--gradient-card)',
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--neutral-400)'
+        }}>
+            Loading Bioisosterism Lab...
+        </div>
+    )
+});
+
 // ... imports ...
 
-type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective' | 'research' | 'virtualLab' | 'drugDevelopmentLab' | 'advancedDrugDiscovery' | 'stereochemistryLab';
+type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective' | 'research' | 'virtualLab' | 'drugDevelopmentLab' | 'advancedDrugDiscovery' | 'stereochemistryLab' | 'bioisosterismLab';
 
 export default function LessonViewer({
     section,
@@ -262,6 +280,7 @@ export default function LessonViewer({
         ...(section.drugDevelopmentLab ? [{ id: 'drugDevelopmentLab' as const, icon: '🧪', label: 'Molecular Lab' }] : []),
         ...(section.advancedDrugDiscovery ? [{ id: 'advancedDrugDiscovery' as const, icon: '🧬', label: 'Discovery Lab' }] : []),
         ...(section.stereochemistryLab ? [{ id: 'stereochemistryLab' as const, icon: '🪞', label: 'Chiral Lab' }] : []),
+        ...(section.bioisosterismLab ? [{ id: 'bioisosterismLab' as const, icon: '⚛️', label: 'Electron Architect' }] : []),
         ...(section.conjugationDiagram ? [{ id: 'conjugation' as const, icon: '🌈', label: 'Conjugation Rule' }] : []),
         ...(section.colorExamples ? [{ id: 'colors' as const, icon: '🧪', label: 'Featured Molecules' }] : []),
         ...(isColorLesson ? [{ id: 'clinical' as const, icon: '💊', label: 'Clinical Colors' }] : []),
@@ -692,6 +711,18 @@ export default function LessonViewer({
                             exit={{ opacity: 0, y: -10 }}
                         >
                             <ChiralDrugDiscoveryLab />
+                        </motion.div>
+                    )}
+
+                    {/* BIOISOSTERISM LAB TAB (Lesson 7 - PhD level) */}
+                    {activeTab === 'bioisosterismLab' && section.bioisosterismLab && (
+                        <motion.div
+                            key="bioisosterismLab"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                        >
+                            <BioisosterismLab />
                         </motion.div>
                     )}
 

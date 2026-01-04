@@ -206,6 +206,24 @@ const ChiralDrugDiscoveryLab = dynamic(() => import('@/components/content/Chiral
     )
 });
 
+// Dynamic import for BioisosterismLab (client-side only - Lesson 7 Bioisosterism)
+const BioisosterismLab = dynamic(() => import('@/components/content/BioisosterismLab'), {
+    ssr: false,
+    loading: () => (
+        <div style={{
+            height: '500px',
+            background: 'var(--gradient-card)',
+            borderRadius: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--neutral-400)'
+        }}>
+            Loading Bioisosterism Lab...
+        </div>
+    )
+});
+
 const Hybridization3D = dynamic(() => import('@/components/Hybridization3D'), {
     ssr: false,
     loading: () => (
@@ -762,6 +780,41 @@ export default function ChapterPage() {
                                         and Cryo-EM chiral pocket visualization.
                                     </p>
                                     <ChiralDrugDiscoveryLab />
+                                </div>
+                            </>
+                        )}
+
+                        {/* Lesson 7: Bioisosterism Lab */}
+                        {section.id === 'bioisosterism-architecture' && (
+                            <>
+                                {/* Bioisosterism Lab */}
+                                <div style={{
+                                    margin: '2rem 0',
+                                    padding: '1.5rem',
+                                    background: 'var(--gradient-card)',
+                                    borderRadius: '16px',
+                                    border: '1px solid var(--neutral-800)'
+                                }}>
+                                    <h3 style={{
+                                        fontSize: '1.4rem',
+                                        fontWeight: 700,
+                                        color: 'var(--neutral-100)',
+                                        marginBottom: '1rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '0.5rem'
+                                    }}>
+                                        ⚛️ The Electron Architect: Bioisosterism & Atomic Design
+                                    </h3>
+                                    <p style={{
+                                        color: 'var(--neutral-400)',
+                                        marginBottom: '1.5rem',
+                                        lineHeight: 1.6
+                                    }}>
+                                        PhD-level atomic architecture in drug design. Build atoms, explore bioisosteric
+                                        replacements, understand van der Waals forces in molecular docking.
+                                    </p>
+                                    <BioisosterismLab />
                                 </div>
                             </>
                         )}
