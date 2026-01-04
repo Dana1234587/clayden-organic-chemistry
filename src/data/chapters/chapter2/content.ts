@@ -43,6 +43,11 @@ Which is faster to draw? Which is easier to read? The skeletal version, always!`
             { name: "Pentane", description: "Simple 5-carbon chain - see how clean the zig-zag is!" },
             { name: "Benzene", description: "The iconic aromatic ring - foundation of many drugs" }
         ],
+        video: {
+            type: 'hls' as const,
+            url: 'https://vz-2adfd2e0-f8c.b-cdn.net/4b756397-8246-4c22-a57d-4dd91d9f2142/playlist.m3u8',
+            duration: '08:00'
+        },
         keyPoints: [
             "Skeletal structures simplify complex molecules",
             "They reveal molecular shape and functional groups",
@@ -118,6 +123,11 @@ This is the #1 beginner mistake. If you forget the H on oxygen, you've drawn a c
             { name: "Propane", description: "3-carbon alkane - perfect for practicing zig-zag" },
             { name: "Ethanol", description: "Notice the -OH group must show its hydrogen!" }
         ],
+        video: {
+            type: 'hls' as const,
+            url: 'https://vz-2adfd2e0-f8c.b-cdn.net/bc0d3ff9-c683-4573-a2a1-8b2b3f1f47a0/playlist.m3u8',
+            duration: '09:00'
+        },
         keyPoints: [
             "Draw carbon chains as zig-zags (109.5° angles)",
             "Carbon atoms are implied at corners and ends",
@@ -220,6 +230,11 @@ This is the #1 beginner mistake. If you forget the H on oxygen, you've drawn a c
             { name: "Benzene", description: "The parent of Ph (Phenyl) - C₆H₆ aromatic ring" },
             { name: "Toluene", description: "Methylbenzene - Ph-CH₃ or PhMe" }
         ],
+        video: {
+            type: 'hls' as const,
+            url: 'https://vz-2adfd2e0-f8c.b-cdn.net/da12cb4a-663a-4725-a076-b58c63fd14b5/playlist.m3u8',
+            duration: '07:30'
+        },
         keyPoints: [
             "Me = Methyl, Et = Ethyl, Pr = Propyl, Bu = Butyl",
             "Ph = Phenyl (benzene ring), Bn = Benzyl (PhCH₂)",
@@ -297,6 +312,11 @@ The steroid skeleton has 3 six-membered rings and 1 five-membered ring fused tog
             { name: "Benzene", description: "Aromatic ring with special stability" },
             { name: "Cholesterol", description: "Steroid with 4 fused rings - essential for cell membranes" }
         ],
+        video: {
+            type: 'hls' as const,
+            url: 'https://vz-2adfd2e0-f8c.b-cdn.net/68b76932-acc8-49dd-95dd-0f4b3b41379b/playlist.m3u8',
+            duration: '08:30'
+        },
         keyPoints: [
             "Saturated = maximum hydrogens (single bonds only)",
             "Unsaturated = contains double or triple bonds",
@@ -379,6 +399,11 @@ If you learn how ONE aldehyde reacts, you know how ALL aldehydes react!
             { name: "Acetone", description: "Ketone (C=O in middle) - common nail polish remover" },
             { name: "Acetic Acid", description: "Carboxylic acid (-COOH) - the acid in vinegar" }
         ],
+        video: {
+            type: 'hls' as const,
+            url: 'https://vz-2adfd2e0-f8c.b-cdn.net/02a3e80b-f713-49b5-9098-9474fb65873f/playlist.m3u8',
+            duration: '10:00'
+        },
         keyPoints: [
             "Functional groups determine chemical reactivity",
             "Alkanes have NO functional group (unreactive)",
@@ -474,6 +499,11 @@ If you learn how ONE aldehyde reacts, you know how ALL aldehydes react!
             { name: "Acetaldehyde", description: "Level 2: Two bonds to oxygen (C=O)" },
             { name: "Acetic Acid", description: "Level 3: Three bonds to oxygen (C=O + C-O)" }
         ],
+        video: {
+            type: 'hls' as const,
+            url: 'https://vz-2adfd2e0-f8c.b-cdn.net/e517e421-52f0-418b-86f1-2a13774b0386/playlist.m3u8',
+            duration: '09:30'
+        },
         commonMistake: "Thinking oxidation always involves oxygen. Transforming an alkane to an alkyl chloride (C-H → C-Cl) is ALSO an oxidation because you're adding a bond to an electronegative atom!",
         diagrams: [
             { type: 'oxidation', props: { showLevel: 'all', interactive: true }, caption: 'Interactive Oxidation Level Chart' }
@@ -556,6 +586,11 @@ If you learn how ONE aldehyde reacts, you know how ALL aldehydes react!
             { name: "Benzene", description: "The parent aromatic - C₆H₆" },
             { name: "Phenol", description: "Benzene with -OH (hydroxybenzene)" }
         ],
+        video: {
+            type: 'hls' as const,
+            url: 'https://vz-2adfd2e0-f8c.b-cdn.net/2c9491e5-d890-4fbf-ba71-fad23fb51672/playlist.m3u8',
+            duration: '08:00'
+        },
         keyPoints: [
             "Formaldehyde (1C aldehyde), Acetaldehyde (2C aldehyde)",
             "Acetone = simplest ketone",
@@ -632,7 +667,12 @@ For this course: Know both! Use trivial names for common molecules, IUPAC for ev
         molecules: [
             { name: "Acetone", description: "Trivial name for Propan-2-one" },
             { name: "Acetic Acid", description: "Trivial name for Ethanoic Acid" }
-        ]
+        ],
+        video: {
+            type: 'hls' as const,
+            url: 'https://vz-2adfd2e0-f8c.b-cdn.net/e3a88cd0-4f1b-42cb-ae90-9c9ef62049f5/playlist.m3u8',
+            duration: '07:30'
+        }
     },
     {
         id: "real-drug-examples",
@@ -702,7 +742,12 @@ With practice, this becomes automatic!`,
             "Linalool: alcohol + alkenes",
             "Practice identifying functional groups in real molecules"
         ],
-        realWorldConnection: "Pharmaceutical companies spend billions developing drugs. Understanding structure helps predict how a drug will behave in the body, what side effects it might have, and how to modify it to work better!"
+        realWorldConnection: "Pharmaceutical companies spend billions developing drugs. Understanding structure helps predict how a drug will behave in the body, what side effects it might have, and how to modify it to work better!",
+        video: {
+            type: 'hls' as const,
+            url: 'https://vz-2adfd2e0-f8c.b-cdn.net/d06f9939-bdce-4f4a-b612-3f6bc6946224/playlist.m3u8',
+            duration: '09:00'
+        }
     },
     {
         id: "3d-representation",
@@ -764,6 +809,11 @@ For now, just recognize what they mean when you see them. We'll dive deep into s
             { type: 'amino-acid', props: { name: 'L-Alanine', structure: 'alanine' }, caption: 'L-Alanine' },
             { type: 'amino-acid', props: { name: 'Glycine', structure: 'glycine' }, caption: 'Glycine (achiral)' },
             { type: 'amino-acid', props: { name: 'Phenylalanine', structure: 'phenylalanine' }, caption: 'Phenylalanine' }
-        ]
+        ],
+        video: {
+            type: 'hls' as const,
+            url: 'https://vz-2adfd2e0-f8c.b-cdn.net/d823c66a-938f-4772-95ce-654b181c3add/playlist.m3u8',
+            duration: '08:30'
+        }
     }
 ];
