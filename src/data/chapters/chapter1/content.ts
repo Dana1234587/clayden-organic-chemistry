@@ -410,6 +410,86 @@ export const sections: ChapterSection[] = [
     }
   },
   {
+    id: "drug-development-lab",
+    title: "The Molecular Upgrade Lab: Mastering Drug Development",
+    content: `The discovery of Sulfanilamide was just the beginning. Over the following decades, medicinal chemists 
+      performed one of the most elegant exercises in drug optimization: they systematically modified the Sulfanilamide 
+      structure to create a whole FAMILY of drugs with different properties.
+      
+      THE KEY INSIGHT:
+      By changing the functional group attached to the N¹ position of Sulfanilamide, chemists could control:
+      • How long the drug stays in the body (duration of action)
+      • Where the drug goes (tissue distribution)
+      • How the drug is eliminated (renal vs hepatic)
+      
+      UNDERSTANDING PK/PD:
+      Two fundamental concepts in drug development are:
+      
+      • PHARMACOKINETICS (PK): "What the body does to the drug" — Absorption, Distribution, Metabolism, Excretion
+      • PHARMACODYNAMICS (PD): "What the drug does to the body" — Drug-receptor interactions and therapeutic effects
+      
+      THE SULFA FAMILY PORTFOLIO:
+      Different N¹ modifications created drugs for specific clinical needs:
+      
+      • Short-acting (Sulfisoxazole): Isoxazole ring → Rapid excretion → Ideal for acute UTIs
+      • Medium-acting (Sulfamethoxazole): Methyl-isoxazole → Balanced profile → "The Joker" drug
+      • Long-acting (Sulfadoxine): Methoxy-pyrimidine → Slow elimination → Malaria prevention
+      • Topical (Silver Sulfadiazine): Silver atom → No absorption → Burn wound protection
+      • Gut-acting (Sulfasalazine): Azo-linkage → Prodrug activation → Ulcerative colitis treatment
+      
+      THE MASTERSTROKE - SEQUENTIAL BLOCKADE:
+      The greatest innovation wasn't changing the Sulfa molecule itself, but combining it with a partner.
+      Bacteria synthesize folic acid in two steps. Sulfonamides block Step 1, but some bacteria escape.
+      Adding Trimethoprim blocks Step 2, creating a synergistic effect:
+      
+      Sulfonamide + Trimethoprim = 100% Bacterial Death
+      
+      This combination (marketed as Bactrim/Septra) remains one of the most prescribed antibiotics worldwide.`,
+    drugDevelopmentLab: true,
+    keyPoints: [
+      "N¹ position modifications control drug duration and distribution",
+      "PK = What body does to drug (ADME); PD = What drug does to body",
+      "5 major Sulfa classes: Short, Medium, Long-acting, Topical, and Gut-acting",
+      "pKa affects ionization and solubility; LogP affects membrane permeability",
+      "Sequential blockade (Sulfonamide + Trimethoprim) creates synergistic antibacterial effect"
+    ],
+    funFact: "Gerhard Domagk saved his own daughter's life with Prontosil when she developed a severe streptococcal infection from pricking her finger with a needle!",
+    realWorldConnection: "The same principles of Lead Optimization used to develop Sulfa drugs are still the gold standard in pharmaceutical R&D today. Every new drug undergoes similar systematic modification studies.",
+    quickCheck: [
+      {
+        question: "What does Pharmacokinetics (PK) describe?",
+        options: ["What the drug does to the body", "What the body does to the drug", "How drugs are manufactured", "Drug pricing"],
+        correctIndex: 1,
+        explanation: "PK = 'What the body does to the drug' — includes Absorption, Distribution, Metabolism, and Excretion (ADME)."
+      },
+      {
+        question: "Which Sulfa drug class is used for malaria prevention?",
+        options: ["Short-acting (Sulfisoxazole)", "Medium-acting (Sulfamethoxazole)", "Long-acting (Sulfadoxine)", "Topical (Silver Sulfadiazine)"],
+        correctIndex: 2,
+        explanation: "Sulfadoxine is long-acting (100+ hours) due to its methoxy-pyrimidine group, making it ideal for malaria prophylaxis."
+      },
+      {
+        question: "What property does LogP (partition coefficient) measure?",
+        options: ["Drug acidity", "Lipophilicity (fat solubility)", "Molecular weight", "Drug potency"],
+        correctIndex: 1,
+        explanation: "LogP measures how lipophilic (fat-loving) a drug is. Higher LogP = better membrane permeability but slower excretion."
+      },
+      {
+        question: "Why is the Sulfonamide + Trimethoprim combination so effective?",
+        options: ["It's cheaper to produce", "Sequential blockade of bacterial folic acid synthesis", "It tastes better", "It's easier to manufacture"],
+        correctIndex: 1,
+        explanation: "Sequential blockade: Sulfonamide blocks Step 1 and Trimethoprim blocks Step 2 of folic acid synthesis, leaving bacteria no escape route!"
+      },
+      {
+        question: "What happens when you add an Isoxazole ring to N¹ of Sulfanilamide?",
+        options: ["Drug becomes inactive", "Drug becomes short-acting with high solubility", "Drug becomes toxic", "Drug becomes long-acting"],
+        correctIndex: 1,
+        explanation: "Isoxazole ring increases water solubility and speeds up excretion, creating a short-acting drug ideal for acute UTIs."
+      }
+    ]
+  },
+  {
+
     id: "smell-and-pheromones",
     title: "Chemical Communication: Smell & Pheromones",
     content: `Your sense of smell is a molecular detection system. When you sniff a flower, volatile 

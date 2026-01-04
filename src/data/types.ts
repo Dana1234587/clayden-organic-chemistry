@@ -77,6 +77,8 @@ export interface ChapterSection {
         pdbId?: string; // For 3D viewer
     }[];
     conjugationDiagram?: boolean;
+    // Drug Development Lab flag (Lesson 4 - Sulfa Family Evolution)
+    drugDevelopmentLab?: boolean;
 }
 
 export interface ChapterQuiz {
