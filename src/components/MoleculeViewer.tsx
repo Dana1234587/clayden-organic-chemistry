@@ -214,6 +214,8 @@ interface MoleculeViewerProps {
     description?: string;
     height?: number;
     cid?: number; // Direct PubChem CID bypass
+    pdbId?: string; // PDB ID for protein-ligand complexes (e.g., "1PGE")
+    rcsbLigandId?: string; // RCSB ligand ID (e.g., "FLP" for Diclofenac)
     autoRotate?: boolean;
     showControls?: boolean;
 }
@@ -237,6 +239,8 @@ export default function MoleculeViewer({
     description,
     height = 350,
     cid,
+    pdbId,
+    rcsbLigandId,
     autoRotate = true // Default to true if not specified
 }: MoleculeViewerProps) {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -250,9 +254,9 @@ export default function MoleculeViewer({
     const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d'); // Toggle between 3D and 2D
     const isMobile = useIsMobile();
 
-    // Try to get from registry, or construct transient object if cid provided
+    // Try to get from registry, or construct transient object if cid or rcsbLigandId provided
     let molecule = getMolecule(moleculeName.toLowerCase());
-    if (!molecule && cid) {
+    if (!molecule && (cid || rcsbLigandId)) {
         molecule = {
             name: moleculeName,
             formula: 'Loading...',
@@ -261,7 +265,9 @@ export default function MoleculeViewer({
             functionalGroups: [],
             emoji: '💊',
             color: '#3b82f6',
-            pubchemCid: cid
+            pubchemCid: cid,
+            rcsbLigandId: rcsbLigandId,
+            pdbId: pdbId
         } as any;
     }
     const hasMolecule = !!molecule;
