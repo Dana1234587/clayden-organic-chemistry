@@ -266,7 +266,7 @@ export default function MetabolismMystery({ onComplete, onNext }: MetabolismMyst
                         marginBottom: '1rem',
                         fontSize: '1rem'
                     }}>
-                        🫀 Liver Simulation: Bio-Activation
+                        🔬 Liver Simulation: Bio-Activation
                     </h4>
 
                     {/* Liver Viz */}
@@ -283,8 +283,11 @@ export default function MetabolismMystery({ onComplete, onNext }: MetabolismMyst
                         justifyContent: 'center',
                         overflow: 'hidden'
                     }}>
-                        {/* Liver emoji */}
-                        <span style={{ fontSize: '4rem', opacity: 0.3 }}>🫀</span>
+                        {/* Liver SVG */}
+                        <svg viewBox="0 0 100 80" style={{ width: '80px', height: '60px', opacity: 0.4 }}>
+                            <path d="M15 40 Q10 20 25 15 Q45 5 65 15 Q85 25 90 45 Q92 60 80 70 Q60 80 40 75 Q20 70 15 55 Z" fill="#b91c1c" stroke="#991b1b" strokeWidth="2" />
+                            <text x="50" y="45" textAnchor="middle" fill="#fecaca" fontSize="10" fontWeight="bold">LIVER</text>
+                        </svg>
 
                         {/* Enzyme Animation */}
                         <AnimatePresence>

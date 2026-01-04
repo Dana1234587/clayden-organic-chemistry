@@ -69,13 +69,10 @@ export default function SynthesisBench({ onComplete, onNext }: SynthesisBenchPro
 
     const placeInIceBath = () => {
         setInIceBath(true);
-        if (step === 'diazotization' && flaskContents.includes('naNO2') && flaskContents.includes('hcl')) {
-            setTimeout(() => {
-                if (temperature <= 5) {
-                    setStep('icebath');
-                    setSolutionColor('rgba(255, 255, 255, 0.5)'); // Clear diazonium
-                }
-            }, 2000);
+        // Immediately transition to icebath step if all reagents are present
+        if (flaskContents.includes('naNO2') && flaskContents.includes('hcl')) {
+            setSolutionColor('rgba(255, 255, 255, 0.5)'); // Clear diazonium
+            setStep('icebath');
         }
     };
 
