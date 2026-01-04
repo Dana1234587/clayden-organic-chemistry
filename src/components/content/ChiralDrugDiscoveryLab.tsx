@@ -1061,17 +1061,656 @@ function CryoEMDocking() {
 }
 
 // ============================================================================
+// TERMINOLOGY QUIZ (Interactive Flashcards + Quiz Mode)
+// ============================================================================
+
+interface TermCard {
+    term: string;
+    definition: string;
+    example: string;
+    icon: string;
+}
+
+const TERMINOLOGY: TermCard[] = [
+    {
+        term: 'Eutomer',
+        definition: 'The enantiomer with the desired pharmacological activity (therapeutic effect).',
+        example: '(R)-Thalidomide is the eutomer (sedative), while (S) is teratogenic.',
+        icon: '✅'
+    },
+    {
+        term: 'Distomer',
+        definition: 'The enantiomer with reduced, no, or toxic activity.',
+        example: '(S)-Thalidomide is the distomer — causes birth defects.',
+        icon: '⚠️'
+    },
+    {
+        term: 'Eudysmic Ratio',
+        definition: 'Potency ratio between eutomer and distomer (IC₅₀ Distomer / IC₅₀ Eutomer).',
+        example: 'Thalidomide: 50/0.5 = 100:1 — high enantioselectivity.',
+        icon: '📊'
+    },
+    {
+        term: 'Chiral Switch',
+        definition: 'Pharmaceutical strategy to remarket a racemic drug as its pure eutomer for patent extension.',
+        example: 'Citalopram → Escitalopram (2002), Omeprazole → Esomeprazole (2001).',
+        icon: '💊'
+    },
+    {
+        term: 'In Vivo Racemization',
+        definition: 'Interconversion between enantiomers inside the body due to pH, enzymes, or temperature.',
+        example: 'Thalidomide racemizes with t½ ≈ 4-8h at physiological pH.',
+        icon: '🔄'
+    },
+    {
+        term: 'Enantioselective Metabolism',
+        definition: 'CYP450 enzymes metabolize enantiomers at different rates.',
+        example: 'CYP2C19 metabolizes (S)-omeprazole faster than (R)-omeprazole.',
+        icon: '⚗️'
+    }
+];
+
+interface QuizQuestion {
+    question: string;
+    options: string[];
+    correctIndex: number;
+    explanation: string;
+}
+
+const QUIZ_QUESTIONS: QuizQuestion[] = [
+    {
+        question: 'What is the Eutomer?',
+        options: ['The cheaper enantiomer', 'The enantiomer with desired therapeutic activity', 'The racemic mixture', 'The metabolite'],
+        correctIndex: 1,
+        explanation: 'Eutomer = therapeutically active enantiomer. It provides the desired pharmacological effect.'
+    },
+    {
+        question: 'The Distomer is characterized by:',
+        options: ['Higher activity than eutomer', 'No activity or toxic activity', 'Better bioavailability', 'Faster metabolism'],
+        correctIndex: 1,
+        explanation: 'Distomer = inactive or toxic enantiomer. It may cause side effects without therapeutic benefit.'
+    },
+    {
+        question: 'Chiral Switch strategy allows pharma companies to:',
+        options: ['Make drugs cheaper', 'Extend patents by marketing pure eutomer', 'Convert natural to synthetic', 'Remove all side effects'],
+        correctIndex: 1,
+        explanation: 'When a racemic drug\'s patent expires, companies can patent the pure eutomer for extended exclusivity.'
+    },
+    {
+        question: 'Which enzyme family is responsible for enantioselective metabolism?',
+        options: ['DNA Polymerase', 'Cytochrome P450 (CYP450)', 'ATP Synthase', 'Ribosome'],
+        correctIndex: 1,
+        explanation: 'CYP450 enzymes are chiral — they metabolize R and S enantiomers at different rates.'
+    },
+    {
+        question: 'In vivo racemization of Thalidomide means:',
+        options: ['The drug is destroyed', 'Pure R converts to R+S mixture in the body', 'The drug becomes more potent', 'It crosses the blood-brain barrier'],
+        correctIndex: 1,
+        explanation: 'Even with pure (R)-Thalidomide synthesis, the body\'s pH environment converts it to a racemic mixture.'
+    }
+];
+
+function TerminologyQuiz() {
+    const [mode, setMode] = useState<'cards' | 'quiz'>('cards');
+    const [currentCard, setCurrentCard] = useState(0);
+    const [flipped, setFlipped] = useState(false);
+    const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
+    const [showResults, setShowResults] = useState(false);
+
+    const handleAnswer = (questionIdx: number, answerIdx: number) => {
+        setQuizAnswers(prev => ({ ...prev, [questionIdx]: answerIdx }));
+    };
+
+    const calculateScore = () => {
+        let correct = 0;
+        QUIZ_QUESTIONS.forEach((q, idx) => {
+            if (quizAnswers[idx] === q.correctIndex) correct++;
+        });
+        return correct;
+    };
+
+    const resetQuiz = () => {
+        setQuizAnswers({});
+        setShowResults(false);
+    };
+
+    return (
+        <div style={{ padding: '1.5rem' }}>
+            {/* Mode Toggle */}
+            <div style={{
+                display: 'flex',
+                gap: '0.5rem',
+                marginBottom: '1.5rem'
+            }}>
+                <button
+                    onClick={() => setMode('cards')}
+                    style={{
+                        flex: 1,
+                        padding: '0.75rem',
+                        background: mode === 'cards' ? 'linear-gradient(135deg, #8b5cf6, #6366f1)' : 'rgba(255,255,255,0.05)',
+                        border: 'none',
+                        borderRadius: '12px',
+                        color: 'white',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                    }}
+                >
+                    📚 Flashcards
+                </button>
+                <button
+                    onClick={() => setMode('quiz')}
+                    style={{
+                        flex: 1,
+                        padding: '0.75rem',
+                        background: mode === 'quiz' ? 'linear-gradient(135deg, #10b981, #059669)' : 'rgba(255,255,255,0.05)',
+                        border: 'none',
+                        borderRadius: '12px',
+                        color: 'white',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                    }}
+                >
+                    🎯 Quiz Mode
+                </button>
+            </div>
+
+            {mode === 'cards' && (
+                <>
+                    {/* Flashcard */}
+                    <motion.div
+                        onClick={() => setFlipped(!flipped)}
+                        style={{
+                            minHeight: '250px',
+                            background: flipped ? 'rgba(16, 185, 129, 0.1)' : 'rgba(139, 92, 246, 0.1)',
+                            borderRadius: '16px',
+                            border: `2px solid ${flipped ? '#10b981' : '#8b5cf6'}`,
+                            padding: '1.5rem',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            textAlign: 'center'
+                        }}
+                        animate={{ rotateY: flipped ? 180 : 0 }}
+                        transition={{ duration: 0.4 }}
+                    >
+                        <AnimatePresence mode="wait">
+                            {!flipped ? (
+                                <motion.div
+                                    key="front"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                >
+                                    <span style={{ fontSize: '2.5rem' }}>{TERMINOLOGY[currentCard].icon}</span>
+                                    <h3 style={{ color: '#e2e8f0', fontSize: '1.8rem', marginTop: '1rem' }}>
+                                        {TERMINOLOGY[currentCard].term}
+                                    </h3>
+                                    <p style={{ color: '#64748b', fontSize: '0.85rem', marginTop: '0.5rem' }}>
+                                        Click to reveal definition
+                                    </p>
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    key="back"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    style={{ transform: 'rotateY(180deg)' }}
+                                >
+                                    <div style={{ color: '#10b981', fontWeight: 600, marginBottom: '0.5rem' }}>
+                                        Definition:
+                                    </div>
+                                    <p style={{ color: '#e2e8f0', fontSize: '1rem', lineHeight: 1.6 }}>
+                                        {TERMINOLOGY[currentCard].definition}
+                                    </p>
+                                    <div style={{
+                                        marginTop: '1rem',
+                                        padding: '0.75rem',
+                                        background: 'rgba(0,0,0,0.3)',
+                                        borderRadius: '8px'
+                                    }}>
+                                        <div style={{ color: '#60a5fa', fontSize: '0.75rem' }}>EXAMPLE</div>
+                                        <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
+                                            {TERMINOLOGY[currentCard].example}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </motion.div>
+
+                    {/* Navigation */}
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginTop: '1rem'
+                    }}>
+                        <button
+                            onClick={() => { setCurrentCard(prev => Math.max(0, prev - 1)); setFlipped(false); }}
+                            disabled={currentCard === 0}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                background: currentCard === 0 ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.1)',
+                                border: 'none',
+                                borderRadius: '8px',
+                                color: 'white',
+                                cursor: currentCard === 0 ? 'not-allowed' : 'pointer'
+                            }}
+                        >
+                            ← Previous
+                        </button>
+                        <span style={{ color: '#64748b' }}>
+                            {currentCard + 1} / {TERMINOLOGY.length}
+                        </span>
+                        <button
+                            onClick={() => { setCurrentCard(prev => Math.min(TERMINOLOGY.length - 1, prev + 1)); setFlipped(false); }}
+                            disabled={currentCard === TERMINOLOGY.length - 1}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                background: currentCard === TERMINOLOGY.length - 1 ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.1)',
+                                border: 'none',
+                                borderRadius: '8px',
+                                color: 'white',
+                                cursor: currentCard === TERMINOLOGY.length - 1 ? 'not-allowed' : 'pointer'
+                            }}
+                        >
+                            Next →
+                        </button>
+                    </div>
+                </>
+            )}
+
+            {mode === 'quiz' && (
+                <>
+                    {!showResults ? (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                            {QUIZ_QUESTIONS.map((q, qIdx) => (
+                                <div key={qIdx} style={{
+                                    background: 'rgba(0,0,0,0.3)',
+                                    borderRadius: '12px',
+                                    padding: '1rem',
+                                    border: quizAnswers[qIdx] !== undefined
+                                        ? quizAnswers[qIdx] === q.correctIndex
+                                            ? '2px solid #10b981'
+                                            : '2px solid #ef4444'
+                                        : '1px solid rgba(255,255,255,0.1)'
+                                }}>
+                                    <div style={{ color: '#e2e8f0', fontWeight: 600, marginBottom: '0.75rem' }}>
+                                        {qIdx + 1}. {q.question}
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                        {q.options.map((opt, optIdx) => (
+                                            <button
+                                                key={optIdx}
+                                                onClick={() => handleAnswer(qIdx, optIdx)}
+                                                style={{
+                                                    padding: '0.75rem',
+                                                    background: quizAnswers[qIdx] === optIdx
+                                                        ? optIdx === q.correctIndex ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'
+                                                        : 'rgba(255,255,255,0.05)',
+                                                    border: quizAnswers[qIdx] === optIdx
+                                                        ? `2px solid ${optIdx === q.correctIndex ? '#10b981' : '#ef4444'}`
+                                                        : '1px solid rgba(255,255,255,0.1)',
+                                                    borderRadius: '8px',
+                                                    color: '#e2e8f0',
+                                                    textAlign: 'left',
+                                                    cursor: 'pointer'
+                                                }}
+                                            >
+                                                {['A', 'B', 'C', 'D'][optIdx]}. {opt}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {quizAnswers[qIdx] !== undefined && (
+                                        <div style={{
+                                            marginTop: '0.75rem',
+                                            padding: '0.75rem',
+                                            background: 'rgba(59, 130, 246, 0.1)',
+                                            borderRadius: '8px',
+                                            color: '#60a5fa',
+                                            fontSize: '0.85rem'
+                                        }}>
+                                            💡 {q.explanation}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+
+                            <button
+                                onClick={() => setShowResults(true)}
+                                disabled={Object.keys(quizAnswers).length < QUIZ_QUESTIONS.length}
+                                style={{
+                                    padding: '1rem',
+                                    background: Object.keys(quizAnswers).length < QUIZ_QUESTIONS.length
+                                        ? 'rgba(255,255,255,0.1)'
+                                        : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                    border: 'none',
+                                    borderRadius: '12px',
+                                    color: 'white',
+                                    fontWeight: 600,
+                                    cursor: Object.keys(quizAnswers).length < QUIZ_QUESTIONS.length ? 'not-allowed' : 'pointer'
+                                }}
+                            >
+                                Submit Answers
+                            </button>
+                        </div>
+                    ) : (
+                        <div style={{
+                            textAlign: 'center',
+                            padding: '2rem',
+                            background: 'rgba(0,0,0,0.3)',
+                            borderRadius: '16px'
+                        }}>
+                            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>
+                                {calculateScore() === QUIZ_QUESTIONS.length ? '🎉' : calculateScore() >= 3 ? '👍' : '📚'}
+                            </div>
+                            <h3 style={{ color: '#e2e8f0', marginBottom: '0.5rem' }}>
+                                Score: {calculateScore()} / {QUIZ_QUESTIONS.length}
+                            </h3>
+                            <p style={{ color: '#94a3b8', marginBottom: '1.5rem' }}>
+                                {calculateScore() === QUIZ_QUESTIONS.length
+                                    ? 'Perfect! You\'ve mastered MDDD terminology!'
+                                    : calculateScore() >= 3
+                                        ? 'Good job! Review the flashcards for terms you missed.'
+                                        : 'Keep studying! Review the flashcards and try again.'}
+                            </p>
+                            <button
+                                onClick={resetQuiz}
+                                style={{
+                                    padding: '0.75rem 1.5rem',
+                                    background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                    border: 'none',
+                                    borderRadius: '12px',
+                                    color: 'white',
+                                    fontWeight: 600,
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                Try Again
+                            </button>
+                        </div>
+                    )}
+                </>
+            )}
+        </div>
+    );
+}
+
+// ============================================================================
+// CYP450 & CRYO-EM EDUCATION
+// ============================================================================
+
+function CYP450CryoEMEducation() {
+    const [activeSection, setActiveSection] = useState<'cyp450' | 'cryoem'>('cyp450');
+
+    return (
+        <div style={{ padding: '1.5rem' }}>
+            {/* Section Toggle */}
+            <div style={{
+                display: 'flex',
+                gap: '0.5rem',
+                marginBottom: '1.5rem'
+            }}>
+                <button
+                    onClick={() => setActiveSection('cyp450')}
+                    style={{
+                        flex: 1,
+                        padding: '0.75rem',
+                        background: activeSection === 'cyp450' ? 'linear-gradient(135deg, #f59e0b, #d97706)' : 'rgba(255,255,255,0.05)',
+                        border: 'none',
+                        borderRadius: '12px',
+                        color: 'white',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                    }}
+                >
+                    ⚗️ Cytochrome P450
+                </button>
+                <button
+                    onClick={() => setActiveSection('cryoem')}
+                    style={{
+                        flex: 1,
+                        padding: '0.75rem',
+                        background: activeSection === 'cryoem' ? 'linear-gradient(135deg, #06b6d4, #0891b2)' : 'rgba(255,255,255,0.05)',
+                        border: 'none',
+                        borderRadius: '12px',
+                        color: 'white',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                    }}
+                >
+                    🔬 Cryo-EM Explained
+                </button>
+            </div>
+
+            <AnimatePresence mode="wait">
+                {activeSection === 'cyp450' && (
+                    <motion.div
+                        key="cyp450"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                    >
+                        {/* CYP450 Content */}
+                        <div style={{
+                            background: 'rgba(245, 158, 11, 0.1)',
+                            borderRadius: '16px',
+                            padding: '1.5rem',
+                            border: '1px solid rgba(245, 158, 11, 0.3)'
+                        }}>
+                            <h4 style={{ color: '#fbbf24', margin: '0 0 1rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                ⚗️ Cytochrome P450: The Body&apos;s Master Chemist
+                            </h4>
+
+                            <div style={{ color: '#e2e8f0', lineHeight: 1.8, marginBottom: '1.5rem' }}>
+                                <p><strong>What is CYP450?</strong></p>
+                                <p style={{ color: '#94a3b8' }}>
+                                    Cytochrome P450 is a superfamily of <strong>heme-containing enzymes</strong> found primarily in the liver.
+                                    They are responsible for <strong>metabolizing ~75% of all drugs</strong> we take.
+                                </p>
+                            </div>
+
+                            {/* Key CYP Isoforms */}
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+                                gap: '0.75rem',
+                                marginBottom: '1.5rem'
+                            }}>
+                                {[
+                                    { name: 'CYP3A4', percent: '50%', drugs: 'Statins, Macrolides' },
+                                    { name: 'CYP2D6', percent: '25%', drugs: 'Codeine, SSRIs' },
+                                    { name: 'CYP2C19', percent: '15%', drugs: 'PPIs, Clopidogrel' },
+                                    { name: 'CYP2C9', percent: '10%', drugs: 'Warfarin, NSAIDs' }
+                                ].map(cyp => (
+                                    <div key={cyp.name} style={{
+                                        padding: '0.75rem',
+                                        background: 'rgba(0,0,0,0.3)',
+                                        borderRadius: '8px',
+                                        textAlign: 'center'
+                                    }}>
+                                        <div style={{ color: '#fbbf24', fontWeight: 700 }}>{cyp.name}</div>
+                                        <div style={{ color: '#e2e8f0', fontSize: '1.2rem', fontWeight: 600 }}>{cyp.percent}</div>
+                                        <div style={{ color: '#64748b', fontSize: '0.7rem' }}>{cyp.drugs}</div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Why it matters for chirality */}
+                            <div style={{
+                                padding: '1rem',
+                                background: 'rgba(139, 92, 246, 0.1)',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(139, 92, 246, 0.3)'
+                            }}>
+                                <h5 style={{ color: '#a78bfa', margin: '0 0 0.5rem 0' }}>
+                                    🎯 Why CYP450 Matters for Chiral Drugs
+                                </h5>
+                                <ul style={{ color: '#94a3b8', margin: 0, paddingLeft: '1.25rem', lineHeight: 1.8 }}>
+                                    <li><strong>Enantioselective binding:</strong> CYP450 active sites are chiral — they bind R and S enantiomers differently</li>
+                                    <li><strong>Different metabolic rates:</strong> (S)-omeprazole is metabolized faster than (R)-omeprazole, affecting half-life</li>
+                                    <li><strong>Drug-drug interactions:</strong> CYP inhibitors/inducers affect enantiomers differently</li>
+                                    <li><strong>Pharmacogenomics:</strong> Genetic polymorphisms (e.g., CYP2D6 poor metabolizers) affect drug response</li>
+                                </ul>
+                            </div>
+
+                            {/* Interactive Visualization */}
+                            <div style={{ marginTop: '1.5rem' }}>
+                                <h5 style={{ color: '#e2e8f0', marginBottom: '0.75rem' }}>CYP450 Active Site (Simplified)</h5>
+                                <svg viewBox="0 0 400 200" style={{ width: '100%', height: '180px' }}>
+                                    <defs>
+                                        <linearGradient id="hemeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stopColor="#dc2626" />
+                                            <stop offset="100%" stopColor="#991b1b" />
+                                        </linearGradient>
+                                    </defs>
+                                    {/* Protein envelope */}
+                                    <ellipse cx="200" cy="100" rx="150" ry="80" fill="rgba(139,92,246,0.2)" stroke="#8b5cf6" strokeWidth="2" />
+                                    {/* Heme center */}
+                                    <circle cx="200" cy="100" r="35" fill="url(#hemeGradient)" opacity="0.8" />
+                                    <text x="200" y="105" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">Fe³⁺</text>
+                                    {/* Binding pocket */}
+                                    <path d="M120 80 Q155 60 190 80 L190 120 Q155 140 120 120 Z" fill="rgba(16,185,129,0.2)" stroke="#10b981" strokeWidth="1" />
+                                    <text x="155" y="100" textAnchor="middle" fill="#10b981" fontSize="8">R-site</text>
+                                    {/* Other pocket */}
+                                    <path d="M210 80 Q245 60 280 80 L280 120 Q245 140 210 120 Z" fill="rgba(239,68,68,0.2)" stroke="#ef4444" strokeWidth="1" />
+                                    <text x="245" y="100" textAnchor="middle" fill="#ef4444" fontSize="8">S-site</text>
+                                    {/* Labels */}
+                                    <text x="200" y="25" textAnchor="middle" fill="#64748b" fontSize="10">CYP450 Chiral Active Site</text>
+                                    <text x="200" y="185" textAnchor="middle" fill="#64748b" fontSize="9">Enantiomers bind to different subsites → different metabolic rates</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+
+                {activeSection === 'cryoem' && (
+                    <motion.div
+                        key="cryoem"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                    >
+                        {/* Cryo-EM Content */}
+                        <div style={{
+                            background: 'rgba(6, 182, 212, 0.1)',
+                            borderRadius: '16px',
+                            padding: '1.5rem',
+                            border: '1px solid rgba(6, 182, 212, 0.3)'
+                        }}>
+                            <h4 style={{ color: '#22d3ee', margin: '0 0 1rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                🔬 Cryo-Electron Microscopy: Seeing Molecules in 3D
+                            </h4>
+
+                            <div style={{ color: '#e2e8f0', lineHeight: 1.8, marginBottom: '1.5rem' }}>
+                                <p><strong>What is Cryo-EM?</strong></p>
+                                <p style={{ color: '#94a3b8' }}>
+                                    Cryo-EM is a Nobel Prize-winning technique (2017) that flash-freezes biological samples
+                                    and images them with electron beams to determine <strong>3D structures at near-atomic resolution</strong> (2-3 Å).
+                                </p>
+                            </div>
+
+                            {/* How it works - Step by step */}
+                            <div style={{ marginBottom: '1.5rem' }}>
+                                <h5 style={{ color: '#e2e8f0', marginBottom: '0.75rem' }}>How Cryo-EM Works:</h5>
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                                    gap: '0.75rem'
+                                }}>
+                                    {[
+                                        { step: 1, title: 'Sample Preparation', desc: 'Protein in buffer, applied to EM grid', icon: '💧' },
+                                        { step: 2, title: 'Vitrification', desc: 'Flash-frozen in liquid ethane (-180°C)', icon: '❄️' },
+                                        { step: 3, title: 'Imaging', desc: 'Electron beam captures 2D projections', icon: '📷' },
+                                        { step: 4, title: '3D Reconstruction', desc: 'Software combines millions of images', icon: '🧊' }
+                                    ].map(s => (
+                                        <div key={s.step} style={{
+                                            padding: '1rem',
+                                            background: 'rgba(0,0,0,0.3)',
+                                            borderRadius: '12px',
+                                            textAlign: 'center'
+                                        }}>
+                                            <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{s.icon}</div>
+                                            <div style={{ color: '#22d3ee', fontWeight: 600, fontSize: '0.9rem' }}>
+                                                Step {s.step}: {s.title}
+                                            </div>
+                                            <div style={{ color: '#94a3b8', fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                                                {s.desc}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Why it matters for drug discovery */}
+                            <div style={{
+                                padding: '1rem',
+                                background: 'rgba(139, 92, 246, 0.1)',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(139, 92, 246, 0.3)'
+                            }}>
+                                <h5 style={{ color: '#a78bfa', margin: '0 0 0.5rem 0' }}>
+                                    🎯 Cryo-EM in Chiral Drug Discovery
+                                </h5>
+                                <ul style={{ color: '#94a3b8', margin: 0, paddingLeft: '1.25rem', lineHeight: 1.8 }}>
+                                    <li><strong>Chiral pocket visualization:</strong> See exactly how R vs S enantiomers fit into the binding site</li>
+                                    <li><strong>Interatomic distances:</strong> Measure drug-receptor distances in Ångströms (Å)</li>
+                                    <li><strong>Binding energy prediction:</strong> Structural data enables ΔG calculations</li>
+                                    <li><strong>GPCRs & membrane proteins:</strong> Cryo-EM solved structures previously impossible with X-ray</li>
+                                </ul>
+                            </div>
+
+                            {/* Resolution comparison */}
+                            <div style={{
+                                marginTop: '1.5rem',
+                                padding: '1rem',
+                                background: 'rgba(0,0,0,0.3)',
+                                borderRadius: '12px'
+                            }}>
+                                <h5 style={{ color: '#e2e8f0', marginBottom: '0.75rem' }}>Resolution Comparison</h5>
+                                <div style={{ display: 'flex', justifyContent: 'space-around', textAlign: 'center' }}>
+                                    <div>
+                                        <div style={{ color: '#ef4444', fontSize: '1.5rem', fontWeight: 700 }}>10-20 Å</div>
+                                        <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Early Cryo-EM</div>
+                                    </div>
+                                    <div>
+                                        <div style={{ color: '#eab308', fontSize: '1.5rem', fontWeight: 700 }}>3-5 Å</div>
+                                        <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Standard Cryo-EM</div>
+                                    </div>
+                                    <div>
+                                        <div style={{ color: '#10b981', fontSize: '1.5rem', fontWeight: 700 }}>&lt;2 Å</div>
+                                        <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Atomic Resolution</div>
+                                    </div>
+                                </div>
+                                <p style={{ color: '#64748b', fontSize: '0.8rem', textAlign: 'center', marginTop: '0.75rem' }}>
+                                    At 2Å resolution, individual atoms and hydrogen bonds become visible
+                                </p>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+}
+
+// ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 
 export default function ChiralDrugDiscoveryLab() {
-    const [activeTab, setActiveTab] = useState<'mirror' | 'switch' | 'calculator' | 'cryoem'>('mirror');
+    const [activeTab, setActiveTab] = useState<'mirror' | 'switch' | 'calculator' | 'cryoem' | 'terminology' | 'education'>('mirror');
 
     const tabs = [
         { id: 'mirror', label: 'Mirror Dimension', icon: '🪞' },
         { id: 'switch', label: 'Chiral Switch', icon: '💊' },
         { id: 'calculator', label: 'Eudysmic Calculator', icon: '📊' },
-        { id: 'cryoem', label: 'Cryo-EM Docking', icon: '🔬' }
+        { id: 'cryoem', label: 'Cryo-EM Docking', icon: '🔬' },
+        { id: 'terminology', label: 'Terminology Quiz', icon: '📚' },
+        { id: 'education', label: 'CYP450 & Cryo-EM', icon: '🧬' }
     ];
 
     return (
@@ -1170,6 +1809,7 @@ export default function ChiralDrugDiscoveryLab() {
                     </motion.div>
                 )}
 
+
                 {activeTab === 'cryoem' && (
                     <motion.div
                         key="cryoem"
@@ -1178,6 +1818,28 @@ export default function ChiralDrugDiscoveryLab() {
                         exit={{ opacity: 0, y: -20 }}
                     >
                         <CryoEMDocking />
+                    </motion.div>
+                )}
+
+                {activeTab === 'terminology' && (
+                    <motion.div
+                        key="terminology"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                    >
+                        <TerminologyQuiz />
+                    </motion.div>
+                )}
+
+                {activeTab === 'education' && (
+                    <motion.div
+                        key="education"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                    >
+                        <CYP450CryoEMEducation />
                     </motion.div>
                 )}
             </AnimatePresence>
