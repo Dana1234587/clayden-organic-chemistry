@@ -246,9 +246,27 @@ const AdvancedDrugLab = dynamic(() => import('../content/AdvancedDrugLab'), {
     )
 });
 
+// Dynamic import for DiclofenacFeaturedMolecules (Lesson 8 - Featured Molecules)
+const DiclofenacFeaturedMolecules = dynamic(() => import('../content/DiclofenacFeaturedMolecules'), {
+    ssr: false,
+    loading: () => (
+        <div style={{
+            height: '400px',
+            background: 'var(--gradient-card)',
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--neutral-400)'
+        }}>
+            Loading Featured Molecules...
+        </div>
+    )
+});
+
 // ... imports ...
 
-type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective' | 'research' | 'virtualLab' | 'drugDevelopmentLab' | 'advancedDrugDiscovery' | 'stereochemistryLab' | 'bioisosterismLab' | 'advancedDrugLab';
+type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective' | 'research' | 'virtualLab' | 'drugDevelopmentLab' | 'advancedDrugDiscovery' | 'stereochemistryLab' | 'bioisosterismLab' | 'advancedDrugLab' | 'diclofenacFeatured';
 
 export default function LessonViewer({
     section,
@@ -299,6 +317,7 @@ export default function LessonViewer({
         ...(section.stereochemistryLab ? [{ id: 'stereochemistryLab' as const, icon: '🪞', label: 'Chiral Lab' }] : []),
         ...(section.bioisosterismLab ? [{ id: 'bioisosterismLab' as const, icon: '⚛️', label: 'Electron Architect' }] : []),
         ...(section.advancedDrugLab ? [{ id: 'advancedDrugLab' as const, icon: section.id === 'chemical-bonding' ? '💊' : '🎓', label: section.id === 'chemical-bonding' ? 'Drug Development' : 'PhD Drug Lab' }] : []),
+        ...(section.id === 'chemical-bonding' ? [{ id: 'diclofenacFeatured' as const, icon: '🧪', label: 'Featured Molecules' }] : []),
         ...(section.conjugationDiagram ? [{ id: 'conjugation' as const, icon: '🌈', label: 'Conjugation Rule' }] : []),
         ...(section.colorExamples ? [{ id: 'colors' as const, icon: '🧪', label: 'Featured Molecules' }] : []),
         ...(isColorLesson ? [{ id: 'clinical' as const, icon: '💊', label: 'Clinical Colors' }] : []),
@@ -753,6 +772,18 @@ export default function LessonViewer({
                             exit={{ opacity: 0, y: -10 }}
                         >
                             <AdvancedDrugLab lessonId={section.id} />
+                        </motion.div>
+                    )}
+
+                    {/* DICLOFENAC FEATURED MOLECULES TAB (Lesson 8 - chemical-bonding) */}
+                    {activeTab === 'diclofenacFeatured' && section.id === 'chemical-bonding' && (
+                        <motion.div
+                            key="diclofenacFeatured"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                        >
+                            <DiclofenacFeaturedMolecules />
                         </motion.div>
                     )}
 

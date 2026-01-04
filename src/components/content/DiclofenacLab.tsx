@@ -14,29 +14,32 @@ const MoleculeViewer = dynamic(() => import('../MoleculeViewer'), {
 // TYPES
 // ============================================================================
 
+interface FunctionalGroupInfo {
+    name: string;
+    role: string;
+    benefit: string;
+    color: string;
+    targetId?: string;
+}
+
 interface Molecule {
     name: string;
     stage: string;
     pubchemCid: number;
+    pdbId?: string; // For COX-2 binding visualization
     description?: string;
-    functionalGroups: {
-        name: string;
-        role: string;
-        benefit: string;
-        color: string;
-        targetId?: string; // ID for SVG targeting
-    }[];
+    functionalGroups: FunctionalGroupInfo[];
 }
 
 // ============================================================================
-// MOLECULE DATA
+// MOLECULE DATA (with PDB 1PGE for COX-2 binding)
 // ============================================================================
 
 const MOLECULES: Molecule[] = [
     {
         name: '2-Anilinophenylacetic Acid',
         stage: 'Lead Compound',
-        pubchemCid: 12560, // Approximate CID for similar structure
+        pubchemCid: 12560,
         description: 'The starting point: A derivative of phenylacetic acid with some anti-inflammatory activity but significant toxicity.',
         functionalGroups: [
             { name: 'Carboxylic Acid (-COOH)', role: 'COX binding', benefit: 'Basic anti-inflammatory activity', color: '#ef4444', targetId: 'cooh' },
@@ -48,6 +51,7 @@ const MOLECULES: Molecule[] = [
         name: 'Diclofenac Acid',
         stage: 'Optimized Lead',
         pubchemCid: 3033,
+        pdbId: '1PGE', // COX-2 complex!
         description: 'The result of lead optimization: Addition of chlorine atoms twists the rings, improving fit and selectivity.',
         functionalGroups: [
             { name: 'Carboxylic Acid (-COOH)', role: 'COX-2 selective binding', benefit: 'Enhanced potency + selectivity', color: '#ef4444', targetId: 'cooh' },
@@ -60,6 +64,7 @@ const MOLECULES: Molecule[] = [
         name: 'Diclofenac Sodium',
         stage: 'Voltaren® (Sustained)',
         pubchemCid: 5018304,
+        pdbId: '1PGE',
         description: 'The standard salt form: High lattice energy provides sustained release for chronic conditions.',
         functionalGroups: [
             { name: 'Carboxylate (-COO⁻)', role: 'Ionic form', benefit: 'Water soluble, slow dissolution', color: '#ef4444', targetId: 'cooh' },
@@ -71,6 +76,7 @@ const MOLECULES: Molecule[] = [
         name: 'Diclofenac Potassium',
         stage: 'Cataflam® (Rapid)',
         pubchemCid: 3243,
+        pdbId: '1PGE',
         description: 'The rapid-onset salt form: Lower lattice energy allows faster dissolution for acute pain.',
         functionalGroups: [
             { name: 'Carboxylate (-COO⁻)', role: 'Ionic form', benefit: 'Water soluble, FAST dissolution', color: '#ef4444', targetId: 'cooh' },
@@ -80,8 +86,12 @@ const MOLECULES: Molecule[] = [
     }
 ];
 
+// PubChem 2D Image URL Generator
+const getPubChem2DImage = (cid: number, size: number = 300) =>
+    `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${cid}/PNG?image_size=${size}x${size}`;
+
 // ============================================================================
-// PHASE 0: THE EXPLORER - Lead Discovery
+// PHASE 0: THE EXPLORER - Lead Discovery (with 2D structure)
 // ============================================================================
 
 function Phase0LeadDiscovery({ onComplete }: { onComplete: () => void }) {
@@ -116,90 +126,118 @@ function Phase0LeadDiscovery({ onComplete }: { onComplete: () => void }) {
                 background: 'rgba(0, 0, 0, 0.4)',
                 borderRadius: '16px',
                 padding: '2rem',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                textAlign: 'center'
+                border: '1px solid rgba(255, 255, 255, 0.1)'
             }}>
-                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📜</div>
-                <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '1rem' }}>
-                    The "Phenylacetic Acid" Hit
-                </h3>
-                <p style={{ color: '#e2e8f0', maxWidth: '600px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
-                    Screening reveals that derivatives of <strong>phenylacetic acid</strong> have anti-inflammatory properties.
-                    However, the initial <strong>Lead Compound</strong> has problems:
-                </p>
-
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    gap: '2rem',
-                    marginBottom: '2rem'
-                }}>
-                    <div style={{ padding: '1rem', background: 'rgba(239, 68, 68, 0.1)', borderRadius: '12px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-                        <div style={{ color: '#ef4444', fontWeight: 700 }}>⚠️ Problem 1</div>
-                        <div style={{ color: '#fca5a5', fontSize: '0.9rem' }}>Low Potency</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center' }}>
+                    {/* Left: 2D Structure from PubChem */}
+                    <div style={{
+                        background: 'white',
+                        borderRadius: '12px',
+                        padding: '1rem',
+                        textAlign: 'center'
+                    }}>
+                        <img
+                            src={getPubChem2DImage(12560, 250)}
+                            alt="Lead Compound: 2-Anilinophenylacetic Acid"
+                            style={{ maxWidth: '100%', height: 'auto' }}
+                        />
+                        <div style={{ color: '#1e293b', fontSize: '0.85rem', marginTop: '0.5rem', fontWeight: 600 }}>
+                            2-Anilinophenylacetic Acid (Lead)
+                        </div>
                     </div>
-                    <div style={{ padding: '1rem', background: 'rgba(239, 68, 68, 0.1)', borderRadius: '12px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-                        <div style={{ color: '#ef4444', fontWeight: 700 }}>⚠️ Problem 2</div>
-                        <div style={{ color: '#fca5a5', fontSize: '0.9rem' }}>High Toxicity (Ulcers)</div>
+
+                    {/* Right: Problem Description */}
+                    <div>
+                        <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '1rem' }}>
+                            The "Phenylacetic Acid" Hit
+                        </h3>
+                        <p style={{ color: '#e2e8f0', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                            Screening reveals that derivatives of <strong>phenylacetic acid</strong> have anti-inflammatory properties.
+                            However, the initial <strong>Lead Compound</strong> has problems:
+                        </p>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
+                            <div style={{ padding: '1rem', background: 'rgba(239, 68, 68, 0.1)', borderRadius: '12px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+                                <div style={{ color: '#ef4444', fontWeight: 700 }}>⚠️ Problem 1: Low Potency</div>
+                                <div style={{ color: '#fca5a5', fontSize: '0.9rem' }}>IC50 &gt; 10 μM (too weak)</div>
+                            </div>
+                            <div style={{ padding: '1rem', background: 'rgba(239, 68, 68, 0.1)', borderRadius: '12px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+                                <div style={{ color: '#ef4444', fontWeight: 700 }}>⚠️ Problem 2: Poor Selectivity</div>
+                                <div style={{ color: '#fca5a5', fontSize: '0.9rem' }}>Inhibits COX-1 equally → GI bleeding risk</div>
+                            </div>
+                        </div>
+
+                        <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+                            We need to OPTIMIZE this lead to improve its fit with the COX-2 enzyme.
+                        </p>
+
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={onComplete}
+                            style={{
+                                padding: '1rem 2rem',
+                                background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
+                                border: 'none',
+                                borderRadius: '12px',
+                                color: 'white',
+                                fontWeight: 700,
+                                cursor: 'pointer',
+                                fontSize: '1rem',
+                                boxShadow: '0 4px 15px rgba(59, 130, 246, 0.4)'
+                            }}
+                        >
+                            Start Lead Optimization 🚀
+                        </motion.button>
                     </div>
                 </div>
-
-                <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '2rem' }}>
-                    We need to OPTIMIZE this lead to improve its fit with the COX-2 enzyme.
-                </p>
-
-                <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={onComplete}
-                    style={{
-                        padding: '1rem 2rem',
-                        background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-                        border: 'none',
-                        borderRadius: '12px',
-                        color: 'white',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                        fontSize: '1rem',
-                        boxShadow: '0 4px 15px rgba(59, 130, 246, 0.4)'
-                    }}
-                >
-                    Start Lead Optimization 🚀
-                </motion.button>
             </div>
         </div>
     );
 }
 
 // ============================================================================
-// PHASE 1: THE CHEMIST - Chlorine Placement Simulator
+// PHASE 1: THE CHEMIST - Chlorine Placement GAME
 // ============================================================================
 
+type ChlorinePosition = 2 | 3 | 4 | 5 | 6 | null;
+
 function Phase1Chemist({ onComplete }: { onComplete: () => void }) {
-    const [clPlaced, setClPlaced] = useState<{ position1: boolean; position2: boolean }>({ position1: false, position2: false });
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [wrongPlacement, setWrongPlacement] = useState(false);
+    const [placedPositions, setPlacedPositions] = useState<ChlorinePosition[]>([]);
+    const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
+    const [gameComplete, setGameComplete] = useState(false);
 
-    const handlePositionClick = (position: 'position1' | 'position2' | 'wrong') => {
-        if (position === 'wrong') {
-            setWrongPlacement(true);
-            setTimeout(() => setWrongPlacement(false), 2000);
-            return;
-        }
-
-        setClPlaced(prev => ({ ...prev, [position]: true }));
-
-        // Check if both placed
-        const newState = { ...clPlaced, [position]: true };
-        if (newState.position1 && newState.position2) {
-            setTimeout(() => {
-                setShowSuccess(true);
-                setTimeout(onComplete, 2000);
-            }, 500);
-        }
+    const POSITION_INFO: Record<number, { x: number; y: number; label: string; isCorrect: boolean; feedback: string }> = {
+        2: { x: 285, y: 60, label: '2', isCorrect: true, feedback: '✅ Position 2 (ortho): Creates steric clash with NH!' },
+        3: { x: 335, y: 90, label: '3', isCorrect: false, feedback: '❌ Position 3 (meta): No steric effect. Rings stay flat.' },
+        4: { x: 335, y: 150, label: '4', isCorrect: false, feedback: '❌ Position 4 (para): Too far from NH. No twist induced.' },
+        5: { x: 335, y: 210, label: '5', isCorrect: false, feedback: '❌ Position 5 (meta): No steric effect. Rings stay flat.' },
+        6: { x: 285, y: 240, label: '6', isCorrect: true, feedback: '✅ Position 6 (ortho): Creates steric clash with NH!' }
     };
 
-    const bothPlaced = clPlaced.position1 && clPlaced.position2;
+    const handlePositionClick = (pos: ChlorinePosition) => {
+        if (pos === null || placedPositions.includes(pos) || gameComplete) return;
+
+        const info = POSITION_INFO[pos];
+        setFeedback({ message: info.feedback, type: info.isCorrect ? 'success' : 'error' });
+
+        if (info.isCorrect) {
+            const newPositions = [...placedPositions, pos];
+            setPlacedPositions(newPositions);
+
+            // Check if both ortho positions are placed
+            if (newPositions.includes(2) && newPositions.includes(6)) {
+                setTimeout(() => {
+                    setGameComplete(true);
+                    setFeedback({
+                        message: '🎉 Perfect! The 2,6-dichloro substitution forces the rings 80° apart, creating a perfect fit for the COX-2 hydrophobic pocket!',
+                        type: 'success'
+                    });
+                    setTimeout(onComplete, 3000);
+                }, 1000);
+            }
+        }
+    };
 
     return (
         <div style={{ padding: '1.5rem' }}>
@@ -221,183 +259,146 @@ function Phase1Chemist({ onComplete }: { onComplete: () => void }) {
                     fontWeight: 700
                 }}>1</div>
                 <div>
-                    <h4 style={{ color: '#e2e8f0', margin: 0 }}>The Chemist: Lead Optimization</h4>
+                    <h4 style={{ color: '#e2e8f0', margin: 0 }}>The Chemist: Chlorine Placement Challenge</h4>
                     <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.85rem' }}>
-                        Modify the lead to improve potency and selectivity
+                        Click on 2 positions to add Chlorine atoms to the right ring
                     </p>
                 </div>
             </div>
 
-            {/* Molecule Visualization */}
             <div style={{
                 background: 'rgba(0, 0, 0, 0.4)',
                 borderRadius: '16px',
                 padding: '2rem',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '1.5rem',
-                position: 'relative'
+                border: '1px solid rgba(255, 255, 255, 0.1)'
             }}>
-                {/* Wrong Placement Warning */}
+                {/* Feedback Box */}
                 <AnimatePresence>
-                    {wrongPlacement && (
+                    {feedback && (
                         <motion.div
-                            initial={{ opacity: 0, y: -20 }}
+                            initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0 }}
                             style={{
-                                position: 'absolute',
-                                top: '1rem',
-                                left: '50%',
-                                transform: 'translateX(-50%)',
-                                padding: '0.75rem 1.5rem',
-                                background: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                                padding: '1rem',
+                                marginBottom: '1.5rem',
                                 borderRadius: '12px',
-                                color: 'white',
+                                background: feedback.type === 'success' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+                                border: `1px solid ${feedback.type === 'success' ? '#22c55e' : '#ef4444'}`,
+                                color: feedback.type === 'success' ? '#86efac' : '#fca5a5',
                                 fontWeight: 600,
-                                fontSize: '0.9rem',
-                                zIndex: 10
+                                textAlign: 'center'
                             }}
                         >
-                            ⚠️ Wrong Position! Low Binding Affinity
+                            {feedback.message}
                         </motion.div>
                     )}
                 </AnimatePresence>
 
-                {/* Success Message */}
-                <AnimatePresence>
-                    {showSuccess && (
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0 }}
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                padding: '1.5rem 3rem',
-                                background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                                borderRadius: '16px',
-                                color: 'white',
-                                fontWeight: 700,
-                                fontSize: '1.2rem',
-                                zIndex: 10,
-                                textAlign: 'center',
-                                boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
-                            }}
-                        >
-                            ✅ Steric Twist Achieved!
-                            <div style={{ fontSize: '0.9rem', fontWeight: 400, marginTop: '0.5rem' }}>
-                                The 2,6-dichloro substitution forces the rings 80° apart.
+                <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '2rem' }}>
+                    {/* Interactive Molecule */}
+                    <div style={{
+                        background: 'white',
+                        borderRadius: '12px',
+                        padding: '1rem',
+                        position: 'relative',
+                        minHeight: '350px'
+                    }}>
+                        <svg viewBox="0 0 400 300" style={{ width: '100%', height: '100%' }}>
+                            {/* Left Ring + COOH */}
+                            <g transform="translate(80, 150)">
+                                <polygon
+                                    points="0,-50 43,-25 43,25 0,50 -43,25 -43,-25"
+                                    fill="none"
+                                    stroke="#1e293b"
+                                    strokeWidth="2"
+                                />
+                                <circle cx="0" cy="0" r="20" fill="none" stroke="#1e293b" strokeWidth="1" />
+                                <line x1="0" y1="50" x2="0" y2="90" stroke="#1e293b" strokeWidth="2" />
+                                <text x="0" y="105" fill="#ef4444" fontSize="14" textAnchor="middle" fontWeight="700">COOH</text>
+                            </g>
+
+                            {/* NH Bridge */}
+                            <line x1="123" y1="150" x2="177" y2="150" stroke="#f59e0b" strokeWidth="3" />
+                            <text x="150" y="135" fill="#f59e0b" fontSize="16" textAnchor="middle" fontWeight="700">NH</text>
+
+                            {/* Right Ring (Clickable positions) */}
+                            <g transform="translate(220, 150)">
+                                <polygon
+                                    points="0,-50 43,-25 43,25 0,50 -43,25 -43,-25"
+                                    fill="none"
+                                    stroke="#1e293b"
+                                    strokeWidth="2"
+                                />
+                                <circle cx="0" cy="0" r="20" fill="none" stroke="#1e293b" strokeWidth="1" />
+
+                                {/* Position 1 (where NH connects - not clickable) */}
+                                <text x="-60" y="5" fill="#94a3b8" fontSize="10">1</text>
+                            </g>
+
+                            {/* Clickable Positions */}
+                            {Object.entries(POSITION_INFO).map(([pos, info]) => {
+                                const posNum = parseInt(pos) as ChlorinePosition;
+                                const isPlaced = placedPositions.includes(posNum);
+
+                                return (
+                                    <motion.g
+                                        key={pos}
+                                        whileHover={!isPlaced && !gameComplete ? { scale: 1.3 } : {}}
+                                        style={{ cursor: !isPlaced && !gameComplete ? 'pointer' : 'default' }}
+                                        onClick={() => handlePositionClick(posNum)}
+                                    >
+                                        {isPlaced ? (
+                                            // Placed Chlorine
+                                            <g>
+                                                <circle cx={info.x} cy={info.y} r="18" fill="#22c55e" />
+                                                <text x={info.x} y={info.y + 5} fill="white" fontSize="12" textAnchor="middle" fontWeight="700">Cl</text>
+                                            </g>
+                                        ) : (
+                                            // Empty Position
+                                            <g>
+                                                <circle
+                                                    cx={info.x}
+                                                    cy={info.y}
+                                                    r="14"
+                                                    fill="transparent"
+                                                    stroke={info.isCorrect ? '#22c55e' : '#94a3b8'}
+                                                    strokeWidth="2"
+                                                    strokeDasharray={info.isCorrect ? '0' : '4'}
+                                                />
+                                                <text x={info.x} y={info.y + 4} fill="#64748b" fontSize="11" textAnchor="middle" fontWeight="600">{info.label}</text>
+                                            </g>
+                                        )}
+                                    </motion.g>
+                                );
+                            })}
+                        </svg>
+                    </div>
+
+                    {/* Instructions Panel */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        <div style={{ padding: '1rem', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px', border: '1px solid rgba(59, 130, 246, 0.3)' }}>
+                            <div style={{ color: '#60a5fa', fontWeight: 700, marginBottom: '0.5rem' }}>🎯 Your Goal</div>
+                            <div style={{ color: '#e2e8f0', fontSize: '0.9rem' }}>
+                                Add 2 Chlorine atoms to force a steric twist between the two rings. This will improve COX-2 selectivity.
                             </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                        </div>
 
-                {/* SVG Molecule Representation */}
-                <svg width="400" height="250" viewBox="0 0 400 250">
-                    <defs>
-                        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="3" result="blur" />
-                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                        </filter>
-                    </defs>
+                        <div style={{ padding: '1rem', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '12px' }}>
+                            <div style={{ color: '#94a3b8', fontWeight: 600, marginBottom: '0.5rem' }}>💡 Hint</div>
+                            <div style={{ color: '#cbd5e1', fontSize: '0.85rem' }}>
+                                Think about which positions would create <em>steric clash</em> with the NH bridge. The clash forces the rings to twist out of plane.
+                            </div>
+                        </div>
 
-                    {/* Ring 1 (Phenylacetate - left) */}
-                    <g transform="translate(100, 120)">
-                        <polygon
-                            points="0,-40 35,-20 35,20 0,40 -35,20 -35,-20"
-                            fill="none"
-                            stroke="#94a3b8"
-                            strokeWidth="3"
-                        />
-                        <circle cx="0" cy="0" r="15" fill="#94a3b8" opacity="0.2" />
-
-                        {/* Carboxylic acid */}
-                        <line x1="0" y1="40" x2="0" y2="70" stroke="#ef4444" strokeWidth="3" />
-                        <text x="0" y="85" fill="#ef4444" fontSize="14" textAnchor="middle" fontWeight="700">COOH</text>
-                    </g>
-
-                    {/* NH Bridge */}
-                    <line x1="135" y1="120" x2="165" y2="120" stroke="#f59e0b" strokeWidth="3" />
-                    <text x="150" y="110" fill="#f59e0b" fontSize="14" textAnchor="middle" fontWeight="700">NH</text>
-
-                    {/* Ring 2 (Dichlorophenyl - right) */}
-                    <g transform="translate(250, 120)">
-                        <polygon
-                            points="0,-40 35,-20 35,20 0,40 -35,20 -35,-20"
-                            fill="none"
-                            stroke="#94a3b8"
-                            strokeWidth="3"
-                        />
-                        <circle cx="0" cy="0" r="15" fill="#94a3b8" opacity="0.2" />
-
-                        {/* Interactive Position 2 (Top Left) */}
-                        <motion.g
-                            whileHover={!clPlaced.position1 ? { scale: 1.2 } : {}}
-                            style={{ cursor: !clPlaced.position1 ? 'pointer' : 'default' }}
-                            onClick={() => !clPlaced.position1 && handlePositionClick('position1')}
-                        >
-                            {clPlaced.position1 ? (
-                                <motion.g initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                                    <line x1="-15" y1="-30" x2="-35" y2="-50" stroke="#22c55e" strokeWidth="3" />
-                                    <circle cx="-45" cy="-60" r="15" fill="#22c55e" />
-                                    <text x="-45" y="-55" fill="white" fontSize="12" textAnchor="middle" fontWeight="700">Cl</text>
-                                </motion.g>
-                            ) : (
-                                <g>
-                                    <circle cx="-35" cy="-20" r="12" fill="transparent" stroke="#22c55e" strokeWidth="2" strokeDasharray="4" />
-                                    <text x="-35" y="-16" fill="#22c55e" fontSize="10" textAnchor="middle" fontWeight="600">Site 2</text>
-                                </g>
-                            )}
-                        </motion.g>
-
-                        {/* Interactive Position 6 (Bottom Left) */}
-                        <motion.g
-                            whileHover={!clPlaced.position2 ? { scale: 1.2 } : {}}
-                            style={{ cursor: !clPlaced.position2 ? 'pointer' : 'default' }}
-                            onClick={() => !clPlaced.position2 && handlePositionClick('position2')}
-                        >
-                            {clPlaced.position2 ? (
-                                <motion.g initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                                    <line x1="-15" y1="30" x2="-35" y2="50" stroke="#22c55e" strokeWidth="3" />
-                                    <circle cx="-45" cy="60" r="15" fill="#22c55e" />
-                                    <text x="-45" y="65" fill="white" fontSize="12" textAnchor="middle" fontWeight="700">Cl</text>
-                                </motion.g>
-                            ) : (
-                                <g>
-                                    <circle cx="-35" cy="20" r="12" fill="transparent" stroke="#22c55e" strokeWidth="2" strokeDasharray="4" />
-                                    <text x="-35" y="24" fill="#22c55e" fontSize="10" textAnchor="middle" fontWeight="600">Site 6</text>
-                                </g>
-                            )}
-                        </motion.g>
-
-                        {/* Decay/Wrong Positions */}
-                        {[3, 4, 5].map((pos, i) => {
-                            const coords = i === 0 ? [35, -20] : i === 1 ? [0, 40] : [35, 20]; // approx
-                            return (
-                                <motion.g
-                                    key={pos}
-                                    whileHover={{ scale: 1.2 }}
-                                    style={{ cursor: 'pointer', opacity: 0.2 }}
-                                    onClick={() => handlePositionClick('wrong')}
-                                >
-                                    <circle cx={coords[0] as number + (i === 1 ? 0 : 10)} cy={coords[1] as number} r="8" fill="#ef4444" />
-                                </motion.g>
-                            );
-                        })}
-                    </g>
-
-                    {/* Text hint */}
-                    {!bothPlaced && (
-                        <text x="200" y="230" fill="#94a3b8" fontSize="12" textAnchor="middle">
-                            Click on the ortho positions to enhance stereochemical locking
-                        </text>
-                    )}
-                </svg>
+                        <div style={{ padding: '1rem', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '12px' }}>
+                            <div style={{ color: '#94a3b8', fontWeight: 600, marginBottom: '0.5rem' }}>📊 Progress</div>
+                            <div style={{ color: '#e2e8f0' }}>
+                                Chlorines placed: <strong>{placedPositions.length}</strong> / 2
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
@@ -436,91 +437,157 @@ function Phase2Formulator({ onComplete }: { onComplete: () => void }) {
                 <div>
                     <h4 style={{ color: '#e2e8f0', margin: 0 }}>The Formulator: Solubility Crisis</h4>
                     <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.85rem' }}>
-                        Diclofenac Acid has poor water solubility (pKa ~4)
+                        Diclofenac Acid is a potent drug but has poor water solubility (pKa ~4)
                     </p>
                 </div>
             </div>
 
-            {/* Problem Visualization */}
             <div style={{
                 background: 'rgba(0, 0, 0, 0.4)',
                 borderRadius: '16px',
                 padding: '2rem',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '1.5rem'
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '2rem'
             }}>
-                <div style={{ position: 'relative', width: '300px', height: '200px', background: '#1e293b', borderRadius: '12px', overflow: 'hidden' }}>
-                    {/* Stomach Acid Background */}
-                    <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '80%', background: 'linear-gradient(to bottom, #334155, #1e293b)', opacity: 0.5 }} />
-                    <text x="10" y="20" fill="#64748b" style={{ position: 'absolute', top: 10, left: 10 }}>Stomach (pH 2)</text>
-
-                    {/* Precipitating Particles */}
-                    <AnimatePresence>
-                        {showProblem && [1, 2, 3, 4, 5].map(i => (
-                            <motion.div
-                                key={i}
-                                initial={{ y: -50, opacity: 0 }}
-                                animate={{ y: 150 + Math.random() * 20, opacity: 1 }}
-                                transition={{ duration: 2, delay: i * 0.2 }}
-                                style={{
-                                    position: 'absolute',
-                                    left: 50 + i * 40,
-                                    width: '12px',
-                                    height: '12px',
-                                    borderRadius: '50%',
-                                    background: 'white',
-                                    boxShadow: '0 0 10px rgba(255,255,255,0.5)'
-                                }}
-                            >
-                                <div style={{ fontSize: '8px', color: '#1e293b', textAlign: 'center', lineHeight: '12px' }}>H</div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
+                {/* Left: 2D Structure */}
+                <div style={{
+                    background: 'white',
+                    borderRadius: '12px',
+                    padding: '1rem',
+                    textAlign: 'center'
+                }}>
+                    <img
+                        src={getPubChem2DImage(3033, 250)}
+                        alt="Diclofenac Acid"
+                        style={{ maxWidth: '100%', height: 'auto' }}
+                    />
+                    <div style={{ color: '#1e293b', fontSize: '0.85rem', marginTop: '0.5rem', fontWeight: 600 }}>
+                        Diclofenac Acid (Optimized Lead)
+                    </div>
                 </div>
 
-                <div style={{ textAlign: 'center', maxWidth: '500px' }}>
-                    <p style={{ color: '#ef4444', fontWeight: 600 }}>Problem: pH 2 (Stomach) &lt; pKa 4 (Diclofenac)</p>
-                    <p style={{ color: '#e2e8f0', fontSize: '0.9rem' }}>
-                        The molecule is protonated (neutral), making it insoluble in water. It acts like a stone!
-                    </p>
-                </div>
+                {/* Right: Problem & Solution */}
+                <div>
+                    <div style={{ position: 'relative', width: '100%', height: '180px', background: '#1e293b', borderRadius: '12px', overflow: 'hidden', marginBottom: '1.5rem' }}>
+                        <div style={{ position: 'absolute', top: 10, left: 15, color: '#64748b', fontSize: '0.8rem' }}>Stomach (pH 2)</div>
+                        <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '70%', background: 'linear-gradient(to bottom, #334155, #1e293b)', opacity: 0.5 }} />
 
-                <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={onComplete}
-                    style={{
-                        padding: '0.75rem 1.5rem',
-                        background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-                        border: 'none',
-                        borderRadius: '12px',
-                        color: 'white',
-                        fontWeight: 600,
-                        cursor: 'pointer'
-                    }}
-                >
-                    Solve with Salt Screening ➔
-                </motion.button>
+                        <AnimatePresence>
+                            {showProblem && [1, 2, 3, 4, 5].map(i => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ y: -50, opacity: 0 }}
+                                    animate={{ y: 130 + Math.random() * 20, opacity: 1 }}
+                                    transition={{ duration: 2, delay: i * 0.2 }}
+                                    style={{
+                                        position: 'absolute',
+                                        left: 30 + i * 40,
+                                        width: '16px',
+                                        height: '16px',
+                                        borderRadius: '50%',
+                                        background: 'white',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontSize: '8px',
+                                        color: '#1e293b',
+                                        fontWeight: 700
+                                    }}
+                                >
+                                    H
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    </div>
+
+                    <div style={{ padding: '1rem', background: 'rgba(239, 68, 68, 0.1)', borderRadius: '12px', border: '1px solid rgba(239, 68, 68, 0.3)', marginBottom: '1rem' }}>
+                        <div style={{ color: '#ef4444', fontWeight: 700 }}>pH 2 (Stomach) &lt; pKa 4 (Diclofenac)</div>
+                        <div style={{ color: '#fca5a5', fontSize: '0.9rem' }}>
+                            The molecule is protonated (neutral) → insoluble → precipitates like a stone!
+                        </div>
+                    </div>
+
+                    <div style={{ padding: '1rem', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '12px', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
+                        <div style={{ color: '#22c55e', fontWeight: 700 }}>💡 Solution: Salt Formation</div>
+                        <div style={{ color: '#86efac', fontSize: '0.9rem' }}>
+                            Convert -COOH to -COO⁻ by forming a salt with Na⁺ or K⁺
+                        </div>
+                    </div>
+
+                    <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={onComplete}
+                        style={{
+                            width: '100%',
+                            marginTop: '1.5rem',
+                            padding: '1rem',
+                            background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                            border: 'none',
+                            borderRadius: '12px',
+                            color: 'white',
+                            fontWeight: 600,
+                            cursor: 'pointer'
+                        }}
+                    >
+                        Proceed to Salt Screening ➔
+                    </motion.button>
+                </div>
             </div>
         </div>
     );
 }
 
 // ============================================================================
-// PHASE 3: SALT SCREENING
+// PHASE 3: SALT SELECTION ENGINEERING (PhD-Level PK Curves)
 // ============================================================================
 
 function Phase3Salt({ onComplete }: { onComplete: () => void }) {
     const [selectedSalt, setSelectedSalt] = useState<string | null>(null);
+    const [showCOX2, setShowCOX2] = useState(false);
 
     const salts = [
-        { id: 'Na', name: 'Sodium', color: '#8b5cf6', type: 'Voltaren®', desc: 'Sustained Release', recommended: true },
-        { id: 'K', name: 'Potassium', color: '#10b981', type: 'Cataflam®', desc: 'Rapid Onset', recommended: true },
-        { id: 'Ca', name: 'Calcium', color: '#64748b', type: 'Failed', desc: 'Insoluble', recommended: false }
+        {
+            id: 'K',
+            name: 'Potassium',
+            brand: 'Cataflam®',
+            color: '#10b981',
+            onset: '15-30 min',
+            peak: '1 hr',
+            duration: '4-6 hr',
+            latticeEnergy: 'Low',
+            useCase: 'Acute Pain (migraine, toothache)',
+            pkPath: 'M 40 220 Q 60 220, 80 80 Q 100 40, 120 60 Q 180 100, 260 200 Q 300 220, 360 220'
+        },
+        {
+            id: 'Na',
+            name: 'Sodium',
+            brand: 'Voltaren®',
+            color: '#8b5cf6',
+            onset: '30-60 min',
+            peak: '2-3 hr',
+            duration: '8-12 hr',
+            latticeEnergy: 'High',
+            useCase: 'Chronic Pain (arthritis, back pain)',
+            pkPath: 'M 40 220 Q 80 220, 120 120 Q 160 80, 200 100 Q 280 140, 360 200'
+        },
+        {
+            id: 'Ca',
+            name: 'Calcium',
+            brand: 'FAILED',
+            color: '#64748b',
+            onset: 'N/A',
+            peak: 'N/A',
+            duration: 'N/A',
+            latticeEnergy: 'Very High',
+            useCase: 'Not used (too insoluble)',
+            pkPath: 'M 40 220 Q 100 215, 200 210 Q 300 205, 360 200'
+        }
     ];
+
+    const selectedSaltData = salts.find(s => s.id === selectedSalt);
 
     return (
         <div style={{ padding: '1.5rem' }}>
@@ -544,269 +611,335 @@ function Phase3Salt({ onComplete }: { onComplete: () => void }) {
                 <div>
                     <h4 style={{ color: '#e2e8f0', margin: 0 }}>Salt Selection Engineering</h4>
                     <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.85rem' }}>
-                        Choose a counter-ion to optimize dissolution properties
+                        Choose a counter-ion to optimize pharmacokinetic profile
                     </p>
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}>
-                {/* Salt Selector */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    {salts.map(salt => (
-                        <motion.button
-                            key={salt.id}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={() => setSelectedSalt(salt.id)}
-                            style={{
-                                padding: '1rem',
-                                background: selectedSalt === salt.id ? `${salt.color}30` : 'rgba(255,255,255,0.05)',
-                                border: `1px solid ${selectedSalt === salt.id ? salt.color : 'rgba(255,255,255,0.1)'}`,
-                                borderRadius: '12px',
-                                textAlign: 'left',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            <div style={{ fontWeight: 700, color: salt.color, fontSize: '1.1rem' }}>{salt.name} Salt</div>
-                            <div style={{ color: '#e2e8f0', fontSize: '0.9rem' }}>{salt.type}</div>
-                            <div style={{ color: '#94a3b8', fontSize: '0.8rem' }}>{salt.desc}</div>
-                        </motion.button>
-                    ))}
+            <div style={{
+                background: 'rgba(0, 0, 0, 0.4)',
+                borderRadius: '16px',
+                padding: '2rem',
+                border: '1px solid rgba(255, 255, 255, 0.1)'
+            }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: '2rem' }}>
+                    {/* Left: Salt Selector */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        {salts.map(salt => (
+                            <motion.button
+                                key={salt.id}
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => setSelectedSalt(salt.id)}
+                                style={{
+                                    padding: '1rem',
+                                    background: selectedSalt === salt.id ? `${salt.color}30` : 'rgba(255,255,255,0.05)',
+                                    border: `2px solid ${selectedSalt === salt.id ? salt.color : 'rgba(255,255,255,0.1)'}`,
+                                    borderRadius: '12px',
+                                    textAlign: 'left',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <div style={{ fontWeight: 700, color: salt.color, fontSize: '1.1rem' }}>{salt.name} Salt</div>
+                                <div style={{ color: '#e2e8f0', fontSize: '0.9rem' }}>{salt.brand}</div>
+                                <div style={{ color: '#94a3b8', fontSize: '0.8rem' }}>Lattice Energy: {salt.latticeEnergy}</div>
+                            </motion.button>
+                        ))}
+                    </div>
+
+                    {/* Right: PK Curve Visualization */}
+                    <div style={{
+                        background: 'rgba(0,0,0,0.3)',
+                        borderRadius: '16px',
+                        padding: '1.5rem',
+                        border: '1px solid rgba(255,255,255,0.1)'
+                    }}>
+                        {!selectedSalt ? (
+                            <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
+                                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📈</div>
+                                Select a salt to view pharmacokinetic profile
+                            </div>
+                        ) : (
+                            <motion.div
+                                key={selectedSalt}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                            >
+                                <h4 style={{ textAlign: 'center', color: '#e2e8f0', marginBottom: '0.5rem' }}>
+                                    Plasma Concentration vs. Time
+                                </h4>
+
+                                {/* Professional PK Graph */}
+                                <svg viewBox="0 0 400 280" style={{ width: '100%' }}>
+                                    {/* Grid lines */}
+                                    {[80, 120, 160, 200].map(y => (
+                                        <line key={y} x1="40" y1={y} x2="360" y2={y} stroke="#334155" strokeWidth="1" strokeDasharray="4" />
+                                    ))}
+
+                                    {/* MEC Line (Minimum Effective Concentration) */}
+                                    <line x1="40" y1="160" x2="360" y2="160" stroke="#ef4444" strokeWidth="2" strokeDasharray="8" />
+                                    <text x="365" y="164" fill="#ef4444" fontSize="10" fontWeight="600">MEC</text>
+
+                                    {/* Axes */}
+                                    <line x1="40" y1="220" x2="360" y2="220" stroke="#64748b" strokeWidth="2" />
+                                    <line x1="40" y1="220" x2="40" y2="40" stroke="#64748b" strokeWidth="2" />
+
+                                    {/* Axis Labels */}
+                                    <text x="200" y="250" fill="#94a3b8" fontSize="12" textAnchor="middle">Time (hours)</text>
+                                    <text x="15" y="130" fill="#94a3b8" fontSize="12" textAnchor="middle" transform="rotate(-90 15,130)">Plasma [Drug]</text>
+
+                                    {/* Time markers */}
+                                    {[0, 2, 4, 6, 8, 10, 12].map((t, i) => (
+                                        <text key={t} x={40 + i * 53} y="235" fill="#64748b" fontSize="10" textAnchor="middle">{t}</text>
+                                    ))}
+
+                                    {/* PK Curve */}
+                                    <motion.path
+                                        d={selectedSaltData?.pkPath}
+                                        fill="none"
+                                        stroke={selectedSaltData?.color}
+                                        strokeWidth="3"
+                                        initial={{ pathLength: 0 }}
+                                        animate={{ pathLength: 1 }}
+                                        transition={{ duration: 1.5 }}
+                                    />
+
+                                    {/* Annotations for K salt */}
+                                    {selectedSalt === 'K' && (
+                                        <>
+                                            {/* Onset */}
+                                            <line x1="60" y1="180" x2="60" y2="225" stroke="#f59e0b" strokeWidth="1" strokeDasharray="3" />
+                                            <text x="60" y="265" fill="#f59e0b" fontSize="9" textAnchor="middle">Onset</text>
+
+                                            {/* Peak (Cmax) */}
+                                            <circle cx="100" cy="55" r="5" fill={selectedSaltData?.color} />
+                                            <text x="100" y="35" fill="#e2e8f0" fontSize="10" textAnchor="middle" fontWeight="600">Cmax</text>
+
+                                            {/* Duration */}
+                                            <line x1="60" y1="165" x2="200" y2="165" stroke="#22c55e" strokeWidth="2" />
+                                            <text x="130" y="180" fill="#22c55e" fontSize="9" textAnchor="middle">Duration</text>
+                                        </>
+                                    )}
+
+                                    {/* Annotations for Na salt */}
+                                    {selectedSalt === 'Na' && (
+                                        <>
+                                            <line x1="100" y1="180" x2="100" y2="225" stroke="#f59e0b" strokeWidth="1" strokeDasharray="3" />
+                                            <text x="100" y="265" fill="#f59e0b" fontSize="9" textAnchor="middle">Onset</text>
+
+                                            <circle cx="180" cy="85" r="5" fill={selectedSaltData?.color} />
+                                            <text x="180" y="70" fill="#e2e8f0" fontSize="10" textAnchor="middle" fontWeight="600">Cmax</text>
+
+                                            <line x1="100" y1="155" x2="320" y2="155" stroke="#22c55e" strokeWidth="2" />
+                                            <text x="210" y="145" fill="#22c55e" fontSize="9" textAnchor="middle">Duration</text>
+                                        </>
+                                    )}
+                                </svg>
+
+                                {/* Salt Details Card */}
+                                <div style={{
+                                    marginTop: '1rem',
+                                    padding: '1rem',
+                                    background: `${selectedSaltData?.color}15`,
+                                    borderRadius: '12px',
+                                    border: `1px solid ${selectedSaltData?.color}40`
+                                }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', textAlign: 'center' }}>
+                                        <div>
+                                            <div style={{ color: '#f59e0b', fontWeight: 700, fontSize: '1.1rem' }}>{selectedSaltData?.onset}</div>
+                                            <div style={{ color: '#94a3b8', fontSize: '0.8rem' }}>Onset</div>
+                                        </div>
+                                        <div>
+                                            <div style={{ color: selectedSaltData?.color, fontWeight: 700, fontSize: '1.1rem' }}>{selectedSaltData?.peak}</div>
+                                            <div style={{ color: '#94a3b8', fontSize: '0.8rem' }}>Peak (Tmax)</div>
+                                        </div>
+                                        <div>
+                                            <div style={{ color: '#22c55e', fontWeight: 700, fontSize: '1.1rem' }}>{selectedSaltData?.duration}</div>
+                                            <div style={{ color: '#94a3b8', fontSize: '0.8rem' }}>Duration</div>
+                                        </div>
+                                    </div>
+                                    <div style={{ marginTop: '1rem', padding: '0.75rem', background: 'rgba(0,0,0,0.2)', borderRadius: '8px' }}>
+                                        <div style={{ color: '#e2e8f0', fontSize: '0.9rem' }}>
+                                            <strong>Clinical Use:</strong> {selectedSaltData?.useCase}
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </div>
                 </div>
 
-                {/* PK Curve Visualization */}
-                <div style={{
-                    background: 'rgba(0,0,0,0.3)',
-                    borderRadius: '16px',
-                    padding: '1.5rem',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    minHeight: '300px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    {!selectedSalt ? (
-                        <div style={{ color: '#64748b', textAlign: 'center' }}>
-                            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📉</div>
-                            Select a salt to simulate pharmacokinetic profile
-                        </div>
-                    ) : (
-                        <motion.div
-                            key={selectedSalt}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            style={{ width: '100%', height: '100%', position: 'relative' }}
-                        >
-                            <h4 style={{ textAlign: 'center', color: '#e2e8f0', marginBottom: '1rem' }}>
-                                Plasma Concentration vs. Time
-                            </h4>
-                            <svg viewBox="0 0 300 150" style={{ width: '100%', overflow: 'visible' }}>
-                                {/* Axes */}
-                                <line x1="20" y1="130" x2="280" y2="130" stroke="#475569" strokeWidth="2" />
-                                <line x1="20" y1="130" x2="20" y2="20" stroke="#475569" strokeWidth="2" />
-                                <text x="280" y="145" fill="#94a3b8" fontSize="10" textAnchor="end">Time (h)</text>
-                                <text x="15" y="20" fill="#94a3b8" fontSize="10" textAnchor="end" transform="rotate(-90 15,20)">Conc.</text>
+                {/* COX-2 Binding Visualization Button */}
+                <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setShowCOX2(!showCOX2)}
+                        style={{
+                            padding: '1rem 2rem',
+                            background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+                            border: 'none',
+                            borderRadius: '12px',
+                            color: 'white',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            marginRight: '1rem'
+                        }}
+                    >
+                        {showCOX2 ? 'Hide' : 'View'} COX-2 Enzyme Binding (PDB: 1PGE) 🔬
+                    </motion.button>
+                </div>
 
-                                {/* Curve */}
-                                <motion.path
-                                    d={selectedSalt === 'K'
-                                        ? "M 20 130 C 40 130, 40 20, 80 20 S 150 130, 280 130" // Potassium spike
-                                        : selectedSalt === 'Na'
-                                            ? "M 20 130 C 60 130, 80 50, 120 50 S 200 130, 280 130" // Sodium delayed
-                                            : "M 20 130 C 50 130, 100 120, 280 125" // Calcium flat
-                                    }
-                                    fill="none"
-                                    stroke={salts.find(s => s.id === selectedSalt)?.color}
-                                    strokeWidth="3"
-                                    initial={{ pathLength: 0 }}
-                                    animate={{ pathLength: 1 }}
-                                    transition={{ duration: 1.5 }}
-                                />
-                            </svg>
-                            <div style={{ marginTop: '1rem', padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
-                                <div style={{ color: salts.find(s => s.id === selectedSalt)?.color, fontWeight: 700 }}>
-                                    Clinical Outcome:
-                                </div>
-                                <div style={{ color: '#e2e8f0', fontSize: '0.9rem' }}>
-                                    {selectedSalt === 'K' && "Excellent for acute pain (e.g., toothache). Rapid Cmax."}
-                                    {selectedSalt === 'Na' && "Preferred for chronic arthritis. Lower Cmax, longer Tmax."}
-                                    {selectedSalt === 'Ca' && "Development halted. Bioavailability too low."}
+                {/* COX-2 3D Viewer */}
+                <AnimatePresence>
+                    {showCOX2 && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            style={{ marginTop: '1.5rem', overflow: 'hidden' }}
+                        >
+                            <div style={{
+                                background: 'rgba(0,0,0,0.5)',
+                                borderRadius: '16px',
+                                padding: '1.5rem',
+                                border: '1px solid rgba(99, 102, 241, 0.3)'
+                            }}>
+                                <h4 style={{ color: '#e2e8f0', marginBottom: '1rem', textAlign: 'center' }}>
+                                    Diclofenac in COX-2 Active Site (PDB: 1PGE)
+                                </h4>
+                                <p style={{ color: '#94a3b8', fontSize: '0.9rem', textAlign: 'center', marginBottom: '1rem' }}>
+                                    See how the Chlorine atoms you placed create the perfect 3D fit in the hydrophobic pocket!
+                                </p>
+                                <div style={{ height: '400px', borderRadius: '12px', overflow: 'hidden' }}>
+                                    <MoleculeViewer
+                                        moleculeName="Diclofenac-COX2"
+                                        rcsbLigandId="FLP"
+                                        pdbId="1PGE"
+                                        showControls={true}
+                                        autoRotate={true}
+                                    />
                                 </div>
                             </div>
                         </motion.div>
                     )}
-                </div>
-            </div>
+                </AnimatePresence>
 
-            <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onComplete}
-                style={{
-                    width: '100%',
-                    marginTop: '2rem',
-                    padding: '1rem',
-                    background: 'linear-gradient(135deg, #10b981, #059669)',
-                    border: 'none',
-                    borderRadius: '12px',
-                    color: 'white',
-                    fontWeight: 700,
-                    cursor: 'pointer'
-                }}
-            >
-                Complete Laboratory Workflow
-            </motion.button>
+                <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={onComplete}
+                    style={{
+                        width: '100%',
+                        marginTop: '2rem',
+                        padding: '1rem',
+                        background: 'linear-gradient(135deg, #10b981, #059669)',
+                        border: 'none',
+                        borderRadius: '12px',
+                        color: 'white',
+                        fontWeight: 700,
+                        cursor: 'pointer'
+                    }}
+                >
+                    Complete Salt Engineering Module ✓
+                </motion.button>
+            </div>
         </div>
     );
 }
 
 // ============================================================================
-// MOLECULE STRUCTURE VIEWER (INTERACTIVE)
+// INTERACTIVE 2D STRUCTURE VIEWER (Professional with Clickable Zones)
 // ============================================================================
 
-function InteractiveStructureViewer({ molecule }: { molecule: Molecule }) {
-    const [selectedGroup, setSelectedGroup] = useState<Molecule['functionalGroups'][0] | null>(null);
+function Interactive2DStructure({ molecule }: { molecule: Molecule }) {
+    const [selectedGroup, setSelectedGroup] = useState<FunctionalGroupInfo | null>(null);
+
+    // Define clickable zones for Diclofenac (approximate positions on 300x300 image)
+    const CLICKABLE_ZONES: Record<string, { x: number; y: number; width: number; height: number }> = {
+        'cooh': { x: 40, y: 200, width: 80, height: 60 },
+        'nh': { x: 130, y: 100, width: 50, height: 40 },
+        'cl': { x: 200, y: 40, width: 90, height: 80 },
+        'rings': { x: 80, y: 80, width: 140, height: 120 },
+        'ring1': { x: 40, y: 80, width: 80, height: 100 },
+        'salt': { x: 10, y: 220, width: 50, height: 50 }
+    };
 
     return (
         <div style={{
-            background: 'var(--card-bg)',
+            background: 'rgba(15, 23, 42, 0.8)',
             borderRadius: '16px',
-            border: '1px solid var(--border-color)',
-            overflow: 'hidden',
-            display: 'grid',
-            gridTemplateColumns: '1fr 300px',
-            minHeight: '400px'
+            border: '1px solid rgba(255,255,255,0.1)',
+            overflow: 'hidden'
         }}>
-            {/* Left: Interactive 2D Structure */}
-            <div style={{
-                background: 'white',
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '2rem'
-            }}>
-                <svg width="400" height="300" viewBox="0 0 400 300">
-                    <defs>
-                        <filter id="glow-highlight" x="-50%" y="-50%" width="200%" height="200%">
-                            <feGaussianBlur stdDeviation="4" result="blur" />
-                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                        </filter>
-                    </defs>
-
-                    {/* BASE STRUCTURE SCAFFOLD (Diclofenac) */}
-                    {/* Ring 1 (Left Phenyl) */}
-                    <g transform="translate(120, 150)">
-                        <polygon
-                            points="0,-40 35,-20 35,20 0,40 -35,20 -35,-20"
-                            fill={selectedGroup?.targetId?.includes('ring') ? `${selectedGroup.color}20` : 'none'}
-                            stroke={selectedGroup?.targetId?.includes('ring') ? selectedGroup.color : '#334155'}
-                            strokeWidth="3"
-                            opacity={selectedGroup && !selectedGroup.targetId?.includes('ring') ? 0.3 : 1}
-                        />
-                        <circle cx="0" cy="0" r="15" fill="none" stroke="#334155" strokeWidth="1" opacity="0.5" />
-
-                        {/* COOH Group */}
-                        <g opacity={selectedGroup && !selectedGroup.targetId?.includes('cooh') ? 0.3 : 1}>
-                            <line x1="0" y1="40" x2="0" y2="70" stroke={selectedGroup?.targetId === 'cooh' ? selectedGroup.color : '#ef4444'} strokeWidth="3" />
-                            <text x="0" y="85" fill={selectedGroup?.targetId === 'cooh' ? selectedGroup.color : '#ef4444'} fontSize="14" textAnchor="middle" fontWeight="700">COOH</text>
-                        </g>
-                    </g>
-
-                    {/* NH Bridge */}
-                    <g opacity={selectedGroup && !selectedGroup.targetId?.includes('nh') ? 0.3 : 1}>
-                        <line x1="155" y1="150" x2="185" y2="150" stroke={selectedGroup?.targetId === 'nh' ? selectedGroup.color : '#f59e0b'} strokeWidth="3" />
-                        <text x="170" y="140" fill={selectedGroup?.targetId === 'nh' ? selectedGroup.color : '#f59e0b'} fontSize="14" textAnchor="middle" fontWeight="700">NH</text>
-                    </g>
-
-                    {/* Ring 2 (Right Dichlorophenyl) */}
-                    <g transform="translate(270, 150)">
-                        <polygon
-                            points="0,-40 35,-20 35,20 0,40 -35,20 -35,-20"
-                            fill={selectedGroup?.targetId?.includes('rings') ? `${selectedGroup.color}20` : 'none'}
-                            stroke={selectedGroup?.targetId?.includes('rings') ? selectedGroup.color : '#334155'}
-                            strokeWidth="3"
-                            opacity={selectedGroup && !selectedGroup.targetId?.includes('rings') ? 0.3 : 1}
-                        />
-                        <circle cx="0" cy="0" r="15" fill="none" stroke="#334155" strokeWidth="1" opacity="0.5" />
-
-                        {/* Chlorines */}
-                        {molecule.name.includes('Diclofenac') && (
-                            <g opacity={selectedGroup && !selectedGroup.targetId?.includes('cl') ? 0.3 : 1}>
-                                {/* Cl Top */}
-                                <line x1="-15" y1="-30" x2="-35" y2="-50" stroke={selectedGroup?.targetId === 'cl' ? selectedGroup.color : '#22c55e'} strokeWidth="3" />
-                                <circle cx="-45" cy="-60" r="14" fill="white" stroke={selectedGroup?.targetId === 'cl' ? selectedGroup.color : '#22c55e'} strokeWidth="2" />
-                                <text x="-45" y="-55" fill={selectedGroup?.targetId === 'cl' ? selectedGroup.color : '#22c55e'} fontSize="10" textAnchor="middle" fontWeight="700">Cl</text>
-
-                                {/* Cl Bottom */}
-                                <line x1="-15" y1="30" x2="-35" y2="50" stroke={selectedGroup?.targetId === 'cl' ? selectedGroup.color : '#22c55e'} strokeWidth="3" />
-                                <circle cx="-45" cy="60" r="14" fill="white" stroke={selectedGroup?.targetId === 'cl' ? selectedGroup.color : '#22c55e'} strokeWidth="2" />
-                                <text x="-45" y="65" fill={selectedGroup?.targetId === 'cl' ? selectedGroup.color : '#22c55e'} fontSize="10" textAnchor="middle" fontWeight="700">Cl</text>
-                            </g>
-                        )}
-                    </g>
-
-                    {/* Salt Counter Ion */}
-                    {molecule.name.includes('Sodium') && (
-                        <g transform="translate(90, 230)">
-                            <circle cx="0" cy="0" r="18" fill="#8b5cf6" />
-                            <text x="0" y="5" fill="white" fontSize="14" textAnchor="middle" fontWeight="700">Na⁺</text>
-                        </g>
-                    )}
-                    {molecule.name.includes('Potassium') && (
-                        <g transform="translate(90, 230)">
-                            <circle cx="0" cy="0" r="18" fill="#10b981" />
-                            <text x="0" y="5" fill="white" fontSize="14" textAnchor="middle" fontWeight="700">K⁺</text>
-                        </g>
-                    )}
-
-                </svg>
-
-                <div style={{ position: 'absolute', top: '1rem', right: '1rem', color: '#94a3b8', fontSize: '0.8rem' }}>
-                    Interactive 2D View
-                </div>
+            <div style={{ padding: '1rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                <h4 style={{ color: '#e2e8f0', margin: 0 }}>Interactive 2D Structure</h4>
+                <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.85rem' }}>Click on functional groups to learn their role</p>
             </div>
 
-            {/* Right: Functional Groups & Info */}
-            <div style={{
-                background: 'rgba(15, 23, 42, 0.5)',
-                padding: '1.5rem',
-                borderLeft: '1px solid rgba(255,255,255,0.1)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1rem'
-            }}>
-                <div>
-                    <div style={{ fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>Featured Molecule</div>
-                    <h3 style={{ color: 'white', fontSize: '1.5rem', fontWeight: 700, margin: '0 0 0.5rem' }}>{molecule.name}</h3>
-                    <span style={{
-                        padding: '0.25rem 0.75rem',
-                        background: 'rgba(255,255,255,0.1)',
-                        borderRadius: '20px',
-                        fontSize: '0.8rem',
-                        color: '#e2e8f0'
-                    }}>
-                        {molecule.stage}
-                    </span>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px' }}>
+                {/* Left: Structure Image with Clickable Overlays */}
+                <div style={{
+                    position: 'relative',
+                    background: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '1rem'
+                }}>
+                    <img
+                        src={getPubChem2DImage(molecule.pubchemCid, 280)}
+                        alt={molecule.name}
+                        style={{ maxWidth: '100%', height: 'auto' }}
+                    />
+
+                    {/* Clickable Overlay Zones */}
+                    {molecule.functionalGroups.map(fg => {
+                        const zone = CLICKABLE_ZONES[fg.targetId || ''];
+                        if (!zone) return null;
+
+                        return (
+                            <motion.div
+                                key={fg.targetId}
+                                whileHover={{ scale: 1.05 }}
+                                onClick={() => setSelectedGroup(selectedGroup === fg ? null : fg)}
+                                style={{
+                                    position: 'absolute',
+                                    left: zone.x,
+                                    top: zone.y,
+                                    width: zone.width,
+                                    height: zone.height,
+                                    borderRadius: '8px',
+                                    cursor: 'pointer',
+                                    background: selectedGroup === fg ? `${fg.color}40` : 'transparent',
+                                    border: selectedGroup === fg ? `2px solid ${fg.color}` : '2px solid transparent',
+                                    transition: 'all 0.2s'
+                                }}
+                            />
+                        );
+                    })}
                 </div>
 
-                <p style={{ color: '#cbd5e1', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    {molecule.description}
-                </p>
+                {/* Right: Functional Group List & Details */}
+                <div style={{
+                    background: 'rgba(0,0,0,0.3)',
+                    padding: '1rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.75rem'
+                }}>
+                    <div style={{ color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase' }}>
+                        Functional Groups
+                    </div>
 
-                <div style={{ height: '1px', background: 'rgba(255,255,255,0.1)', margin: '0.5rem 0' }} />
-
-                <div style={{ color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600 }}>FUNCTIONAL GROUPS (Click to Highlight)</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', overflowY: 'auto' }}>
-                    {molecule.functionalGroups.map((fg, i) => (
+                    {molecule.functionalGroups.map(fg => (
                         <motion.button
-                            key={i}
+                            key={fg.name}
                             whileHover={{ x: 5 }}
                             onClick={() => setSelectedGroup(selectedGroup === fg ? null : fg)}
                             style={{
                                 padding: '0.75rem',
-                                background: selectedGroup === fg ? `${fg.color}20` : 'transparent',
+                                background: selectedGroup === fg ? `${fg.color}20` : 'rgba(255,255,255,0.05)',
                                 border: `1px solid ${selectedGroup === fg ? fg.color : 'rgba(255,255,255,0.1)'}`,
                                 borderRadius: '8px',
                                 textAlign: 'left',
@@ -816,13 +949,40 @@ function InteractiveStructureViewer({ molecule }: { molecule: Molecule }) {
                                 gap: '0.75rem'
                             }}
                         >
-                            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: fg.color }} />
-                            <div>
-                                <div style={{ color: 'white', fontSize: '0.9rem', fontWeight: 600 }}>{fg.name}</div>
-                                <div style={{ color: '#94a3b8', fontSize: '0.8rem' }}>{fg.benefit}</div>
+                            <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: fg.color, flexShrink: 0 }} />
+                            <div style={{ flex: 1 }}>
+                                <div style={{ color: '#e2e8f0', fontSize: '0.9rem', fontWeight: 600 }}>{fg.name}</div>
                             </div>
                         </motion.button>
                     ))}
+
+                    {/* Detail Card when selected */}
+                    <AnimatePresence>
+                        {selectedGroup && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 10 }}
+                                style={{
+                                    marginTop: '0.5rem',
+                                    padding: '1rem',
+                                    background: `${selectedGroup.color}15`,
+                                    borderRadius: '12px',
+                                    border: `1px solid ${selectedGroup.color}40`
+                                }}
+                            >
+                                <div style={{ color: selectedGroup.color, fontWeight: 700, marginBottom: '0.5rem' }}>
+                                    {selectedGroup.name}
+                                </div>
+                                <div style={{ color: '#94a3b8', fontSize: '0.8rem', marginBottom: '0.25rem' }}>
+                                    <strong>Role:</strong> {selectedGroup.role}
+                                </div>
+                                <div style={{ color: '#e2e8f0', fontSize: '0.85rem' }}>
+                                    <strong>Benefit:</strong> {selectedGroup.benefit}
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
         </div>
@@ -830,69 +990,11 @@ function InteractiveStructureViewer({ molecule }: { molecule: Molecule }) {
 }
 
 // ============================================================================
-// FEATURED MOLECULES GRID (3D)
-// ============================================================================
-
-function FeaturedMolecules3D() {
-    return (
-        <div style={{ marginTop: '4rem' }}>
-            <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                <h3 style={{ fontSize: '1.8rem', fontWeight: 700, color: 'white' }}>Featured Molecules Collection</h3>
-                <p style={{ color: '#94a3b8' }}>Explore the 3D structures of the development pipeline</p>
-            </div>
-
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '2rem'
-            }}>
-                {MOLECULES.map(mol => (
-                    <div key={mol.name} style={{
-                        background: 'var(--card-bg)',
-                        borderRadius: '16px',
-                        border: '1px solid var(--border-color)',
-                        overflow: 'hidden'
-                    }}>
-                        <div style={{ height: '250px', background: 'black', position: 'relative' }}>
-                            <MoleculeViewer
-                                moleculeName={mol.name}
-                                cid={mol.pubchemCid}
-                                showControls={false}
-                                autoRotate={true}
-                            />
-                        </div>
-                        <div style={{ padding: '1.5rem' }}>
-                            <div style={{ color: '#94a3b8', fontSize: '0.8rem', textTransform: 'uppercase' }}>{mol.stage}</div>
-                            <h4 style={{ color: 'white', fontSize: '1.2rem', fontWeight: 700, marginBottom: '1rem' }}>{mol.name}</h4>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                {mol.functionalGroups.map(fg => (
-                                    <span key={fg.name} style={{
-                                        fontSize: '0.7rem',
-                                        padding: '0.2rem 0.5rem',
-                                        borderRadius: '4px',
-                                        background: `${fg.color}20`,
-                                        color: fg.color,
-                                        border: `1px solid ${fg.color}40`
-                                    }}>
-                                        {fg.name}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-}
-
-
-// ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 
 export default function DiclofenacLab() {
-    const [phase, setPhase] = useState<0 | 1 | 2 | 3>(0);
+    const [phase, setPhase] = useState<0 | 1 | 2 | 3 | 4>(0);
     const [completedPhases, setCompletedPhases] = useState<number[]>([]);
 
     const handlePhaseComplete = (phaseNum: number) => {
@@ -901,6 +1003,8 @@ export default function DiclofenacLab() {
         }
         if (phaseNum < 3) {
             setPhase((phaseNum + 1) as any);
+        } else {
+            setPhase(4); // Final state - show interactive structure
         }
     };
 
@@ -912,9 +1016,10 @@ export default function DiclofenacLab() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 padding: '2rem 2rem 0',
-                maxWidth: '800px',
+                maxWidth: '900px',
                 margin: '0 auto',
-                width: '100%'
+                width: '100%',
+                position: 'relative'
             }}>
                 {['Discovery', 'Optimization', 'Solubility', 'Salt Eng.'].map((step, i) => (
                     <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', position: 'relative', zIndex: 1 }}>
@@ -925,8 +1030,8 @@ export default function DiclofenacLab() {
                                 borderColor: i <= phase ? '#8b5cf6' : '#475569'
                             }}
                             style={{
-                                width: '32px',
-                                height: '32px',
+                                width: '36px',
+                                height: '36px',
                                 borderRadius: '50%',
                                 border: '2px solid',
                                 display: 'flex',
@@ -937,10 +1042,10 @@ export default function DiclofenacLab() {
                                 fontSize: '0.9rem'
                             }}
                         >
-                            {i < phase ? '✓' : i}
+                            {completedPhases.includes(i) ? '✓' : i}
                         </motion.div>
                         <div style={{
-                            fontSize: '0.8rem',
+                            fontSize: '0.85rem',
                             color: i <= phase ? 'white' : '#64748b',
                             fontWeight: i === phase ? 600 : 400
                         }}>
@@ -952,13 +1057,11 @@ export default function DiclofenacLab() {
                 <div style={{
                     position: 'absolute',
                     top: '2.9rem',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: 'calc(100% - 100px)',
+                    left: '10%',
+                    width: '80%',
                     height: '2px',
                     background: '#334155',
-                    zIndex: 0,
-                    maxWidth: '700px'
+                    zIndex: 0
                 }}>
                     <motion.div
                         animate={{ width: `${(phase / 3) * 100}%` }}
@@ -987,25 +1090,33 @@ export default function DiclofenacLab() {
                     )}
                     {phase === 3 && (
                         <motion.div key="phase3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                            <Phase3Salt onComplete={() => { }} />
+                            <Phase3Salt onComplete={() => handlePhaseComplete(3)} />
+                        </motion.div>
+                    )}
+                    {phase === 4 && (
+                        <motion.div key="phase4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} style={{ padding: '1.5rem' }}>
+                            <div style={{
+                                textAlign: 'center',
+                                padding: '2rem',
+                                background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1))',
+                                borderRadius: '16px',
+                                border: '1px solid rgba(34, 197, 94, 0.3)',
+                                marginBottom: '2rem'
+                            }}>
+                                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎓</div>
+                                <h3 style={{ color: '#22c55e', fontSize: '1.5rem', marginBottom: '0.5rem' }}>
+                                    Congratulations! Lab Complete
+                                </h3>
+                                <p style={{ color: '#e2e8f0' }}>
+                                    You've successfully completed the Diclofenac Lead-to-Salt journey.
+                                </p>
+                            </div>
+
+                            {/* Interactive 2D Structure for Diclofenac Sodium */}
+                            <Interactive2DStructure molecule={MOLECULES[2]} />
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </div>
-
-            {/* Featured Molecules Section (Always Visible or at bottom) */}
-            <div style={{ padding: '0 2rem 2rem' }}>
-                <div style={{ height: '1px', background: 'rgba(255,255,255,0.1)', margin: '2rem 0' }} />
-
-                <div style={{ marginBottom: '2rem' }}>
-                    <h3 style={{ color: 'white', marginBottom: '1rem' }}>Structure-Function Analysis</h3>
-                    {/* Show interactive viewer for current molecule based on phase */}
-                    <InteractiveStructureViewer
-                        molecule={phase === 0 ? MOLECULES[0] : phase === 1 ? MOLECULES[1] : phase === 2 ? MOLECULES[1] : MOLECULES.find(m => m.name.includes('Sodium')) || MOLECULES[2]}
-                    />
-                </div>
-
-                <FeaturedMolecules3D />
             </div>
         </div>
     );
