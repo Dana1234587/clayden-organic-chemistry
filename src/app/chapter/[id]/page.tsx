@@ -169,6 +169,25 @@ const MagicBulletExplorer = dynamic(() => import('@/components/simulations/Magic
         </div>
     )
 });
+
+// Dynamic import for AdvancedDrugDiscoveryLab (client-side only - Lesson 5 Smell)
+const AdvancedDrugDiscoveryLab = dynamic(() => import('@/components/content/AdvancedDrugDiscoveryLab'), {
+    ssr: false,
+    loading: () => (
+        <div style={{
+            height: '500px',
+            background: 'var(--gradient-card)',
+            borderRadius: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--neutral-400)'
+        }}>
+            Loading Advanced Drug Discovery Lab...
+        </div>
+    )
+});
+
 const Hybridization3D = dynamic(() => import('@/components/Hybridization3D'), {
     ssr: false,
     loading: () => (
@@ -653,6 +672,42 @@ export default function ChapterPage() {
                                         Test different compounds and discover why Prontosil became the first antibiotic!
                                     </p>
                                     <MagicBulletExplorer />
+                                </div>
+                            </>
+                        )}
+
+                        {/* Lesson 5: Smell & Pheromones - Advanced Drug Discovery Lab */}
+                        {section.id === 'smell-and-pheromones' && (
+                            <>
+                                {/* Advanced Drug Discovery Lab */}
+                                <div style={{
+                                    margin: '2rem 0',
+                                    padding: '1.5rem',
+                                    background: 'var(--gradient-card)',
+                                    borderRadius: '16px',
+                                    border: '1px solid var(--neutral-800)'
+                                }}>
+                                    <h3 style={{
+                                        fontSize: '1.4rem',
+                                        fontWeight: 700,
+                                        color: 'var(--neutral-100)',
+                                        marginBottom: '1rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '0.5rem'
+                                    }}>
+                                        🧬 Research & Development: Advanced Drug Discovery
+                                    </h3>
+                                    <p style={{
+                                        color: 'var(--neutral-400)',
+                                        marginBottom: '1.5rem',
+                                        lineHeight: 1.6
+                                    }}>
+                                        Explore how stereochemistry determines drug activity through interactive
+                                        molecular docking, SAR analysis, and E-Nose diagnostics — connecting
+                                        olfactory chemistry to pharmaceutical research.
+                                    </p>
+                                    <AdvancedDrugDiscoveryLab />
                                 </div>
                             </>
                         )}
