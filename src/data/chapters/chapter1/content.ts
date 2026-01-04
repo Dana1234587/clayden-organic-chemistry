@@ -709,6 +709,7 @@ export const sections: ChapterSection[] = [
       url: 'https://vz-2adfd2e0-f8c.b-cdn.net/5469430a-05ae-42dc-b550-dcfd9f46f151/playlist.m3u8',
       duration: '09:00'
     },
+    advancedDrugLab: true,
     molecules: [
       { name: "Methane", description: "Perfect example of 4 covalent C-H bonds" },
       { name: "Ethanol", description: "Contains C-C, C-H, C-O, and O-H bonds" }
@@ -780,6 +781,7 @@ export const sections: ChapterSection[] = [
       url: 'https://vz-2adfd2e0-f8c.b-cdn.net/9ecdadf5-5202-453c-93f8-acbdf1850184/playlist.m3u8',
       duration: '10:00'
     },
+    advancedDrugLab: true,
     keyPoints: [
       "Hybridization explains how carbon forms 4 equivalent bonds",
       "sp³: 4 groups, tetrahedral, 109.5° angles",
@@ -850,6 +852,7 @@ export const sections: ChapterSection[] = [
       url: 'https://vz-2adfd2e0-f8c.b-cdn.net/3f0de2bb-02b6-4321-88fc-f1f1b3ec2150/playlist.m3u8',
       duration: '08:30'
     },
+    advancedDrugLab: true,
     keyPoints: [
       "Sigma (σ) bonds: head-on overlap, single bonds, allows rotation",
       "Pi (π) bonds: sideways overlap, in double/triple bonds, prevents rotation",
@@ -922,6 +925,7 @@ export const sections: ChapterSection[] = [
       url: 'https://vz-2adfd2e0-f8c.b-cdn.net/8315a1f1-d47c-4cb6-b9e8-50eb4e5517c6/playlist.m3u8',
       duration: '09:00'
     },
+    advancedDrugLab: true,
     keyPoints: [
       "Electronegativity: an atom's pull on shared electrons",
       "Polar bonds have unequal electron sharing (δ⁺ and δ⁻)",
@@ -989,6 +993,7 @@ export const sections: ChapterSection[] = [
       url: 'https://vz-2adfd2e0-f8c.b-cdn.net/027497f8-f13e-43de-bce1-fc22ce805e92/playlist.m3u8',
       duration: '08:00'
     },
+    advancedDrugLab: true,
     keyPoints: [
       "Common elements: C, H, O, N, S, P, and halogens",
       "Halogens modify drug stability and properties",
@@ -1095,6 +1100,7 @@ export const sections: ChapterSection[] = [
       url: 'https://vz-2adfd2e0-f8c.b-cdn.net/ebcf07a2-145e-4bc3-b5fa-d08d32713140/playlist.m3u8',
       duration: '09:30'
     },
+    advancedDrugLab: true,
     keyPoints: [
       "Bulk chemicals: simple, cheap, millions of tons (petroleum-based)",
       "Fine chemicals: complex, expensive, small quantities (drugs, perfumes)",
@@ -1167,6 +1173,7 @@ export const sections: ChapterSection[] = [
       url: 'https://vz-2adfd2e0-f8c.b-cdn.net/ea655d60-311b-4d78-96c2-32d17b0588da/playlist.m3u8',
       duration: '08:30'
     },
+    advancedDrugLab: true,
     keyPoints: [
       "Rose oil contains 300+ different organic molecules",
       "Molecular structure determines scent characteristics",
@@ -1254,6 +1261,7 @@ export const sections: ChapterSection[] = [
       url: 'https://vz-2adfd2e0-f8c.b-cdn.net/58a6bf3d-09fb-4b10-bd3e-aa3139802dca/playlist.m3u8',
       duration: '10:00'
     },
+    advancedDrugLab: true,
     keyPoints: [
       "Quinine (from tree bark) was first effective malaria treatment",
       "Lipitor was once the best-selling drug ($12B/year)",
@@ -1324,6 +1332,7 @@ export const sections: ChapterSection[] = [
       url: 'https://vz-2adfd2e0-f8c.b-cdn.net/3e8eae2f-9b12-43db-8f5e-dc59dda869ef/playlist.m3u8',
       duration: '08:00'
     },
+    advancedDrugLab: true,
     keyPoints: [
       "Synthesis: building complex molecules step-by-step",
       "Analysis: determining structure using NMR, MS, X-ray",

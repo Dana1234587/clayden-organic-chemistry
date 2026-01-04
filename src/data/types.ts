@@ -85,6 +85,8 @@ export interface ChapterSection {
     stereochemistryLab?: boolean;
     // Bioisosterism Lab flag (Lesson 7 - PhD level)
     bioisosterismLab?: boolean;
+    // Advanced Drug Lab flag (Lessons 8-16 - PhD level drug discovery & development)
+    advancedDrugLab?: boolean;
 }
 
 export interface ChapterQuiz {
