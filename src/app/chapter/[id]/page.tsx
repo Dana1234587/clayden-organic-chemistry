@@ -784,8 +784,8 @@ export default function ChapterPage() {
                             </>
                         )}
 
-                        {/* Lesson 7: Bioisosterism Lab */}
-                        {section.id === 'bioisosterism-architecture' && (
+                        {/* Lesson 7: Atomic Structure with Bioisosterism Lab */}
+                        {section.id === 'atomic-structure-review' && (
                             <>
                                 {/* Bioisosterism Lab */}
                                 <div style={{

@@ -672,85 +672,8 @@ export const sections: ChapterSection[] = [
         correctIndex: 1,
         explanation: "The nucleus contains protons (positive) and neutrons (neutral). Electrons orbit outside the nucleus."
       }
-    ]
-  },
-  {
-    id: "bioisosterism-architecture",
-    title: "Bioisosterism & The Electron Architect",
-    content: `LESSON 7: PHD-LEVEL ATOMIC ARCHITECTURE IN DRUG DESIGN
-      
-      In advanced drug development, understanding atomic structure isn't just about memorizing electron configurations—
-      it's about using this knowledge to OPTIMIZE DRUGS. Welcome to the world of Bioisosterism.
-      
-      🔬 BIOISOSTERISM: THE ATOMIC EXCHANGE
-      Bioisosteres are atoms or groups with similar electronic and steric properties that can be 
-      substituted without dramatically changing biological activity.
-      
-      The classic example: Replacing H with F (Fluorine)
-      • Same size (van der Waals radius: H=1.2Å, F=1.47Å)
-      • F is extremely electronegative (3.98 vs H's 2.20)
-      • F blocks CYP450 metabolism → increases drug half-life
-      • This "fluorine scan" is used in ~30% of modern drugs!
-      
-      ⚛️ THE GOLDEN ATOMS OF DRUG DISCOVERY
-      Only a handful of atoms appear in most drugs. Each has a specific role:
-      
-      Carbon (C) - 4 valence electrons
-      → The backbone scaffold. Forms stable chains, rings, and branches.
-      
-      Nitrogen (N) - 5 valence electrons
-      → Essential for amines (-NH₂). Forms H-bonds with receptor proteins.
-      
-      Oxygen (O) - 6 valence electrons
-      → Increases water solubility. Forms hydrogen bonds. Found in -OH, C=O groups.
-      
-      Fluorine (F) - 7 valence electrons
-      → "The Magic Touch". Increases metabolic stability and membrane permeability.
-      
-      ☁️ VAN DER WAALS FORCES & MOLECULAR DOCKING
-      Since atoms are mostly empty space, drugs bind through electron cloud interactions:
-      • Optimal distance: 3-4 Å → Strong attraction
-      • Too close (<2 Å): Steric clashes → Repulsion
-      • Too far (>5 Å): Weak binding → Drug won't work
-      
-      Molecular docking software calculates ΔG (binding energy) based on these distances.
-      The better the fit, the more negative ΔG, the stronger the drug-receptor binding.`,
-    bioisosterismLab: true,
-    molecules: [
-      { name: "Fluorouracil", description: "5-FU: Uracil with F replacing H → cancer drug" },
-      { name: "Sulfanilamide", description: "Bioisostere of PABA (-SO₂NH₂ ≈ -COOH)" },
-      { name: "Atorvastatin", description: "Lipitor: Optimized through bioisosteric replacement" },
-      { name: "Fluoxetine", description: "Prozac: CF₃ group for metabolic stability" }
     ],
-    keyPoints: [
-      "Bioisosteres are atomic substitutions with similar properties",
-      "H→F replacement is the most common bioisosteric swap",
-      "Carbon (4e⁻), Nitrogen (5e⁻), Oxygen (6e⁻), Fluorine (7e⁻) are 'golden atoms'",
-      "Van der Waals forces determine drug-receptor binding at 3-4Å",
-      "ΔG (binding energy) must be negative for strong binding"
-    ],
-    funFact: "About 20% of all pharmaceutical products contain fluorine, even though fluorine-containing natural products are extremely rare in nature!",
-    commonMistake: "Don't assume bioisosteric replacement always works. While F and H are similar in size, their electronegativity difference can dramatically alter drug properties.",
-    quickCheck: [
-      {
-        question: "Bioisosteres are atoms or groups with:",
-        options: ["Same color", "Similar electronic and steric properties", "Identical mass", "Same radioactivity"],
-        correctIndex: 1,
-        explanation: "Bioisosteres have similar electronic structure and size, allowing substitution without major changes in biological activity."
-      },
-      {
-        question: "The optimal distance for van der Waals attraction between drug and receptor is:",
-        options: ["0.5 Å", "3-4 Å", "10 Å", "50 Å"],
-        correctIndex: 1,
-        explanation: "At 3-4 Å, electron clouds overlap optimally. Closer causes steric clash, farther means weak binding."
-      },
-      {
-        question: "Replacing H with F in a drug typically:",
-        options: ["Makes it toxic", "Increases metabolic stability", "Decreases potency", "Has no effect"],
-        correctIndex: 1,
-        explanation: "F blocks CYP450 oxidation sites, preventing metabolism and increasing drug half-life. This is the 'fluorine effect'."
-      }
-    ]
+    bioisosterismLab: true
   },
   {
     id: "chemical-bonding",
