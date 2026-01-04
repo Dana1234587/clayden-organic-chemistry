@@ -193,9 +193,27 @@ const AdvancedDrugDiscoveryLab = dynamic(() => import('../content/AdvancedDrugDi
     )
 });
 
+// Dynamic import for ChiralDrugDiscoveryLab (Lesson 6 - PhD level stereochemistry)
+const ChiralDrugDiscoveryLab = dynamic(() => import('../content/ChiralDrugDiscoveryLab'), {
+    ssr: false,
+    loading: () => (
+        <div style={{
+            height: '500px',
+            background: 'var(--gradient-card)',
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--neutral-400)'
+        }}>
+            Loading Chiral Drug Discovery Lab...
+        </div>
+    )
+});
+
 // ... imports ...
 
-type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective' | 'research' | 'virtualLab' | 'drugDevelopmentLab' | 'advancedDrugDiscovery';
+type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective' | 'research' | 'virtualLab' | 'drugDevelopmentLab' | 'advancedDrugDiscovery' | 'stereochemistryLab';
 
 export default function LessonViewer({
     section,
@@ -243,6 +261,7 @@ export default function LessonViewer({
         ...(section.id === 'synthetic-dyes' ? [{ id: 'virtualLab' as const, icon: '🔬', label: 'Virtual Lab' }] : []),
         ...(section.drugDevelopmentLab ? [{ id: 'drugDevelopmentLab' as const, icon: '🧪', label: 'Molecular Lab' }] : []),
         ...(section.advancedDrugDiscovery ? [{ id: 'advancedDrugDiscovery' as const, icon: '🧬', label: 'Discovery Lab' }] : []),
+        ...(section.stereochemistryLab ? [{ id: 'stereochemistryLab' as const, icon: '🪞', label: 'Chiral Lab' }] : []),
         ...(section.conjugationDiagram ? [{ id: 'conjugation' as const, icon: '🌈', label: 'Conjugation Rule' }] : []),
         ...(section.colorExamples ? [{ id: 'colors' as const, icon: '🧪', label: 'Featured Molecules' }] : []),
         ...(isColorLesson ? [{ id: 'clinical' as const, icon: '💊', label: 'Clinical Colors' }] : []),
@@ -661,6 +680,18 @@ export default function LessonViewer({
                             exit={{ opacity: 0, y: -10 }}
                         >
                             <AdvancedDrugDiscoveryLab />
+                        </motion.div>
+                    )}
+
+                    {/* STEREOCHEMISTRY LAB TAB (Lesson 6 - PhD level) */}
+                    {activeTab === 'stereochemistryLab' && section.stereochemistryLab && (
+                        <motion.div
+                            key="stereochemistryLab"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                        >
+                            <ChiralDrugDiscoveryLab />
                         </motion.div>
                     )}
 

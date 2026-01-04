@@ -588,7 +588,26 @@ export const sections: ChapterSection[] = [
         options: ["Being bonded to oxygen", "Having four DIFFERENT groups attached", "Being in a ring", "Having double bonds"],
         correctIndex: 1,
         explanation: "A carbon bonded to four DIFFERENT groups creates a chiral center - the source of molecular handedness."
+      },
+      {
+        question: "The EUTOMER is defined as:",
+        options: ["The cheaper enantiomer", "The enantiomer with desired pharmacological activity", "The racemic mixture", "The degradation product"],
+        correctIndex: 1,
+        explanation: "Eutomer = the therapeutically active enantiomer. Distomer = the inactive or toxic one. The eudysmic ratio measures their potency difference."
+      },
+      {
+        question: "Chiral Switch strategy is used by pharma companies to:",
+        options: ["Make drugs cheaper", "Remarket a racemic drug as a pure enantiomer for patent extension", "Remove all chirality", "Convert drugs to natural products"],
+        correctIndex: 1,
+        explanation: "Chiral Switch (e.g., Citalopram → Escitalopram) extends patents while potentially improving therapeutic profiles."
       }
+    ],
+    stereochemistryLab: true,
+    molecules: [
+      { name: "R-Thalidomide", description: "EUTOMER: Sedative/anti-nausea, IC₅₀ = 0.5 µM" },
+      { name: "S-Thalidomide", description: "DISTOMER: Teratogenic (birth defects), 100x less potent" },
+      { name: "Escitalopram", description: "Chiral Switch from Citalopram (2002), 2x more potent SSRI" },
+      { name: "Esomeprazole", description: "Chiral Switch from Omeprazole (2001), better bioavailability" }
     ]
   },
   {

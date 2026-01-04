@@ -81,6 +81,8 @@ export interface ChapterSection {
     drugDevelopmentLab?: boolean;
     // Advanced Drug Discovery Lab flag (Lesson 5 - PhD/Master level)
     advancedDrugDiscovery?: boolean;
+    // Stereochemistry Lab flag (Lesson 6 - PhD level)
+    stereochemistryLab?: boolean;
 }
 
 export interface ChapterQuiz {
