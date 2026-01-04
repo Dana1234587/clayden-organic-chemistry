@@ -10,7 +10,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface FunctionalGroup {
     id: string;
     name: string;
-    nameAr: string;
     symbol: string;
     color: string;
     pkaDelta: number;
@@ -18,7 +17,6 @@ interface FunctionalGroup {
     duration: string;
     durationHours: number;
     clinicalUse: string;
-    clinicalUseAr: string;
     position: 'N1' | 'N4' | 'ring';
     description: string;
 }
@@ -27,18 +25,22 @@ interface SulfaDrug {
     id: string;
     name: string;
     class: string;
-    classAr: string;
     modification: string;
     duration: string;
     durationHours: string;
     clinicalUse: string;
-    clinicalUseAr: string;
     color: string;
     icon: string;
+    functionalGroups: {
+        id: string;
+        name: string;
+        color: string;
+        description: string;
+    }[];
 }
 
 // ============================================================================
-// DATA
+// DATA - NO ARABIC TEXT
 // ============================================================================
 
 const SULFA_FAMILY: SulfaDrug[] = [
@@ -46,66 +48,82 @@ const SULFA_FAMILY: SulfaDrug[] = [
         id: 'sulfisoxazole',
         name: 'Sulfisoxazole',
         class: 'Short-Acting',
-        classAr: 'قصيرة المفعول',
         modification: 'Isoxazole ring',
         duration: '~6 hours',
         durationHours: '6h',
         clinicalUse: 'Acute urinary tract infections',
-        clinicalUseAr: 'التهابات المسالك البولية الحادة',
         color: '#3b82f6',
-        icon: '⚡'
+        icon: '⚡',
+        functionalGroups: [
+            { id: 'amine', name: 'Primary Amine (-NH₂)', color: '#3b82f6', description: 'Essential for antibacterial activity' },
+            { id: 'sulfonamide', name: 'Sulfonamide (-SO₂NH-)', color: '#10b981', description: 'Core pharmacophore - mimics PABA' },
+            { id: 'isoxazole', name: 'Isoxazole Ring', color: '#f97316', description: 'Increases water solubility, rapid excretion' }
+        ]
     },
     {
         id: 'sulfamethoxazole',
         name: 'Sulfamethoxazole',
         class: 'Medium-Acting',
-        classAr: 'متوسطة المفعول',
         modification: 'Methyl-isoxazole',
         duration: '~12 hours',
         durationHours: '12h',
         clinicalUse: 'The "Joker" - Combined with Trimethoprim (Bactrim)',
-        clinicalUseAr: '"الجوكر" - يُستخدم مع التريميثوبريم (Bactrim)',
         color: '#10b981',
-        icon: '🃏'
+        icon: '🃏',
+        functionalGroups: [
+            { id: 'amine', name: 'Primary Amine (-NH₂)', color: '#3b82f6', description: 'Essential for antibacterial activity' },
+            { id: 'sulfonamide', name: 'Sulfonamide (-SO₂NH-)', color: '#10b981', description: 'Core pharmacophore - mimics PABA' },
+            { id: 'methylisoxazole', name: 'Methyl-Isoxazole', color: '#f97316', description: 'Balanced solubility and half-life' }
+        ]
     },
     {
         id: 'sulfadoxine',
         name: 'Sulfadoxine',
         class: 'Long-Acting',
-        classAr: 'طويلة المفعول',
         modification: 'Methoxy-pyrimidine',
         duration: '100+ hours',
         durationHours: '100h+',
         clinicalUse: 'Malaria prevention (Fansidar)',
-        clinicalUseAr: 'الوقاية من الملاريا (Fansidar)',
         color: '#8b5cf6',
-        icon: '🦟'
+        icon: '🦟',
+        functionalGroups: [
+            { id: 'amine', name: 'Primary Amine (-NH₂)', color: '#3b82f6', description: 'Essential for antibacterial activity' },
+            { id: 'sulfonamide', name: 'Sulfonamide (-SO₂NH-)', color: '#10b981', description: 'Core pharmacophore - mimics PABA' },
+            { id: 'methoxypyrimidine', name: 'Methoxy-Pyrimidine', color: '#8b5cf6', description: 'High lipophilicity, slow metabolism' }
+        ]
     },
     {
         id: 'silver-sulfadiazine',
         name: 'Silver Sulfadiazine',
         class: 'Topical',
-        classAr: 'موضعية',
-        modification: 'Silver atom / Polar groups',
+        modification: 'Silver atom + Pyrimidine',
         duration: 'Surface action',
         durationHours: 'Topical',
         clinicalUse: 'Burn wound infection prevention',
-        clinicalUseAr: 'كريمات الحروق لمنع العدوى الجلدية',
         color: '#94a3b8',
-        icon: '🔥'
+        icon: '🔥',
+        functionalGroups: [
+            { id: 'silver', name: 'Silver Ion (Ag⁺)', color: '#94a3b8', description: 'Provides additional antimicrobial activity' },
+            { id: 'sulfonamide', name: 'Sulfonamide (-SO₂NH-)', color: '#10b981', description: 'Core pharmacophore' },
+            { id: 'pyrimidine', name: 'Pyrimidine Ring', color: '#f97316', description: 'Polar - prevents systemic absorption' }
+        ]
     },
     {
         id: 'sulfasalazine',
         name: 'Sulfasalazine',
         class: 'Gut-Acting (Prodrug)',
-        classAr: 'معوية (طليعة دواء)',
         modification: 'Azo-link (N=N)',
         duration: 'Gut-specific',
         durationHours: 'GI',
         clinicalUse: 'Ulcerative Colitis treatment',
-        clinicalUseAr: 'علاج مرض القولون التقرحي',
         color: '#f97316',
-        icon: '🎯'
+        icon: '🎯',
+        functionalGroups: [
+            { id: 'amine', name: 'Primary Amine (-NH₂)', color: '#3b82f6', description: 'Essential for antibacterial activity' },
+            { id: 'azo', name: 'Azo Group (N=N)', color: '#ef4444', description: 'Chromophore - cleaved by gut bacteria' },
+            { id: 'sulfonamide', name: 'Sulfonamide (-SO₂NH-)', color: '#10b981', description: 'Released after azo cleavage' },
+            { id: 'salicylate', name: '5-Aminosalicylic Acid', color: '#f97316', description: 'Anti-inflammatory action in colon' }
+        ]
     }
 ];
 
@@ -113,7 +131,6 @@ const FUNCTIONAL_GROUPS: FunctionalGroup[] = [
     {
         id: 'isoxazole',
         name: 'Isoxazole Ring',
-        nameAr: 'حلقة إيزوكسازول',
         symbol: 'Isoxazole',
         color: '#3b82f6',
         pkaDelta: -0.8,
@@ -121,14 +138,12 @@ const FUNCTIONAL_GROUPS: FunctionalGroup[] = [
         duration: 'Short (6h)',
         durationHours: 6,
         clinicalUse: 'UTI Treatment',
-        clinicalUseAr: 'علاج التهابات المسالك',
         position: 'N1',
         description: 'Increases water solubility, rapid excretion'
     },
     {
         id: 'methyl-isoxazole',
         name: 'Methyl-Isoxazole',
-        nameAr: 'ميثيل-إيزوكسازول',
         symbol: 'Me-Isoxazole',
         color: '#10b981',
         pkaDelta: -0.5,
@@ -136,14 +151,12 @@ const FUNCTIONAL_GROUPS: FunctionalGroup[] = [
         duration: 'Medium (12h)',
         durationHours: 12,
         clinicalUse: 'Systemic Infections',
-        clinicalUseAr: 'عدوى جهازية',
         position: 'N1',
         description: 'Balanced solubility and half-life'
     },
     {
         id: 'methoxy-pyrimidine',
         name: 'Methoxy-Pyrimidine',
-        nameAr: 'ميثوكسي-بيريميدين',
         symbol: 'OMe-Pyr',
         color: '#8b5cf6',
         pkaDelta: 0.3,
@@ -151,14 +164,12 @@ const FUNCTIONAL_GROUPS: FunctionalGroup[] = [
         duration: 'Long (100h+)',
         durationHours: 100,
         clinicalUse: 'Malaria Prevention',
-        clinicalUseAr: 'الوقاية من الملاريا',
         position: 'N1',
         description: 'High lipophilicity, slow metabolism'
     },
     {
         id: 'silver',
         name: 'Silver Atom',
-        nameAr: 'ذرة الفضة',
         symbol: 'Ag⁺',
         color: '#94a3b8',
         pkaDelta: 0,
@@ -166,14 +177,12 @@ const FUNCTIONAL_GROUPS: FunctionalGroup[] = [
         duration: 'Topical',
         durationHours: 0,
         clinicalUse: 'Burn Cream',
-        clinicalUseAr: 'كريم الحروق',
         position: 'N1',
         description: 'No systemic absorption, local antimicrobial'
     },
     {
         id: 'azo-link',
         name: 'Azo Linkage',
-        nameAr: 'رابطة آزو',
         symbol: 'N=N',
         color: '#f97316',
         pkaDelta: 0,
@@ -181,33 +190,29 @@ const FUNCTIONAL_GROUPS: FunctionalGroup[] = [
         duration: 'Gut-specific',
         durationHours: 0,
         clinicalUse: 'Colon Delivery',
-        clinicalUseAr: 'توصيل للقولون',
         position: 'N4',
         description: 'Prodrug - cleaved by gut bacteria'
     }
 ];
 
 // ============================================================================
-// SULFANILAMIDE CORE SVG
+// 2D STRUCTURE SVG COMPONENT
 // ============================================================================
 
-function SulfanilamideCore({
-    selectedGroup,
-    onGroupSelect,
-    highlightN1
-}: {
-    selectedGroup: FunctionalGroup | null;
-    onGroupSelect: (group: FunctionalGroup | null) => void;
-    highlightN1: boolean;
+function Drug2DStructure({ drug, hoveredGroup, onGroupHover }: {
+    drug: SulfaDrug;
+    hoveredGroup: string | null;
+    onGroupHover: (id: string | null) => void;
 }) {
+    // Generic sulfanilamide structure with highlighted N1 modification
     return (
-        <svg viewBox="0 0 400 300" style={{ width: '100%', height: '100%', maxHeight: '300px' }}>
+        <svg viewBox="0 0 400 280" style={{ width: '100%', height: '100%', maxHeight: '280px' }}>
             <defs>
-                <linearGradient id="coreBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient id={`bg-${drug.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#1e293b" />
                     <stop offset="100%" stopColor="#0f172a" />
                 </linearGradient>
-                <filter id="glow">
+                <filter id="groupGlow">
                     <feGaussianBlur stdDeviation="3" result="coloredBlur" />
                     <feMerge>
                         <feMergeNode in="coloredBlur" />
@@ -217,77 +222,100 @@ function SulfanilamideCore({
             </defs>
 
             {/* Background */}
-            <rect x="0" y="0" width="400" height="300" fill="url(#coreBg)" rx="16" />
+            <rect x="0" y="0" width="400" height="280" fill={`url(#bg-${drug.id})`} rx="16" />
 
-            {/* Title */}
-            <text x="200" y="30" textAnchor="middle" fill="#e2e8f0" fontSize="16" fontWeight="bold">
-                Sulfanilamide Core Structure
+            {/* Drug Name */}
+            <text x="200" y="30" textAnchor="middle" fill={drug.color} fontSize="16" fontWeight="bold">
+                {drug.name}
             </text>
 
             {/* N4 - Para amino group (top) */}
-            <g>
-                <text x="200" y="70" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
-                    H₂N — (N⁴)
+            <g
+                onMouseEnter={() => onGroupHover('amine')}
+                onMouseLeave={() => onGroupHover(null)}
+                style={{ cursor: 'pointer' }}
+            >
+                <rect
+                    x="165" y="45" width="70" height="25"
+                    fill={hoveredGroup === 'amine' ? '#3b82f620' : 'transparent'}
+                    stroke={hoveredGroup === 'amine' ? '#3b82f6' : 'transparent'}
+                    strokeWidth="2"
+                    rx="4"
+                    filter={hoveredGroup === 'amine' ? 'url(#groupGlow)' : 'none'}
+                />
+                <text x="200" y="62" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
+                    H₂N
                 </text>
-                <line x1="200" y1="75" x2="200" y2="95" stroke="#64748b" strokeWidth="2" />
+                <line x1="200" y1="70" x2="200" y2="85" stroke="#64748b" strokeWidth="2" />
             </g>
 
             {/* Benzene ring */}
             <polygon
-                points="200,95 235,115 235,155 200,175 165,155 165,115"
+                points="200,85 235,105 235,145 200,165 165,145 165,105"
                 fill="transparent"
                 stroke="#64748b"
                 strokeWidth="2"
             />
-            <circle cx="200" cy="135" r="25" fill="none" stroke="#64748b" strokeWidth="1" strokeDasharray="4,2" />
+            <circle cx="200" cy="125" r="22" fill="none" stroke="#64748b" strokeWidth="1" strokeDasharray="4,2" />
 
             {/* Bond to sulfonamide */}
-            <line x1="200" y1="175" x2="200" y2="195" stroke="#64748b" strokeWidth="2" />
+            <line x1="200" y1="165" x2="200" y2="180" stroke="#64748b" strokeWidth="2" />
 
             {/* Sulfonamide group */}
-            <g>
-                <text x="200" y="215" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
+            <g
+                onMouseEnter={() => onGroupHover('sulfonamide')}
+                onMouseLeave={() => onGroupHover(null)}
+                style={{ cursor: 'pointer' }}
+            >
+                <rect
+                    x="170" y="175" width="60" height="30"
+                    fill={hoveredGroup === 'sulfonamide' ? '#10b98120' : 'transparent'}
+                    stroke={hoveredGroup === 'sulfonamide' ? '#10b981' : 'transparent'}
+                    strokeWidth="2"
+                    rx="4"
+                    filter={hoveredGroup === 'sulfonamide' ? 'url(#groupGlow)' : 'none'}
+                />
+                <text x="200" y="195" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
                     SO₂
                 </text>
-                <line x1="200" y1="220" x2="200" y2="235" stroke="#64748b" strokeWidth="2" />
+                <line x1="200" y1="205" x2="200" y2="215" stroke="#64748b" strokeWidth="2" />
             </g>
 
-            {/* N1 position - HIGHLIGHT for modification */}
+            {/* NH linkage */}
+            <text x="200" y="230" textAnchor="middle" fill="#94a3b8" fontSize="12">
+                NH
+            </text>
+            <line x1="200" y1="235" x2="200" y2="245" stroke="#64748b" strokeWidth="2" />
+
+            {/* N1 Modification - the key difference */}
             <g
+                onMouseEnter={() => onGroupHover('n1mod')}
+                onMouseLeave={() => onGroupHover(null)}
                 style={{ cursor: 'pointer' }}
-                onClick={() => onGroupSelect(null)}
             >
-                <circle
-                    cx="200"
-                    cy="255"
-                    r="20"
-                    fill={highlightN1 ? '#f97316' + '30' : 'transparent'}
-                    stroke={highlightN1 ? '#f97316' : selectedGroup ? selectedGroup.color : '#f97316'}
+                <rect
+                    x="140" y="242" width="120" height="30"
+                    fill={hoveredGroup === 'n1mod' ? `${drug.color}20` : 'transparent'}
+                    stroke={hoveredGroup === 'n1mod' ? drug.color : drug.color + '60'}
                     strokeWidth="2"
-                    strokeDasharray={highlightN1 && !selectedGroup ? "5,3" : "0"}
-                    filter={highlightN1 ? "url(#glow)" : "none"}
+                    strokeDasharray={hoveredGroup === 'n1mod' ? '0' : '5,3'}
+                    rx="8"
+                    filter={hoveredGroup === 'n1mod' ? 'url(#groupGlow)' : 'none'}
                 />
-                <text
-                    x="200"
-                    y="260"
-                    textAnchor="middle"
-                    fill={selectedGroup ? selectedGroup.color : '#f97316'}
-                    fontSize="12"
-                    fontWeight="bold"
-                >
-                    {selectedGroup ? selectedGroup.symbol : 'N¹H₂'}
+                <text x="200" y="262" textAnchor="middle" fill={drug.color} fontSize="12" fontWeight="bold">
+                    {drug.modification}
                 </text>
             </g>
 
             {/* Labels */}
-            <text x="280" y="135" fill="#64748b" fontSize="11">← Benzene Ring</text>
-            <text x="280" y="215" fill="#10b981" fontSize="11">← Sulfonamide</text>
-            <text x="280" y="255" fill="#f97316" fontSize="11">← N¹ Position</text>
-            <text x="45" y="255" textAnchor="end" fill="#f97316" fontSize="10">(Modify here!)</text>
+            <text x="280" y="62" fill="#3b82f6" fontSize="10">← Primary Amine</text>
+            <text x="280" y="125" fill="#64748b" fontSize="10">← Benzene Ring</text>
+            <text x="280" y="195" fill="#10b981" fontSize="10">← Sulfonamide</text>
+            <text x="280" y="258" fill={drug.color} fontSize="10" fontWeight="bold">← N¹ Modification</text>
 
-            {/* Instruction */}
-            <text x="200" y="290" textAnchor="middle" fill="#94a3b8" fontSize="11">
-                Select a functional group to modify N¹ position
+            {/* Click instruction */}
+            <text x="200" y="276" textAnchor="middle" fill="#64748b" fontSize="9">
+                Click on groups to highlight
             </text>
         </svg>
     );
@@ -434,6 +462,107 @@ function PropertiesPanel({
                 </motion.div>
             )}
         </motion.div>
+    );
+}
+
+// ============================================================================
+// SULFANILAMIDE CORE SVG
+// ============================================================================
+
+function SulfanilamideCore({
+    selectedGroup,
+    highlightN1
+}: {
+    selectedGroup: FunctionalGroup | null;
+    highlightN1: boolean;
+}) {
+    return (
+        <svg viewBox="0 0 400 300" style={{ width: '100%', height: '100%', maxHeight: '300px' }}>
+            <defs>
+                <linearGradient id="coreBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#1e293b" />
+                    <stop offset="100%" stopColor="#0f172a" />
+                </linearGradient>
+                <filter id="glow">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                    <feMerge>
+                        <feMergeNode in="coloredBlur" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+            </defs>
+
+            {/* Background */}
+            <rect x="0" y="0" width="400" height="300" fill="url(#coreBg)" rx="16" />
+
+            {/* Title */}
+            <text x="200" y="30" textAnchor="middle" fill="#e2e8f0" fontSize="16" fontWeight="bold">
+                Sulfanilamide Core Structure
+            </text>
+
+            {/* N4 - Para amino group (top) */}
+            <g>
+                <text x="200" y="70" textAnchor="middle" fill="#3b82f6" fontSize="14" fontWeight="bold">
+                    H₂N — (N⁴)
+                </text>
+                <line x1="200" y1="75" x2="200" y2="95" stroke="#64748b" strokeWidth="2" />
+            </g>
+
+            {/* Benzene ring */}
+            <polygon
+                points="200,95 235,115 235,155 200,175 165,155 165,115"
+                fill="transparent"
+                stroke="#64748b"
+                strokeWidth="2"
+            />
+            <circle cx="200" cy="135" r="25" fill="none" stroke="#64748b" strokeWidth="1" strokeDasharray="4,2" />
+
+            {/* Bond to sulfonamide */}
+            <line x1="200" y1="175" x2="200" y2="195" stroke="#64748b" strokeWidth="2" />
+
+            {/* Sulfonamide group */}
+            <g>
+                <text x="200" y="215" textAnchor="middle" fill="#10b981" fontSize="14" fontWeight="bold">
+                    SO₂
+                </text>
+                <line x1="200" y1="220" x2="200" y2="235" stroke="#64748b" strokeWidth="2" />
+            </g>
+
+            {/* N1 position - HIGHLIGHT for modification */}
+            <g style={{ cursor: 'pointer' }}>
+                <circle
+                    cx="200"
+                    cy="255"
+                    r="20"
+                    fill={highlightN1 ? '#f9731630' : 'transparent'}
+                    stroke={highlightN1 ? '#f97316' : selectedGroup ? selectedGroup.color : '#f97316'}
+                    strokeWidth="2"
+                    strokeDasharray={highlightN1 && !selectedGroup ? "5,3" : "0"}
+                    filter={highlightN1 ? "url(#glow)" : "none"}
+                />
+                <text
+                    x="200"
+                    y="260"
+                    textAnchor="middle"
+                    fill={selectedGroup ? selectedGroup.color : '#f97316'}
+                    fontSize="12"
+                    fontWeight="bold"
+                >
+                    {selectedGroup ? selectedGroup.symbol : 'N¹H₂'}
+                </text>
+            </g>
+
+            {/* Labels */}
+            <text x="280" y="135" fill="#64748b" fontSize="11">← Benzene Ring</text>
+            <text x="280" y="215" fill="#10b981" fontSize="11">← Sulfonamide</text>
+            <text x="280" y="255" fill="#f97316" fontSize="11">← N¹ Position</text>
+            <text x="45" y="255" textAnchor="end" fill="#f97316" fontSize="10">(Modify here!)</text>
+
+            {/* Instruction */}
+            <text x="200" y="290" textAnchor="middle" fill="#94a3b8" fontSize="11">
+                Select a functional group to modify N¹ position
+            </text>
+        </svg>
     );
 }
 
@@ -646,12 +775,173 @@ function SynergyDiagram() {
 }
 
 // ============================================================================
+// DRUG CARD WITH 2D STRUCTURE
+// ============================================================================
+
+function DrugCard({ drug, isExpanded, onToggle }: {
+    drug: SulfaDrug;
+    isExpanded: boolean;
+    onToggle: () => void;
+}) {
+    const [hoveredGroup, setHoveredGroup] = useState<string | null>(null);
+
+    return (
+        <motion.div
+            layout
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{
+                background: 'rgba(0, 0, 0, 0.3)',
+                borderRadius: '16px',
+                border: `2px solid ${isExpanded ? drug.color : 'rgba(255,255,255,0.1)'}`,
+                overflow: 'hidden',
+                cursor: 'pointer'
+            }}
+            onClick={onToggle}
+        >
+            {/* Header */}
+            <div style={{
+                padding: '1rem 1.25rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                background: isExpanded ? `${drug.color}15` : 'transparent'
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <span style={{ fontSize: '1.5rem' }}>{drug.icon}</span>
+                    <div>
+                        <div style={{ color: drug.color, fontWeight: 700, fontSize: '1rem' }}>{drug.name}</div>
+                        <div style={{ color: '#94a3b8', fontSize: '0.8rem' }}>{drug.class} • {drug.durationHours}</div>
+                    </div>
+                </div>
+                <motion.div
+                    animate={{ rotate: isExpanded ? 180 : 0 }}
+                    style={{ color: drug.color, fontSize: '1.25rem' }}
+                >
+                    ▼
+                </motion.div>
+            </div>
+
+            {/* Expanded content */}
+            <AnimatePresence>
+                {isExpanded && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        style={{ overflow: 'hidden' }}
+                    >
+                        <div style={{ padding: '1rem 1.25rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                            {/* 2D Structure */}
+                            <div style={{ marginBottom: '1rem' }}>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    marginBottom: '0.75rem',
+                                    color: '#e2e8f0',
+                                    fontSize: '0.9rem',
+                                    fontWeight: 600
+                                }}>
+                                    🔬 Interactive 2D Structure
+                                    <span style={{ color: '#64748b', fontSize: '0.75rem', fontWeight: 400 }}>
+                                        (click groups to highlight)
+                                    </span>
+                                </div>
+                                <Drug2DStructure
+                                    drug={drug}
+                                    hoveredGroup={hoveredGroup}
+                                    onGroupHover={setHoveredGroup}
+                                />
+                            </div>
+
+                            {/* Functional Groups */}
+                            <div style={{ marginBottom: '1rem' }}>
+                                <div style={{
+                                    color: '#e2e8f0',
+                                    fontSize: '0.85rem',
+                                    fontWeight: 600,
+                                    marginBottom: '0.5rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem'
+                                }}>
+                                    🧬 Functional Groups
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                    {drug.functionalGroups.map(group => (
+                                        <div
+                                            key={group.id}
+                                            onMouseEnter={() => setHoveredGroup(group.id)}
+                                            onMouseLeave={() => setHoveredGroup(null)}
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '0.75rem',
+                                                padding: '0.5rem 0.75rem',
+                                                background: hoveredGroup === group.id ? `${group.color}20` : 'rgba(255,255,255,0.03)',
+                                                borderRadius: '8px',
+                                                border: `1px solid ${hoveredGroup === group.id ? group.color : 'rgba(255,255,255,0.05)'}`,
+                                                cursor: 'pointer',
+                                                transition: 'all 0.2s'
+                                            }}
+                                        >
+                                            <div style={{
+                                                width: '32px',
+                                                height: '32px',
+                                                borderRadius: '8px',
+                                                background: `${group.color}30`,
+                                                border: `2px solid ${group.color}`,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                fontSize: '0.7rem',
+                                                color: group.color,
+                                                fontWeight: 700
+                                            }}>
+                                                {group.id === 'amine' ? '-NH₂' :
+                                                    group.id === 'sulfonamide' ? '-SO₂' :
+                                                        group.id === 'azo' ? 'N=N' : '⬡'}
+                                            </div>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ color: group.color, fontWeight: 600, fontSize: '0.85rem' }}>
+                                                    {group.name}
+                                                </div>
+                                                <div style={{ color: '#64748b', fontSize: '0.75rem' }}>
+                                                    {group.description}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Clinical Info */}
+                            <div style={{
+                                padding: '0.75rem',
+                                background: `${drug.color}10`,
+                                borderRadius: '8px',
+                                border: `1px solid ${drug.color}30`
+                            }}>
+                                <div style={{ color: '#94a3b8', fontSize: '0.75rem', marginBottom: '0.25rem' }}>Clinical Use</div>
+                                <div style={{ color: drug.color, fontWeight: 600, fontSize: '0.9rem' }}>{drug.clinicalUse}</div>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
+    );
+}
+
+// ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 
 export default function DrugDevelopmentLab() {
     const [activeTab, setActiveTab] = useState<'portfolio' | 'build' | 'pkpd' | 'synergy'>('portfolio');
     const [selectedGroup, setSelectedGroup] = useState<FunctionalGroup | null>(null);
+    const [expandedDrug, setExpandedDrug] = useState<string | null>(SULFA_FAMILY[0].id);
 
     const baseValues = { pKa: 6.5, logP: 0.9 }; // Sulfanilamide base values
 
@@ -701,7 +991,7 @@ export default function DrugDevelopmentLab() {
                 {tabs.map(tab => (
                     <button
                         key={tab.id}
-                        onClick={() => setActiveTab(tab.id as any)}
+                        onClick={() => setActiveTab(tab.id as typeof activeTab)}
                         style={{
                             padding: '0.75rem 1.25rem',
                             background: activeTab === tab.id
@@ -728,7 +1018,7 @@ export default function DrugDevelopmentLab() {
             {/* Content */}
             <div style={{ padding: '1.5rem 2rem' }}>
                 <AnimatePresence mode="wait">
-                    {/* PORTFOLIO TAB */}
+                    {/* PORTFOLIO TAB - Drug Cards with 2D Structures */}
                     {activeTab === 'portfolio' && (
                         <motion.div
                             key="portfolio"
@@ -736,83 +1026,37 @@ export default function DrugDevelopmentLab() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                         >
-                            <h4 style={{ color: '#e2e8f0', marginBottom: '1rem' }}>
-                                📋 Classification of the Sulfa Family
-                            </h4>
-                            <div style={{ overflowX: 'auto' }}>
-                                <table style={{
-                                    width: '100%',
-                                    borderCollapse: 'collapse',
-                                    minWidth: '700px'
-                                }}>
-                                    <thead>
-                                        <tr style={{ borderBottom: '2px solid rgba(255,255,255,0.1)' }}>
-                                            <th style={{ padding: '1rem', textAlign: 'left', color: '#94a3b8', fontSize: '0.85rem' }}>Class</th>
-                                            <th style={{ padding: '1rem', textAlign: 'left', color: '#94a3b8', fontSize: '0.85rem' }}>N¹ Modification</th>
-                                            <th style={{ padding: '1rem', textAlign: 'left', color: '#94a3b8', fontSize: '0.85rem' }}>Drug</th>
-                                            <th style={{ padding: '1rem', textAlign: 'left', color: '#94a3b8', fontSize: '0.85rem' }}>Duration</th>
-                                            <th style={{ padding: '1rem', textAlign: 'left', color: '#94a3b8', fontSize: '0.85rem' }}>Clinical Use</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {SULFA_FAMILY.map((drug, idx) => (
-                                            <motion.tr
-                                                key={drug.id}
-                                                initial={{ opacity: 0, x: -20 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: idx * 0.1 }}
-                                                style={{
-                                                    borderBottom: '1px solid rgba(255,255,255,0.05)',
-                                                    background: idx % 2 === 0 ? 'rgba(0,0,0,0.2)' : 'transparent'
-                                                }}
-                                            >
-                                                <td style={{ padding: '1rem' }}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                                        <span style={{ fontSize: '1.2rem' }}>{drug.icon}</span>
-                                                        <div>
-                                                            <div style={{ color: drug.color, fontWeight: 600 }}>{drug.class}</div>
-                                                            <div style={{ color: '#64748b', fontSize: '0.75rem' }}>{drug.classAr}</div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td style={{ padding: '1rem', color: '#e2e8f0', fontSize: '0.9rem' }}>
-                                                    <code style={{
-                                                        background: 'rgba(255,255,255,0.1)',
-                                                        padding: '0.25rem 0.5rem',
-                                                        borderRadius: '4px',
-                                                        fontSize: '0.8rem'
-                                                    }}>
-                                                        {drug.modification}
-                                                    </code>
-                                                </td>
-                                                <td style={{ padding: '1rem', color: drug.color, fontWeight: 600 }}>
-                                                    {drug.name}
-                                                </td>
-                                                <td style={{ padding: '1rem' }}>
-                                                    <span style={{
-                                                        padding: '0.25rem 0.75rem',
-                                                        background: `${drug.color}20`,
-                                                        border: `1px solid ${drug.color}`,
-                                                        borderRadius: '20px',
-                                                        color: drug.color,
-                                                        fontSize: '0.8rem',
-                                                        fontWeight: 600
-                                                    }}>
-                                                        {drug.durationHours}
-                                                    </span>
-                                                </td>
-                                                <td style={{ padding: '1rem', color: '#94a3b8', fontSize: '0.85rem' }}>
-                                                    {drug.clinicalUse}
-                                                </td>
-                                            </motion.tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                            <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                marginBottom: '1.5rem'
+                            }}>
+                                <h4 style={{ color: '#e2e8f0', margin: 0 }}>
+                                    📋 The Sulfa Drug Family
+                                </h4>
+                                <span style={{ color: '#64748b', fontSize: '0.85rem' }}>
+                                    (click to expand and see 2D structure)
+                                </span>
+                            </div>
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '1rem'
+                            }}>
+                                {SULFA_FAMILY.map(drug => (
+                                    <DrugCard
+                                        key={drug.id}
+                                        drug={drug}
+                                        isExpanded={expandedDrug === drug.id}
+                                        onToggle={() => setExpandedDrug(expandedDrug === drug.id ? null : drug.id)}
+                                    />
+                                ))}
                             </div>
                         </motion.div>
                     )}
 
-                    {/* BUILD-A-SULFA TAB */}
+                    {/* BUILD TAB */}
                     {activeTab === 'build' && (
                         <motion.div
                             key="build"
@@ -820,91 +1064,66 @@ export default function DrugDevelopmentLab() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                         >
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-                                {/* Left: Molecule */}
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+                                gap: '1.5rem'
+                            }}>
+                                {/* Left: Structure */}
                                 <div>
-                                    <h4 style={{ color: '#e2e8f0', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                        🧬 Core Structure
+                                    <h4 style={{ color: '#e2e8f0', marginBottom: '1rem' }}>
+                                        🔬 Sulfanilamide Core
                                     </h4>
                                     <SulfanilamideCore
                                         selectedGroup={selectedGroup}
-                                        onGroupSelect={setSelectedGroup}
-                                        highlightN1={!selectedGroup}
+                                        highlightN1={true}
                                     />
-
-                                    <PropertiesPanel baseValues={baseValues} selectedGroup={selectedGroup} />
                                 </div>
 
-                                {/* Right: Functional Groups */}
+                                {/* Right: Controls & Properties */}
                                 <div>
-                                    <h4 style={{ color: '#e2e8f0', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                        ☁️ Functional Group Cloud
-                                        <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 400 }}>
-                                            (Select one to modify N¹)
-                                        </span>
+                                    <h4 style={{ color: '#e2e8f0', marginBottom: '1rem' }}>
+                                        🧬 Select Functional Group
                                     </h4>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                        {FUNCTIONAL_GROUPS.map((group, idx) => (
+
+                                    {/* Functional group buttons */}
+                                    <div style={{
+                                        display: 'flex',
+                                        flexWrap: 'wrap',
+                                        gap: '0.5rem',
+                                        marginBottom: '1.5rem'
+                                    }}>
+                                        {FUNCTIONAL_GROUPS.map(group => (
                                             <motion.button
                                                 key={group.id}
-                                                initial={{ opacity: 0, x: 20 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: idx * 0.05 }}
-                                                onClick={() => setSelectedGroup(selectedGroup?.id === group.id ? null : group)}
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                onClick={() => setSelectedGroup(
+                                                    selectedGroup?.id === group.id ? null : group
+                                                )}
                                                 style={{
-                                                    padding: '1rem',
+                                                    padding: '0.75rem 1rem',
                                                     background: selectedGroup?.id === group.id
-                                                        ? `${group.color}20`
-                                                        : 'rgba(255, 255, 255, 0.03)',
-                                                    border: `2px solid ${selectedGroup?.id === group.id ? group.color : 'rgba(255, 255, 255, 0.1)'}`,
+                                                        ? group.color
+                                                        : `${group.color}20`,
+                                                    border: `2px solid ${group.color}`,
                                                     borderRadius: '12px',
-                                                    cursor: 'pointer',
-                                                    textAlign: 'left',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    gap: '1rem'
+                                                    color: selectedGroup?.id === group.id ? 'white' : group.color,
+                                                    fontWeight: 600,
+                                                    fontSize: '0.85rem',
+                                                    cursor: 'pointer'
                                                 }}
                                             >
-                                                <div style={{
-                                                    width: 50,
-                                                    height: 50,
-                                                    borderRadius: '12px',
-                                                    background: `${group.color}30`,
-                                                    border: `2px solid ${group.color}`,
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    fontWeight: 700,
-                                                    fontSize: '0.75rem',
-                                                    color: group.color
-                                                }}>
-                                                    {group.symbol}
-                                                </div>
-                                                <div style={{ flex: 1 }}>
-                                                    <div style={{
-                                                        color: selectedGroup?.id === group.id ? group.color : '#e2e8f0',
-                                                        fontWeight: 600,
-                                                        marginBottom: '0.25rem'
-                                                    }}>
-                                                        {group.name}
-                                                    </div>
-                                                    <div style={{ color: '#64748b', fontSize: '0.8rem' }}>
-                                                        {group.description}
-                                                    </div>
-                                                </div>
-                                                <div style={{
-                                                    padding: '0.25rem 0.5rem',
-                                                    background: `${group.color}20`,
-                                                    borderRadius: '6px',
-                                                    color: group.color,
-                                                    fontSize: '0.75rem',
-                                                    fontWeight: 600
-                                                }}>
-                                                    {group.duration}
-                                                </div>
+                                                {group.name}
                                             </motion.button>
                                         ))}
                                     </div>
+
+                                    {/* Properties panel */}
+                                    <PropertiesPanel
+                                        baseValues={baseValues}
+                                        selectedGroup={selectedGroup}
+                                    />
                                 </div>
                             </div>
                         </motion.div>
@@ -918,109 +1137,137 @@ export default function DrugDevelopmentLab() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                         >
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-                                {/* PK */}
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                                gap: '1.5rem',
+                                marginBottom: '2rem'
+                            }}>
+                                {/* PK Card */}
                                 <motion.div
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.1 }}
+                                    whileHover={{ scale: 1.02 }}
                                     style={{
-                                        padding: '2rem',
-                                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05))',
-                                        borderRadius: '20px',
+                                        padding: '1.5rem',
+                                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%)',
+                                        borderRadius: '16px',
                                         border: '2px solid rgba(59, 130, 246, 0.3)'
                                     }}
                                 >
-                                    <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>💉</div>
-                                    <h4 style={{ color: '#3b82f6', fontSize: '1.3rem', marginBottom: '0.5rem' }}>
-                                        Pharmacokinetics (PK)
-                                    </h4>
-                                    <p style={{ color: '#e2e8f0', fontSize: '1.1rem', fontStyle: 'italic', marginBottom: '1.5rem' }}>
-                                        "What the BODY does to the DRUG"
-                                    </p>
-                                    <div style={{ color: '#94a3b8', lineHeight: 1.8 }}>
-                                        <div style={{ marginBottom: '0.75rem' }}>
-                                            <strong style={{ color: '#3b82f6' }}>A</strong>bsorption - How drug enters the body
-                                        </div>
-                                        <div style={{ marginBottom: '0.75rem' }}>
-                                            <strong style={{ color: '#3b82f6' }}>D</strong>istribution - Where drug goes in the body
-                                        </div>
-                                        <div style={{ marginBottom: '0.75rem' }}>
-                                            <strong style={{ color: '#3b82f6' }}>M</strong>etabolism - How drug is processed
-                                        </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                                        <span style={{ fontSize: '2rem' }}>💊</span>
                                         <div>
-                                            <strong style={{ color: '#3b82f6' }}>E</strong>xcretion - How drug leaves the body
+                                            <h4 style={{ color: '#3b82f6', margin: 0, fontSize: '1.2rem' }}>Pharmacokinetics</h4>
+                                            <p style={{ color: '#64748b', margin: 0, fontSize: '0.85rem' }}>PK</p>
                                         </div>
+                                    </div>
+                                    <p style={{ color: '#e2e8f0', fontSize: '1.1rem', fontWeight: 600, marginBottom: '1rem' }}>
+                                        &quot;What the BODY does to the DRUG&quot;
+                                    </p>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                        {['Absorption', 'Distribution', 'Metabolism', 'Excretion'].map((item, idx) => (
+                                            <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                <span style={{
+                                                    width: '24px',
+                                                    height: '24px',
+                                                    borderRadius: '50%',
+                                                    background: '#3b82f6',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    color: 'white',
+                                                    fontSize: '0.75rem',
+                                                    fontWeight: 700
+                                                }}>{['A', 'D', 'M', 'E'][idx]}</span>
+                                                <span style={{ color: '#94a3b8' }}>{item}</span>
+                                            </div>
+                                        ))}
                                     </div>
                                 </motion.div>
 
-                                {/* PD */}
+                                {/* PD Card */}
                                 <motion.div
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.2 }}
+                                    whileHover={{ scale: 1.02 }}
                                     style={{
-                                        padding: '2rem',
-                                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05))',
-                                        borderRadius: '20px',
+                                        padding: '1.5rem',
+                                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%)',
+                                        borderRadius: '16px',
                                         border: '2px solid rgba(16, 185, 129, 0.3)'
                                     }}
                                 >
-                                    <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🎯</div>
-                                    <h4 style={{ color: '#10b981', fontSize: '1.3rem', marginBottom: '0.5rem' }}>
-                                        Pharmacodynamics (PD)
-                                    </h4>
-                                    <p style={{ color: '#e2e8f0', fontSize: '1.1rem', fontStyle: 'italic', marginBottom: '1.5rem' }}>
-                                        "What the DRUG does to the BODY"
-                                    </p>
-                                    <div style={{ color: '#94a3b8', lineHeight: 1.8 }}>
-                                        <div style={{ marginBottom: '0.75rem' }}>
-                                            <strong style={{ color: '#10b981' }}>•</strong> Drug-receptor interactions
-                                        </div>
-                                        <div style={{ marginBottom: '0.75rem' }}>
-                                            <strong style={{ color: '#10b981' }}>•</strong> Signal transduction pathways
-                                        </div>
-                                        <div style={{ marginBottom: '0.75rem' }}>
-                                            <strong style={{ color: '#10b981' }}>•</strong> Therapeutic effects
-                                        </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                                        <span style={{ fontSize: '2rem' }}>🎯</span>
                                         <div>
-                                            <strong style={{ color: '#10b981' }}>•</strong> Side effects & toxicity
+                                            <h4 style={{ color: '#10b981', margin: 0, fontSize: '1.2rem' }}>Pharmacodynamics</h4>
+                                            <p style={{ color: '#64748b', margin: 0, fontSize: '0.85rem' }}>PD</p>
                                         </div>
+                                    </div>
+                                    <p style={{ color: '#e2e8f0', fontSize: '1.1rem', fontWeight: 600, marginBottom: '1rem' }}>
+                                        &quot;What the DRUG does to the BODY&quot;
+                                    </p>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                        {[
+                                            'Receptor Binding',
+                                            'Signal Transduction',
+                                            'Therapeutic Effect',
+                                            'Side Effects'
+                                        ].map((item, idx) => (
+                                            <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                <span style={{
+                                                    width: '24px',
+                                                    height: '24px',
+                                                    borderRadius: '50%',
+                                                    background: '#10b981',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    color: 'white',
+                                                    fontSize: '0.75rem',
+                                                    fontWeight: 700
+                                                }}>{idx + 1}</span>
+                                                <span style={{ color: '#94a3b8' }}>{item}</span>
+                                            </div>
+                                        ))}
                                     </div>
                                 </motion.div>
                             </div>
 
-                            {/* Connection to Functional Groups */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3 }}
-                                style={{
-                                    marginTop: '1.5rem',
-                                    padding: '1.5rem',
-                                    background: 'rgba(249, 115, 22, 0.1)',
-                                    borderRadius: '16px',
-                                    border: '1px solid rgba(249, 115, 22, 0.3)'
-                                }}
-                            >
-                                <h5 style={{ color: '#f97316', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                    🔗 How Functional Groups Affect PK/PD
-                                </h5>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
-                                    <div style={{ textAlign: 'center', padding: '1rem', background: 'rgba(0,0,0,0.2)', borderRadius: '12px' }}>
-                                        <div style={{ color: '#3b82f6', fontWeight: 600, marginBottom: '0.5rem' }}>pKa ↓</div>
-                                        <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>More ionized → Better water solubility → Faster excretion</div>
-                                    </div>
-                                    <div style={{ textAlign: 'center', padding: '1rem', background: 'rgba(0,0,0,0.2)', borderRadius: '12px' }}>
-                                        <div style={{ color: '#10b981', fontWeight: 600, marginBottom: '0.5rem' }}>LogP ↑</div>
-                                        <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>More lipophilic → Better membrane permeability → Longer duration</div>
-                                    </div>
-                                    <div style={{ textAlign: 'center', padding: '1rem', background: 'rgba(0,0,0,0.2)', borderRadius: '12px' }}>
-                                        <div style={{ color: '#f97316', fontWeight: 600, marginBottom: '0.5rem' }}>Ring Size</div>
-                                        <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Heterocyclic rings → Alter protein binding → Change half-life</div>
-                                    </div>
+                            {/* How functional groups affect PK/PD */}
+                            <div style={{
+                                padding: '1.5rem',
+                                background: 'rgba(0, 0, 0, 0.3)',
+                                borderRadius: '16px',
+                                border: '1px solid rgba(255, 255, 255, 0.1)'
+                            }}>
+                                <h4 style={{ color: '#e2e8f0', marginBottom: '1rem' }}>
+                                    🧪 How Functional Groups Affect PK/PD
+                                </h4>
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                                    gap: '1rem'
+                                }}>
+                                    {[
+                                        { prop: 'pKa', desc: 'Ionization state', effect: 'Affects absorption & solubility', color: '#3b82f6' },
+                                        { prop: 'LogP', desc: 'Lipophilicity', effect: 'Affects membrane permeability', color: '#10b981' },
+                                        { prop: 'Size', desc: 'Molecular weight', effect: 'Affects diffusion rate', color: '#8b5cf6' },
+                                        { prop: 'H-Bond', desc: 'Hydrogen bonding', effect: 'Affects protein binding', color: '#f97316' }
+                                    ].map(item => (
+                                        <div
+                                            key={item.prop}
+                                            style={{
+                                                padding: '1rem',
+                                                background: `${item.color}10`,
+                                                borderRadius: '12px',
+                                                border: `1px solid ${item.color}30`
+                                            }}
+                                        >
+                                            <div style={{ color: item.color, fontWeight: 700, marginBottom: '0.25rem' }}>{item.prop}</div>
+                                            <div style={{ color: '#94a3b8', fontSize: '0.8rem', marginBottom: '0.5rem' }}>{item.desc}</div>
+                                            <div style={{ color: '#e2e8f0', fontSize: '0.85rem' }}>{item.effect}</div>
+                                        </div>
+                                    ))}
                                 </div>
-                            </motion.div>
+                            </div>
                         </motion.div>
                     )}
 
