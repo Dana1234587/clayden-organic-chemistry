@@ -656,58 +656,64 @@ export default function MoleculeViewer({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
+            style={{ overflow: 'hidden' }}
         >
             {/* Header */}
             <div style={{
-                padding: '1rem 1.5rem',
+                padding: '0.75rem 1rem',
                 borderBottom: '1px solid var(--card-border)',
                 display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'center'
+                alignItems: 'flex-start',
+                gap: '0.5rem',
+                flexWrap: 'wrap'
             }}>
-                <div>
+                <div style={{ flex: '1 1 auto', minWidth: '200px' }}>
                     <h4 style={{
                         margin: 0,
-                        fontSize: '1.1rem',
+                        fontSize: '1rem',
                         color: 'var(--neutral-100)',
                         fontWeight: 600,
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '8px',
+                        gap: '6px',
+                        flexWrap: 'wrap',
                     }}>
                         <span>{molecule?.emoji || '🧬'}</span>
                         {moleculeName}
                         <span style={{
                             fontFamily: 'monospace',
                             color: molecule?.color || 'var(--primary-400)',
-                            fontSize: '0.95rem',
+                            fontSize: '0.85rem',
                         }}>
                             {molecule?.formula}
                         </span>
                     </h4>
                     <p style={{
                         margin: '0.25rem 0 0',
-                        fontSize: '0.8rem',
+                        fontSize: '0.75rem',
                         color: 'var(--neutral-400)',
+                        lineHeight: 1.3,
                     }}>
                         📐 {molecule?.skeletal || description}
                     </p>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span className="badge">3D Interactive</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+                    <span className="badge" style={{ fontSize: '0.7rem', padding: '4px 8px' }}>3D Interactive</span>
                     <button
                         onClick={handleClose}
                         style={{
-                            padding: '8px 14px',
-                            background: 'rgba(255, 255, 255, 0.1)',
+                            padding: '6px 12px',
+                            background: 'rgba(255, 255, 255, 0.15)',
                             border: 'none',
-                            borderRadius: '8px',
-                            color: 'var(--neutral-300)',
-                            fontSize: '0.8rem',
+                            borderRadius: '6px',
+                            color: 'var(--neutral-200)',
+                            fontSize: '0.75rem',
                             cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '6px',
+                            gap: '4px',
+                            whiteSpace: 'nowrap',
                         }}
                     >
                         ✕ Close
@@ -752,14 +758,16 @@ export default function MoleculeViewer({
                     ref={containerRef}
                     style={{
                         width: '100%',
-                        height: isMobile ? '280px' : `${height}px`,
+                        height: isMobile ? '250px' : `${Math.min(height, 300)}px`,
                         position: 'relative',
                         zIndex: 1,
                         touchAction: 'none',
                         WebkitUserSelect: 'none',
                         userSelect: 'none',
                         overflow: 'hidden',
-                        borderRadius: '12px',
+                        borderRadius: '8px',
+                        margin: '0 auto',
+                        maxWidth: '100%',
                     }}
                 />
 
