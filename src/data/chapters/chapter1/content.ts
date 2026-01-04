@@ -369,6 +369,7 @@ export const sections: ChapterSection[] = [
       description: 'Discover how selective targeting led to the first antibiotics'
     },
     drugDevelopmentLab: true,
+    advancedDrugDiscovery: true,
     sulfaDrugDiscovery: true,
     drugDiscovery: {
       title: 'The Chemical Cousins Hypothesis',
@@ -516,108 +517,6 @@ export const sections: ChapterSection[] = [
         options: ["Also attracts them", "Repels them", "Kills them", "Has no effect"],
         correctIndex: 1,
         explanation: "One enantiomer attracts bark beetles while its mirror image REPELS them! This is used in pest control to protect forests."
-      }
-    ]
-  },
-  {
-    id: "advanced-drug-discovery",
-    title: "Advanced Drug Discovery: From Receptors to Diagnostics",
-    advancedDrugDiscovery: true,
-    content: `This advanced section bridges olfactory chemistry with modern pharmaceutical research—
-      the kind of cutting-edge work being done at research universities worldwide.
-      
-      GPCR DRUG DESIGN (30-40% of all drugs target GPCRs):
-      Your olfactory receptors are G-protein coupled receptors (GPCRs). When a scent molecule binds,
-      it triggers a cascade of signals to your brain. The pharmaceutical industry has leveraged this
-      same receptor family for drugs treating:
-      
-      • Cardiovascular disease (beta-blockers)
-      • Allergies (antihistamines)
-      • Depression (serotonin receptors)
-      • Pain (opioid receptors)
-      
-      The "lock and key" mechanism you see with smell extends directly to drug design!
-      
-      STEREOCHEMISTRY IN DRUG SAFETY:
-      Remember how R-limonene smells like oranges while S-limonene smells like lemons?
-      In pharmaceuticals, this difference can be life or death:
-      
-      THE THALIDOMIDE TRAGEDY (1950s):
-      One enantiomer treated morning sickness effectively. Its mirror image caused devastating
-      birth defects in over 10,000 children. This disaster revolutionized drug regulation.
-      
-      MODERN EXAMPLES:
-      • (S)-Ibuprofen is the active anti-inflammatory; (R)-Ibuprofen is converted slowly
-      • Esomeprazole (Nexium) is the pure active enantiomer of omeprazole
-      • Levofloxacin is the potent enantiomer of ofloxacin
-      
-      COMPUTATIONAL DRUG DISCOVERY (In Silico Screening):
-      Today, chemists predict molecular properties BEFORE synthesis using machine learning:
-      
-      • Virtual screening of millions of compounds
-      • Binding affinity predictions
-      • ADMET property calculations
-      • AI-driven molecule generation
-      
-      E-NOSE TECHNOLOGY (Disease Diagnosis):
-      Electronic noses detect volatile organic compounds (VOCs) in breath:
-      
-      • Diabetic ketoacidosis → High acetone (fruity breath)
-      • Lung cancer → Elevated acetaldehyde, 1-butanol
-      • Liver disease → Specific VOC patterns
-      
-      These non-invasive diagnostic tools achieve 85%+ accuracy for certain diseases!
-      
-      NEW ZEALAND NATURAL PRODUCTS:
-      Research at Victoria University focuses on endemic NZ plants:
-      
-      • Manuka honey contains Methylglyoxal (MGO) with unique antibacterial properties
-      • Leptosperin serves as an authenticity marker
-      • The Ferrier Research Institute explores carbohydrate chemistry and natural products`,
-    video: {
-      type: 'hls' as const,
-      url: 'https://vz-2adfd2e0-f8c.b-cdn.net/3486a75c-78ee-422c-a14b-685873952501/playlist.m3u8',
-      duration: '15:00'
-    },
-    molecules: [
-      { name: "R-Limonene", description: "Orange scent - fits GPCR binding pocket" },
-      { name: "S-Limonene", description: "Lemon scent - different receptor binding" },
-      { name: "Thalidomide", description: "Tragic example of stereochemistry importance" },
-      { name: "Ibuprofen", description: "S-form is active, R-form converts slowly" }
-    ],
-    keyPoints: [
-      "~40% of marketed drugs target GPCRs (same receptor family as olfactory receptors)",
-      "Stereochemistry determines drug safety—mirror-image molecules can have opposite effects",
-      "Computational chemistry predicts properties before synthesis",
-      "E-Nose technology diagnoses diseases from breath VOC patterns",
-      "Natural products from endemic plants offer novel therapeutic compounds"
-    ],
-    funFact: "Electronic nose devices can detect lung cancer from breath samples with ~85% accuracy, potentially enabling non-invasive early screening!",
-    commonMistake: "Don't assume that if one enantiomer is safe, the other will be too. Always test both forms separately in drug development.",
-    quickCheck: [
-      {
-        question: "What percentage of marketed drugs target GPCRs?",
-        options: ["5-10%", "15-20%", "30-40%", "60-70%"],
-        correctIndex: 2,
-        explanation: "About 30-40% of all marketed drugs target G-protein coupled receptors, including many cardiovascular, allergy, and psychiatric medications."
-      },
-      {
-        question: "In the Thalidomide tragedy, what did the 'wrong' enantiomer cause?",
-        options: ["Headaches", "Birth defects", "Allergic reactions", "Heart problems"],
-        correctIndex: 1,
-        explanation: "One thalidomide enantiomer caused devastating birth defects in over 10,000 children, while its mirror image was an effective anti-nausea drug."
-      },
-      {
-        question: "Which breath biomarker is elevated in diabetic ketoacidosis?",
-        options: ["Ethanol", "Acetone", "Methanol", "Nitrogen"],
-        correctIndex: 1,
-        explanation: "High acetone levels in breath indicate ketone body accumulation, characteristic of diabetic ketoacidosis. This gives the 'fruity breath' smell."
-      },
-      {
-        question: "What is the key antibacterial compound in Manuka honey?",
-        options: ["Glucose", "Methylglyoxal (MGO)", "Leptosperin", "Fructose"],
-        correctIndex: 1,
-        explanation: "Methylglyoxal (MGO) is the unique compound in Manuka honey responsible for its potent antibacterial activity, used in wound healing research."
       }
     ]
   },

@@ -184,7 +184,7 @@ END`
     },
 
     // ========================================
-    // Section: Smell & Pheromones
+    // Section: Smell & Pheromones + Drug Discovery
     // ========================================
     'limonene': {
         color: '#eab308',
@@ -193,18 +193,75 @@ END`
         skeletal: 'Cyclohexene ring with isopropenyl group (terpene)',
         functionalGroups: ['Cyclohexene ring', 'C=C double bond', 'Isopropenyl group'],
         pubchemCid: 22311,
-        pdb: `COMPND    LIMONENE
-ATOM      1  C1  LIM     1       0.000   0.000   0.000  1.00  0.00           C
-ATOM      2  C2  LIM     1       1.400   0.000   0.000  1.00  0.00           C
-ATOM      3  C3  LIM     1       2.100   1.200   0.000  1.00  0.00           C
-ATOM      4  C4  LIM     1       1.400   2.400   0.000  1.00  0.00           C
-ATOM      5  C5  LIM     1      -0.200   2.300   0.000  1.00  0.00           C
-ATOM      6  C6  LIM     1      -0.700   0.900   0.000  1.00  0.00           C
-ATOM      7  C7  LIM     1       3.600   1.600   0.000  1.00  0.00           C
-ATOM      8  C8  LIM     1       4.100   3.000   0.000  1.00  0.00           C
-ATOM      9  C9  LIM     1      -0.600  -1.300   0.000  1.00  0.00           C
-ATOM     10  C10 LIM     1      -2.000  -1.500   0.000  1.00  0.00           C
-END`
+        pdb: `COMPND    LIMONENE`
+    },
+    'r-limonene': {
+        color: '#f97316',
+        emoji: '🍊',
+        formula: 'C₁₀H₁₆',
+        skeletal: '(R)-Limonene: Orange scent - chiral center at C4 fits GPCR pocket',
+        functionalGroups: ['Chiral center (R)', 'Cyclohexene ring', 'Isopropenyl group'],
+        pubchemCid: 440917,
+        pdb: `COMPND    (R)-LIMONENE
+REMARK    SAR: R-configuration binds olfactory receptor → ORANGE smell
+REMARK    GPCR BINDING: Better fit in receptor pocket (ΔG = -8.4 kcal/mol)`
+    },
+    's-limonene': {
+        color: '#eab308',
+        emoji: '🍋',
+        formula: 'C₁₀H₁₆',
+        skeletal: '(S)-Limonene: Lemon scent - mirror image of R-form changes receptor binding',
+        functionalGroups: ['Chiral center (S)', 'Cyclohexene ring', 'Isopropenyl group'],
+        pubchemCid: 439250,
+        pdb: `COMPND    (S)-LIMONENE
+REMARK    SAR: S-configuration binds differently → LEMON smell
+REMARK    GPCR BINDING: Different fit (ΔG = -3.2 kcal/mol) - demonstrates stereochemistry importance`
+    },
+    'thalidomide': {
+        color: '#ef4444',
+        emoji: '⚠️',
+        formula: 'C₁₃H₁₀N₂O₄',
+        skeletal: 'Glutarimide ring linked to phthalimide - chiral center causes tragic SAR',
+        functionalGroups: ['Glutarimide ring', 'Phthalimide ring', 'Chiral center', 'Amide bonds'],
+        pubchemCid: 5426,
+        pdb: `COMPND    THALIDOMIDE - TRAGIC EXAMPLE OF STEREOCHEMISTRY
+REMARK    SAR: (R)-thalidomide = sedative (SAFE)
+REMARK    SAR: (S)-thalidomide = teratogenic (BIRTH DEFECTS)
+REMARK    In vivo racemization means you can't give just one enantiomer`
+    },
+    'ibuprofen': {
+        color: '#3b82f6',
+        emoji: '💊',
+        formula: 'C₁₃H₁₈O₂',
+        skeletal: 'Propionic acid derivative with isobutyl-phenyl group',
+        functionalGroups: ['Carboxylic acid (-COOH)', 'Isobutyl group', 'Phenyl ring', 'Chiral center'],
+        pubchemCid: 3672,
+        pdb: `COMPND    IBUPROFEN - NSAID WITH CHIRAL PHARMACOLOGY
+REMARK    SAR: (S)-Ibuprofen = ACTIVE COX inhibitor (anti-inflammatory)
+REMARK    SAR: (R)-Ibuprofen = INACTIVE but converts to S-form in vivo
+REMARK    Commercial ibuprofen is racemic mixture`
+    },
+    's-ibuprofen': {
+        color: '#10b981',
+        emoji: '✅',
+        formula: 'C₁₃H₁₈O₂',
+        skeletal: '(S)-Ibuprofen: Active enantiomer - directly inhibits COX enzymes',
+        functionalGroups: ['Chiral center (S)', 'Carboxylic acid (-COOH)', 'Phenyl ring'],
+        pubchemCid: 3672,
+        pdb: `COMPND    (S)-IBUPROFEN - ACTIVE ENANTIOMER
+REMARK    SAR: S-configuration positions COOH for COX binding
+REMARK    POTENCY: 100x more active than R-form at COX-1`
+    },
+    'r-ibuprofen': {
+        color: '#94a3b8',
+        emoji: '⏳',
+        formula: 'C₁₃H₁₈O₂',
+        skeletal: '(R)-Ibuprofen: Inactive prodrug - slowly converts to S-form',
+        functionalGroups: ['Chiral center (R)', 'Carboxylic acid (-COOH)', 'Phenyl ring'],
+        pubchemCid: 3672,
+        pdb: `COMPND    (R)-IBUPROFEN - INACTIVE ENANTIOMER
+REMARK    SAR: R-configuration cannot bind COX effectively
+REMARK    METABOLISM: Converted to (S)-form by 2-arylpropionyl-CoA epimerase`
     },
     'muscone': {
         color: '#a855f7',
