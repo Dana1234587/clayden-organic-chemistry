@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import DiclofenacLab from './DiclofenacLab';
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -792,7 +793,7 @@ export default function AdvancedDrugLab({ lessonId }: AdvancedDrugLabProps) {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                     >
-                        <BondingLab />
+                        {lessonId === 'hybridization' ? <DiclofenacLab /> : <BondingLab />}
                     </motion.div>
                 )}
 
