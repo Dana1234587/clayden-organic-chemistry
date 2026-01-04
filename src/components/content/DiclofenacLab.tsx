@@ -208,11 +208,18 @@ function Phase1Chemist({ onComplete }: { onComplete: () => void }) {
     const [gameComplete, setGameComplete] = useState(false);
 
     const POSITION_INFO: Record<number, { x: number; y: number; label: string; isCorrect: boolean; feedback: string }> = {
-        2: { x: 285, y: 60, label: '2', isCorrect: true, feedback: '✅ Position 2 (ortho): Creates steric clash with NH!' },
-        3: { x: 335, y: 90, label: '3', isCorrect: false, feedback: '❌ Position 3 (meta): No steric effect. Rings stay flat.' },
-        4: { x: 335, y: 150, label: '4', isCorrect: false, feedback: '❌ Position 4 (para): Too far from NH. No twist induced.' },
-        5: { x: 335, y: 210, label: '5', isCorrect: false, feedback: '❌ Position 5 (meta): No steric effect. Rings stay flat.' },
-        6: { x: 285, y: 240, label: '6', isCorrect: true, feedback: '✅ Position 6 (ortho): Creates steric clash with NH!' }
+        // Ring center at (220, 150), hexagon vertices relative to center:
+        // Position 1: Left (-43, 0) - where NH connects, not clickable
+        // Position 2: Top-left (-43, -25) relative = (177, 125) absolute - ORTHO to NH
+        2: { x: 177, y: 125, label: '2', isCorrect: true, feedback: '✅ Position 2 (ortho): Creates steric clash with NH bridge! The Cl atom is adjacent to the NH connection point.' },
+        // Position 3: Top (0, -50) relative = (220, 100) absolute - META
+        3: { x: 220, y: 100, label: '3', isCorrect: false, feedback: '❌ Position 3 (meta): Too far from NH. No steric hindrance between rings.' },
+        // Position 4: Top-right (43, -25) relative = (263, 125) absolute - PARA
+        4: { x: 263, y: 125, label: '4', isCorrect: false, feedback: '❌ Position 4 (para): Opposite to NH connection. No twist effect.' },
+        // Position 5: Bottom-right (43, 25) relative = (263, 175) absolute - META
+        5: { x: 263, y: 175, label: '5', isCorrect: false, feedback: '❌ Position 5 (meta): Too far from NH. No steric hindrance between rings.' },
+        // Position 6: Bottom-left (-43, 25) relative = (177, 175) absolute - ORTHO to NH
+        6: { x: 177, y: 175, label: '6', isCorrect: true, feedback: '✅ Position 6 (ortho): Creates steric clash with NH bridge! The Cl atom is adjacent to the NH connection point.' }
     };
 
     const handlePositionClick = (pos: ChlorinePosition) => {
