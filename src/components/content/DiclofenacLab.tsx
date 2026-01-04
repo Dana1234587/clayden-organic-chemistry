@@ -208,18 +208,18 @@ function Phase1Chemist({ onComplete }: { onComplete: () => void }) {
     const [gameComplete, setGameComplete] = useState(false);
 
     const POSITION_INFO: Record<number, { x: number; y: number; label: string; isCorrect: boolean; feedback: string }> = {
-        // Ring center at (220, 150), hexagon vertices relative to center:
-        // Position 1: Left (-43, 0) - where NH connects, not clickable
-        // Position 2: Top-left (-43, -25) relative = (177, 125) absolute - ORTHO to NH
-        2: { x: 177, y: 125, label: '2', isCorrect: true, feedback: '✅ Position 2 (ortho): Creates steric clash with NH bridge! The Cl atom is adjacent to the NH connection point.' },
-        // Position 3: Top (0, -50) relative = (220, 100) absolute - META
-        3: { x: 220, y: 100, label: '3', isCorrect: false, feedback: '❌ Position 3 (meta): Too far from NH. No steric hindrance between rings.' },
-        // Position 4: Top-right (43, -25) relative = (263, 125) absolute - PARA
-        4: { x: 263, y: 125, label: '4', isCorrect: false, feedback: '❌ Position 4 (para): Opposite to NH connection. No twist effect.' },
-        // Position 5: Bottom-right (43, 25) relative = (263, 175) absolute - META
-        5: { x: 263, y: 175, label: '5', isCorrect: false, feedback: '❌ Position 5 (meta): Too far from NH. No steric hindrance between rings.' },
-        // Position 6: Bottom-left (-43, 25) relative = (177, 175) absolute - ORTHO to NH
-        6: { x: 177, y: 175, label: '6', isCorrect: true, feedback: '✅ Position 6 (ortho): Creates steric clash with NH bridge! The Cl atom is adjacent to the NH connection point.' }
+        // Right ring center at (248, 150), flat-topped hexagon vertices:
+        // Position 1: Left (-48, 0) = (200, 150) - where NH connects, not clickable
+        // Position 2: Top-left (-24, -42) = (224, 108) - ORTHO to NH ✓
+        2: { x: 224, y: 108, label: '2', isCorrect: true, feedback: '✅ Position 2 (ortho): Creates steric clash with NH bridge! The Cl atom forces the rings to twist.' },
+        // Position 3: Top-right (24, -42) = (272, 108) - META
+        3: { x: 272, y: 108, label: '3', isCorrect: false, feedback: '❌ Position 3 (meta): Too far from NH. No steric hindrance between the rings.' },
+        // Position 4: Right (48, 0) = (296, 150) - PARA
+        4: { x: 296, y: 150, label: '4', isCorrect: false, feedback: '❌ Position 4 (para): Opposite to NH connection. No twist effect on the rings.' },
+        // Position 5: Bottom-right (24, 42) = (272, 192) - META
+        5: { x: 272, y: 192, label: '5', isCorrect: false, feedback: '❌ Position 5 (meta): Too far from NH. No steric hindrance between the rings.' },
+        // Position 6: Bottom-left (-24, 42) = (224, 192) - ORTHO to NH ✓
+        6: { x: 224, y: 192, label: '6', isCorrect: true, feedback: '✅ Position 6 (ortho): Creates steric clash with NH bridge! The Cl atom forces the rings to twist.' }
     };
 
     const handlePositionClick = (pos: ChlorinePosition) => {
@@ -312,35 +312,41 @@ function Phase1Chemist({ onComplete }: { onComplete: () => void }) {
                         minHeight: '350px'
                     }}>
                         <svg viewBox="0 0 400 300" style={{ width: '100%', height: '100%' }}>
-                            {/* Left Ring + COOH */}
-                            <g transform="translate(80, 150)">
+                            {/* Left Ring (Phenylacetic acid) + COOH */}
+                            <g transform="translate(100, 150)">
+                                {/* Flat-topped hexagon */}
                                 <polygon
-                                    points="0,-50 43,-25 43,25 0,50 -43,25 -43,-25"
+                                    points="-48,0 -24,-42 24,-42 48,0 24,42 -24,42"
                                     fill="none"
                                     stroke="#1e293b"
                                     strokeWidth="2"
                                 />
-                                <circle cx="0" cy="0" r="20" fill="none" stroke="#1e293b" strokeWidth="1" />
-                                <line x1="0" y1="50" x2="0" y2="90" stroke="#1e293b" strokeWidth="2" />
-                                <text x="0" y="105" fill="#ef4444" fontSize="14" textAnchor="middle" fontWeight="700">COOH</text>
+                                {/* Circle for aromaticity */}
+                                <circle cx="0" cy="0" r="22" fill="none" stroke="#1e293b" strokeWidth="1" strokeDasharray="3" />
+                                {/* CH2 linkage going up */}
+                                <line x1="24" y1="-42" x2="50" y2="-70" stroke="#1e293b" strokeWidth="2" />
+                                {/* COOH */}
+                                <text x="58" y="-75" fill="#ef4444" fontSize="12" fontWeight="700">COOH</text>
                             </g>
 
-                            {/* NH Bridge */}
-                            <line x1="123" y1="150" x2="177" y2="150" stroke="#f59e0b" strokeWidth="3" />
-                            <text x="150" y="135" fill="#f59e0b" fontSize="16" textAnchor="middle" fontWeight="700">NH</text>
+                            {/* NH Bridge connecting the rings */}
+                            <line x1="148" y1="150" x2="200" y2="150" stroke="#f59e0b" strokeWidth="3" />
+                            <text x="174" y="138" fill="#f59e0b" fontSize="14" textAnchor="middle" fontWeight="700">NH</text>
 
-                            {/* Right Ring (Clickable positions) */}
-                            <g transform="translate(220, 150)">
+                            {/* Right Ring (Dichlorophenyl - where Cl goes) */}
+                            <g transform="translate(248, 150)">
+                                {/* Flat-topped hexagon - position 1 at left vertex (-48, 0) */}
                                 <polygon
-                                    points="0,-50 43,-25 43,25 0,50 -43,25 -43,-25"
+                                    points="-48,0 -24,-42 24,-42 48,0 24,42 -24,42"
                                     fill="none"
                                     stroke="#1e293b"
                                     strokeWidth="2"
                                 />
-                                <circle cx="0" cy="0" r="20" fill="none" stroke="#1e293b" strokeWidth="1" />
+                                {/* Circle for aromaticity */}
+                                <circle cx="0" cy="0" r="22" fill="none" stroke="#1e293b" strokeWidth="1" strokeDasharray="3" />
 
-                                {/* Position 1 (where NH connects - not clickable) */}
-                                <text x="-60" y="5" fill="#94a3b8" fontSize="10">1</text>
+                                {/* Position 1 marker (where NH connects - not clickable) */}
+                                <text x="-65" y="5" fill="#94a3b8" fontSize="10">1</text>
                             </g>
 
                             {/* Clickable Positions */}
@@ -356,22 +362,22 @@ function Phase1Chemist({ onComplete }: { onComplete: () => void }) {
                                         onClick={() => handlePositionClick(posNum)}
                                     >
                                         {isPlaced ? (
-                                            // Placed Chlorine
+                                            // Placed Chlorine - green after placement
                                             <g>
                                                 <circle cx={info.x} cy={info.y} r="18" fill="#22c55e" />
                                                 <text x={info.x} y={info.y + 5} fill="white" fontSize="12" textAnchor="middle" fontWeight="700">Cl</text>
                                             </g>
                                         ) : (
-                                            // Empty Position
+                                            // Empty Position - ALL same gray to not give hints!
                                             <g>
                                                 <circle
                                                     cx={info.x}
                                                     cy={info.y}
                                                     r="14"
                                                     fill="transparent"
-                                                    stroke={info.isCorrect ? '#22c55e' : '#94a3b8'}
+                                                    stroke="#94a3b8"
                                                     strokeWidth="2"
-                                                    strokeDasharray={info.isCorrect ? '0' : '4'}
+                                                    strokeDasharray="4"
                                                 />
                                                 <text x={info.x} y={info.y + 4} fill="#64748b" fontSize="11" textAnchor="middle" fontWeight="600">{info.label}</text>
                                             </g>
@@ -862,14 +868,21 @@ function Phase3Salt({ onComplete }: { onComplete: () => void }) {
 function Interactive2DStructure({ molecule }: { molecule: Molecule }) {
     const [selectedGroup, setSelectedGroup] = useState<FunctionalGroupInfo | null>(null);
 
-    // Define clickable zones for Diclofenac (approximate positions on 300x300 image)
+    // Define clickable zones for Diclofenac Sodium (based on 280x280 PubChem image)
+    // Image shows: Na+ and COO- at top, phenyl rings in middle/left, Cl atoms on lower ring
     const CLICKABLE_ZONES: Record<string, { x: number; y: number; width: number; height: number }> = {
-        'cooh': { x: 40, y: 200, width: 80, height: 60 },
-        'nh': { x: 130, y: 100, width: 50, height: 40 },
-        'cl': { x: 200, y: 40, width: 90, height: 80 },
-        'rings': { x: 80, y: 80, width: 140, height: 120 },
-        'ring1': { x: 40, y: 80, width: 80, height: 100 },
-        'salt': { x: 10, y: 220, width: 50, height: 50 }
+        // Na+ counter-ion at top right
+        'salt': { x: 155, y: 15, width: 45, height: 35 },
+        // Carboxylate (-COO-) at top center
+        'cooh': { x: 90, y: 25, width: 65, height: 50 },
+        // NH bridge between rings (middle area)
+        'nh': { x: 95, y: 100, width: 40, height: 35 },
+        // Upper phenyl ring (phenylacetic acid part)
+        'ring1': { x: 70, y: 60, width: 75, height: 70 },
+        // Lower phenyl ring (dichlorophenyl)
+        'rings': { x: 85, y: 140, width: 80, height: 80 },
+        // 2,6-Dichloro groups on lower ring
+        'cl': { x: 60, y: 175, width: 120, height: 45 }
     };
 
     return (
