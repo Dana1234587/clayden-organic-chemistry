@@ -369,7 +369,6 @@ export const sections: ChapterSection[] = [
       description: 'Discover how selective targeting led to the first antibiotics'
     },
     drugDevelopmentLab: true,
-    advancedDrugDiscovery: true,
     sulfaDrugDiscovery: true,
     drugDiscovery: {
       title: 'The Chemical Cousins Hypothesis',
@@ -478,8 +477,11 @@ export const sections: ChapterSection[] = [
       duration: '14:00'
     },
     molecules: [
-      { name: "Limonene", description: "Mirror-image forms smell like oranges vs lemons!" },
-      { name: "Muscone", description: "Musk deer pheromone - 15-membered ring" },
+      { name: "R-Limonene", description: "SAR: R-config binds GPCR → ORANGE smell (ΔG = -8.4 kcal/mol)" },
+      { name: "S-Limonene", description: "SAR: S-config binds differently → LEMON smell (ΔG = -3.2 kcal/mol)" },
+      { name: "Thalidomide", description: "SAR: R-form = sedative (safe), S-form = teratogenic (birth defects)" },
+      { name: "Ibuprofen", description: "SAR: S-form = active COX inhibitor, R-form = inactive prodrug" },
+      { name: "Muscone", description: "Musk deer pheromone - 15-membered ring macrocycle" },
       { name: "Civetone", description: "Civet cat pheromone - 17-membered ring for perfumes" },
       { name: "Frontalin", description: "Beetle pheromone - one enantiomer attracts, the other repels!" },
       { name: "Thioacetone", description: "The worst-smelling compound - evacuated Freiburg in 1889!" }
@@ -518,7 +520,8 @@ export const sections: ChapterSection[] = [
         correctIndex: 1,
         explanation: "One enantiomer attracts bark beetles while its mirror image REPELS them! This is used in pest control to protect forests."
       }
-    ]
+    ],
+    advancedDrugDiscovery: true
   },
   {
     id: "stereochemistry-intro",
