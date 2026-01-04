@@ -781,4 +781,63 @@ END`
         pubchemCid: 5333,
         pdb: `COMPND    SULFANILAMIDE - ACTIVE ANTIBIOTIC`
     },
+
+    // ========================================
+    // Section: Sulfa Drug Family (Lead Optimization)
+    // ========================================
+    'sulfisoxazole': {
+        color: '#3b82f6',
+        emoji: '⚡',
+        formula: 'C₁₁H₁₃N₃O₃S',
+        skeletal: 'Short-acting sulfonamide with isoxazole ring at N¹ position',
+        functionalGroups: ['Sulfonamide (-SO₂NH-)', 'Isoxazole ring', 'Para-amino group (-NH₂)'],
+        pubchemCid: 5344,
+        pdb: `COMPND    SULFISOXAZOLE - SHORT ACTING (6H)
+REMARK    N1 MODIFICATION: ISOXAZOLE RING
+REMARK    CLINICAL USE: ACUTE UTI`
+    },
+    'sulfamethoxazole': {
+        color: '#10b981',
+        emoji: '🃏',
+        formula: 'C₁₀H₁₁N₃O₃S',
+        skeletal: 'Medium-acting sulfonamide with methyl-isoxazole - The Joker drug used in Bactrim',
+        functionalGroups: ['Sulfonamide (-SO₂NH-)', 'Methyl-isoxazole ring', 'Para-amino group (-NH₂)'],
+        pubchemCid: 5329,
+        pdb: `COMPND    SULFAMETHOXAZOLE - MEDIUM ACTING (12H)
+REMARK    N1 MODIFICATION: METHYL-ISOXAZOLE
+REMARK    CLINICAL USE: BACTRIM (WITH TRIMETHOPRIM)`
+    },
+    'sulfadoxine': {
+        color: '#8b5cf6',
+        emoji: '🦟',
+        formula: 'C₁₂H₁₄N₄O₄S',
+        skeletal: 'Long-acting sulfonamide with methoxy-pyrimidine for malaria prevention',
+        functionalGroups: ['Sulfonamide (-SO₂NH-)', 'Methoxy-pyrimidine ring', 'Para-amino group (-NH₂)'],
+        pubchemCid: 17134,
+        pdb: `COMPND    SULFADOXINE - LONG ACTING (100H+)
+REMARK    N1 MODIFICATION: METHOXY-PYRIMIDINE
+REMARK    CLINICAL USE: MALARIA (FANSIDAR)`
+    },
+    'silver sulfadiazine': {
+        color: '#94a3b8',
+        emoji: '🔥',
+        formula: 'C₁₀H₉AgN₄O₂S',
+        skeletal: 'Topical sulfonamide with silver ion for burn wound treatment',
+        functionalGroups: ['Silver ion (Ag⁺)', 'Sulfonamide (-SO₂NH-)', 'Pyrimidine ring'],
+        pubchemCid: 441244,
+        pdb: `COMPND    SILVER SULFADIAZINE - TOPICAL
+REMARK    MODIFICATION: SILVER ATOM
+REMARK    CLINICAL USE: BURN CREAM`
+    },
+    'sulfasalazine': {
+        color: '#f97316',
+        emoji: '🎯',
+        formula: 'C₁₈H₁₄N₄O₅S',
+        skeletal: 'Gut-acting prodrug with azo linkage - cleaved by gut bacteria to release 5-ASA',
+        functionalGroups: ['Azo group (-N=N-)', 'Sulfonamide (-SO₂NH-)', '5-Aminosalicylic acid', 'Carboxylic acid (-COOH)'],
+        pubchemCid: 5359476,
+        pdb: `COMPND    SULFASALAZINE - GUT ACTING PRODRUG
+REMARK    MODIFICATION: AZO LINKAGE (N=N)
+REMARK    CLINICAL USE: ULCERATIVE COLITIS`
+    },
 };
