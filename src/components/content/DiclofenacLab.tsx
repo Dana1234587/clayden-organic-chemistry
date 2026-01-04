@@ -855,6 +855,7 @@ function FeaturedMolecules3D() {
                     }}>
                         <div style={{ height: '250px', background: 'black', position: 'relative' }}>
                             <MoleculeViewer
+                                moleculeName={mol.name}
                                 cid={mol.pubchemCid}
                                 showControls={false}
                                 autoRotate={true}

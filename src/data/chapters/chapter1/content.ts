@@ -781,7 +781,7 @@ export const sections: ChapterSection[] = [
       url: 'https://vz-2adfd2e0-f8c.b-cdn.net/9ecdadf5-5202-453c-93f8-acbdf1850184/playlist.m3u8',
       duration: '10:00'
     },
-    advancedDrugLab: true,
+    advancedDrugLab: false,
     keyPoints: [
       "Hybridization explains how carbon forms 4 equivalent bonds",
       "sp³: 4 groups, tetrahedral, 109.5° angles",

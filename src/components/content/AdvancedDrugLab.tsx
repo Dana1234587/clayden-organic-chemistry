@@ -690,8 +690,8 @@ export default function AdvancedDrugLab({ lessonId }: AdvancedDrugLabProps) {
         { id: 'development', label: 'Drug Development', icon: '🧬' }
     ];
 
-    // Special case for Diclofenac Lab (Hybridization Lesson)
-    if (lessonId === 'hybridization') {
+    // Special case for Diclofenac Lab (Chemical Bonding Lesson)
+    if (lessonId === 'chemical-bonding') {
         return (
             <div style={{
                 background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%)',
