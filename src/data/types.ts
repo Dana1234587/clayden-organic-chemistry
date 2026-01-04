@@ -79,6 +79,8 @@ export interface ChapterSection {
     conjugationDiagram?: boolean;
     // Drug Development Lab flag (Lesson 4 - Sulfa Family Evolution)
     drugDevelopmentLab?: boolean;
+    // Advanced Drug Discovery Lab flag (Lesson 5 - PhD/Master level)
+    advancedDrugDiscovery?: boolean;
 }
 
 export interface ChapterQuiz {

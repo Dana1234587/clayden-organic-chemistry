@@ -175,9 +175,27 @@ const DrugDevelopmentLab = dynamic(() => import('../content/DrugDevelopmentLab')
     )
 });
 
+// Dynamic import for AdvancedDrugDiscoveryLab (Lesson 5 - PhD level)
+const AdvancedDrugDiscoveryLab = dynamic(() => import('../content/AdvancedDrugDiscoveryLab'), {
+    ssr: false,
+    loading: () => (
+        <div style={{
+            height: '500px',
+            background: 'var(--gradient-card)',
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--neutral-400)'
+        }}>
+            Loading Advanced Drug Discovery Lab...
+        </div>
+    )
+});
+
 // ... imports ...
 
-type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective' | 'research' | 'virtualLab' | 'drugDevelopmentLab';
+type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective' | 'research' | 'virtualLab' | 'drugDevelopmentLab' | 'advancedDrugDiscovery';
 
 export default function LessonViewer({
     section,
@@ -224,6 +242,7 @@ export default function LessonViewer({
         { id: 'lesson' as const, icon: '📖', label: 'Lesson' },
         ...(section.id === 'synthetic-dyes' ? [{ id: 'virtualLab' as const, icon: '🔬', label: 'Virtual Lab' }] : []),
         ...(section.drugDevelopmentLab ? [{ id: 'drugDevelopmentLab' as const, icon: '🧪', label: 'Molecular Lab' }] : []),
+        ...(section.advancedDrugDiscovery ? [{ id: 'advancedDrugDiscovery' as const, icon: '🧬', label: 'Discovery Lab' }] : []),
         ...(section.conjugationDiagram ? [{ id: 'conjugation' as const, icon: '🌈', label: 'Conjugation Rule' }] : []),
         ...(section.colorExamples ? [{ id: 'colors' as const, icon: '🧪', label: 'Featured Molecules' }] : []),
         ...(isColorLesson ? [{ id: 'clinical' as const, icon: '💊', label: 'Clinical Colors' }] : []),
@@ -630,6 +649,18 @@ export default function LessonViewer({
                             exit={{ opacity: 0, y: -10 }}
                         >
                             <DrugDevelopmentLab />
+                        </motion.div>
+                    )}
+
+                    {/* ADVANCED DRUG DISCOVERY LAB TAB */}
+                    {activeTab === 'advancedDrugDiscovery' && section.advancedDrugDiscovery && (
+                        <motion.div
+                            key="advancedDrugDiscovery"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                        >
+                            <AdvancedDrugDiscoveryLab />
                         </motion.div>
                     )}
 
