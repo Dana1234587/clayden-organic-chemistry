@@ -690,6 +690,39 @@ export default function AdvancedDrugLab({ lessonId }: AdvancedDrugLabProps) {
         { id: 'development', label: 'Drug Development', icon: '🧬' }
     ];
 
+    // Special case for Diclofenac Lab (Hybridization Lesson)
+    if (lessonId === 'hybridization') {
+        return (
+            <div style={{
+                background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%)',
+                borderRadius: '24px',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                overflow: 'hidden'
+            }}>
+                {/* Custom Header for Diclofenac */}
+                <div style={{
+                    padding: '1.5rem 2rem',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '1rem'
+                }}>
+                    <span style={{ fontSize: '1.75rem' }}>🧪</span>
+                    <div>
+                        <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'white', margin: 0 }}>
+                            Diclofenac Lead-to-Salt Laboratory
+                        </h3>
+                        <p style={{ color: 'var(--neutral-400)', margin: '0.25rem 0 0', fontSize: '0.9rem' }}>
+                            From Hit to Prescribed Medicine
+                        </p>
+                    </div>
+                </div>
+                <DiclofenacLab />
+            </div>
+        );
+    }
+
     return (
         <div style={{
             background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%)',

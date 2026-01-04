@@ -213,6 +213,9 @@ interface MoleculeViewerProps {
     smilesOrPdb?: string;
     description?: string;
     height?: number;
+    cid?: number; // Direct PubChem CID bypass
+    autoRotate?: boolean;
+    showControls?: boolean;
 }
 
 // ============================================
@@ -232,7 +235,9 @@ type ViewStyle = 'stick' | 'sphere' | 'line' | 'cartoon';
 export default function MoleculeViewer({
     moleculeName,
     description,
-    height = 350
+    height = 350,
+    cid,
+    autoRotate = true // Default to true if not specified
 }: MoleculeViewerProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const viewerRef = useRef<any>(null);
@@ -240,12 +245,25 @@ export default function MoleculeViewer({
     const [viewStyle, setViewStyle] = useState<ViewStyle>('stick');
     const [isLoading, setIsLoading] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
-    const [isRotating, setIsRotating] = useState(true); // Default to rotating
+    const [isRotating, setIsRotating] = useState(autoRotate);
     const [showLabels, setShowLabels] = useState(false); // Default to NO labels for cleaner view
     const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d'); // Toggle between 3D and 2D
     const isMobile = useIsMobile();
 
-    const molecule = getMolecule(moleculeName.toLowerCase());
+    // Try to get from registry, or construct transient object if cid provided
+    let molecule = getMolecule(moleculeName.toLowerCase());
+    if (!molecule && cid) {
+        molecule = {
+            name: moleculeName,
+            formula: 'Loading...',
+            skeletal: 'Structure',
+            description: description || 'Loaded from PubChem',
+            functionalGroups: [],
+            emoji: '💊',
+            color: '#3b82f6',
+            pubchemCid: cid
+        } as any;
+    }
     const hasMolecule = !!molecule;
 
     // Load 3D viewer only when expanded

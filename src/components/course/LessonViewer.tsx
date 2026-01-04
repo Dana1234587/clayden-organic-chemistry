@@ -298,7 +298,7 @@ export default function LessonViewer({
         ...(section.advancedDrugDiscovery ? [{ id: 'advancedDrugDiscovery' as const, icon: '🧬', label: 'Discovery Lab' }] : []),
         ...(section.stereochemistryLab ? [{ id: 'stereochemistryLab' as const, icon: '🪞', label: 'Chiral Lab' }] : []),
         ...(section.bioisosterismLab ? [{ id: 'bioisosterismLab' as const, icon: '⚛️', label: 'Electron Architect' }] : []),
-        ...(section.advancedDrugLab ? [{ id: 'advancedDrugLab' as const, icon: '🎓', label: 'PhD Drug Lab' }] : []),
+        ...(section.advancedDrugLab ? [{ id: 'advancedDrugLab' as const, icon: section.id === 'hybridization' ? '💊' : '🎓', label: section.id === 'hybridization' ? 'Drug Development' : 'PhD Drug Lab' }] : []),
         ...(section.conjugationDiagram ? [{ id: 'conjugation' as const, icon: '🌈', label: 'Conjugation Rule' }] : []),
         ...(section.colorExamples ? [{ id: 'colors' as const, icon: '🧪', label: 'Featured Molecules' }] : []),
         ...(isColorLesson ? [{ id: 'clinical' as const, icon: '💊', label: 'Clinical Colors' }] : []),
