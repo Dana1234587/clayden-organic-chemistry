@@ -9,404 +9,446 @@ const MoleculeViewer = dynamic(() => import('../MoleculeViewer'), {
     ssr: false,
     loading: () => (
         <div style={{
-            height: '300px',
-            background: 'linear-gradient(135deg, #1e293b, #0f172a)',
+            height: '240px',
+            background: 'rgba(0, 0, 0, 0.4)',
+            borderRadius: '12px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#64748b'
+            color: '#94a3b8'
         }}>
-            <div className="animate-pulse">Loading 3D viewer...</div>
+            Loading 3D viewer...
         </div>
     )
 });
 
-// PubChem 2D Image URL
-const getPubChem2DImage = (cid: number, size: number = 300) =>
-    `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${cid}/PNG?image_size=${size}x${size}`;
-
-// Element Color Legend
-const ELEMENT_COLORS = [
-    { element: 'Carbon', color: '#909090', symbol: 'C' },
-    { element: 'Oxygen', color: '#FF0D0D', symbol: 'O' },
-    { element: 'Nitrogen', color: '#3050F8', symbol: 'N' },
-    { element: 'Hydrogen', color: '#FFFFFF', symbol: 'H' },
-    { element: 'Sulfur', color: '#FFFF30', symbol: 'S' },
-    { element: 'Chlorine', color: '#1FF01F', symbol: 'Cl' }
-];
+// ============================================================================
+// TYPES
+// ============================================================================
 
 interface MoleculeData {
     name: string;
     formula: string;
     description: string;
     cid: number;
-    icon: string;
-    tags: string[];
-    sarNote?: string;
-    reactionLink?: string; // Link to reaction mechanism page
+    atoms: AtomInfo[];
+    info?: string[];
 }
 
-// Featured molecules for Lesson 8 (BTK Inhibitors + Diclofenac pipeline)
+interface AtomInfo {
+    name: string;
+    color: string;
+    count?: number;
+}
+
+// ============================================================================
+// FEATURED MOLECULES DATA
+// ============================================================================
+
 const FEATURED_MOLECULES: MoleculeData[] = [
     {
         name: 'Ibrutinib',
         formula: 'C₂₅H₂₄N₆O₂',
-        description: '(Covalent BTK Inhibitor) Uses acrylamide warhead to form irreversible C-S bond with Cys481 via Michael Addition',
+        description: 'Covalent BTK inhibitor with acrylamide warhead (Michael Addition)',
         cid: 6918474,
-        icon: '⚔️',
-        tags: ['Acrylamide Warhead', 'Michael Acceptor', 'BTK Inhibitor'],
-        sarNote: 'Irreversible | t½ = ∞ | Vulnerable to Cys481S mutation'
+        atoms: [
+            { name: 'Carbon', color: '#6b7280', count: 25 },
+            { name: 'Hydrogen', color: '#ffffff', count: 24 },
+            { name: 'Nitrogen', color: '#3b82f6', count: 6 },
+            { name: 'Oxygen', color: '#ef4444', count: 2 }
+        ],
+        info: [
+            'First-in-class BTK inhibitor',
+            'Forms irreversible C-S bond with Cys481',
+            'Used for CLL, MCL, and other B-cell cancers',
+            'Mechanism: Michael Addition reaction'
+        ]
     },
     {
         name: 'Pirtobrutinib',
         formula: 'C₂₃H₂₂F₂N₆O₂',
-        description: '(Non-Covalent BTK Inhibitor) Uses H-bond network instead of covalent warhead - overcomes resistance',
+        description: 'Non-covalent BTK inhibitor - overcomes ibrutinib resistance',
         cid: 135564947,
-        icon: '🎯',
-        tags: ['Reversible', 'H-Bond Network', 'Resistance-Proof'],
-        sarNote: 'Reversible | High selectivity | Works against Cys481S mutants'
+        atoms: [
+            { name: 'Carbon', color: '#6b7280', count: 23 },
+            { name: 'Hydrogen', color: '#ffffff', count: 22 },
+            { name: 'Fluorine', color: '#22c55e', count: 2 },
+            { name: 'Nitrogen', color: '#3b82f6', count: 6 },
+            { name: 'Oxygen', color: '#ef4444', count: 2 }
+        ],
+        info: [
+            'Reversible (non-covalent) BTK inhibitor',
+            'Works against Cys481S mutant resistance',
+            'Higher selectivity than covalent inhibitors',
+            'Distributed H-bond network for binding'
+        ]
     },
     {
-        name: '2-Anilinophenylacetic Acid',
-        formula: 'C₁₄H₁₃NO₂',
-        description: '(Lead) Initial screening hit with basic NSAID activity - low potency, poor selectivity',
-        cid: 854057,
-        icon: '🔬',
-        tags: ['Carboxylic Acid', 'Secondary Amine', 'Diphenyl'],
-        sarNote: 'IC50 > 10 μM (weak) | Non-selective (inhibits COX-1 & COX-2)'
-    },
-    {
-        name: 'Diclofenac Acid',
+        name: 'Diclofenac',
         formula: 'C₁₄H₁₁Cl₂NO₂',
-        description: '(Optimized) 2,6-dichloro addition creates 80° ring twist for COX-2 selective binding',
+        description: 'NSAID with COX-2 selectivity via 2,6-dichloro steric twist',
         cid: 3033,
-        icon: '💊',
-        tags: ['Carboxylic Acid', '2,6-Dichloro', 'Steric Twist'],
-        sarNote: 'IC50 = 0.05 μM | 10x more potent | COX-2 selective (ΔG = -8.2 kcal/mol)'
+        atoms: [
+            { name: 'Carbon', color: '#6b7280', count: 14 },
+            { name: 'Hydrogen', color: '#ffffff', count: 11 },
+            { name: 'Chlorine', color: '#22c55e', count: 2 },
+            { name: 'Nitrogen', color: '#3b82f6', count: 1 },
+            { name: 'Oxygen', color: '#ef4444', count: 2 }
+        ],
+        info: [
+            'Potent NSAID (IC50 = 0.05 μM)',
+            '80° ring twist enables COX-2 selectivity',
+            'Carboxylic acid for target binding',
+            'Salt forms: sodium, potassium, epolamine'
+        ]
+    },
+    {
+        name: 'Aspirin',
+        formula: 'C₉H₈O₄',
+        description: 'Classic NSAID - acetylates COX enzyme irreversibly',
+        cid: 2244,
+        atoms: [
+            { name: 'Carbon', color: '#6b7280', count: 9 },
+            { name: 'Hydrogen', color: '#ffffff', count: 8 },
+            { name: 'Oxygen', color: '#ef4444', count: 4 }
+        ],
+        info: [
+            'Acetylsalicylic acid',
+            'Irreversible COX inhibitor via acetylation',
+            'Anti-platelet effect at low doses',
+            'From willow bark (salicin) - 1897'
+        ]
     }
 ];
 
-// Professional Molecule Card Component (R-Limonene Style)
-function MoleculeCard({ molecule }: { molecule: MoleculeData }) {
-    const [isExpanded, setIsExpanded] = useState(false);
+// ============================================================================
+// ELEGANT MOLECULE CARD COMPONENT
+// ============================================================================
+
+function ElegantMoleculeCard({ molecule, isSelected, onSelect }: {
+    molecule: MoleculeData;
+    isSelected: boolean;
+    onSelect: () => void;
+}) {
     const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d');
     const [modelStyle, setModelStyle] = useState<'stick' | 'sphere' | 'line'>('stick');
     const [isRotating, setIsRotating] = useState(true);
+    const [showInfo, setShowInfo] = useState(false);
 
     return (
-        <>
-            {/* Collapsed Card */}
-            <motion.div
-                layout
-                whileHover={{ y: -4, boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}
-                style={{
-                    background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98))',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    overflow: 'hidden',
-                    cursor: isExpanded ? 'default' : 'pointer'
-                }}
-            >
-                {/* Card Header with Icon */}
-                <div style={{ padding: '1.5rem', textAlign: 'center' }}>
-                    <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>{molecule.icon}</div>
-
-                    <h4 style={{
-                        color: '#e2e8f0',
-                        fontSize: '1.1rem',
-                        fontWeight: 700,
-                        marginBottom: '0.25rem'
-                    }}>
-                        {molecule.name}
-                    </h4>
-
+        <motion.div
+            layout
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{
+                background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.99))',
+                borderRadius: '20px',
+                border: isSelected ? '2px solid #8b5cf6' : '1px solid rgba(255,255,255,0.1)',
+                overflow: 'hidden',
+                boxShadow: isSelected ? '0 0 30px rgba(139, 92, 246, 0.3)' : '0 8px 32px rgba(0,0,0,0.3)'
+            }}
+        >
+            {/* Header */}
+            <div style={{
+                padding: '1rem 1.25rem',
+                borderBottom: '1px solid rgba(255,255,255,0.05)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                     <div style={{
-                        color: '#f59e0b',
-                        fontSize: '0.85rem',
-                        fontWeight: 600,
-                        marginBottom: '0.75rem'
-                    }}>
-                        {molecule.formula}
-                    </div>
-
-                    <p style={{
-                        color: '#94a3b8',
-                        fontSize: '0.85rem',
-                        lineHeight: 1.5,
-                        marginBottom: '1rem'
-                    }}>
-                        {molecule.description}
-                    </p>
-
-                    {/* Functional Group Tags */}
-                    <div style={{
+                        width: '36px',
+                        height: '36px',
+                        background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                        borderRadius: '10px',
                         display: 'flex',
-                        flexWrap: 'wrap',
-                        gap: '0.4rem',
+                        alignItems: 'center',
                         justifyContent: 'center',
-                        marginBottom: '1rem'
+                        fontSize: '1.1rem'
                     }}>
-                        {molecule.tags.map(tag => (
-                            <span
-                                key={tag}
-                                style={{
-                                    padding: '0.3rem 0.6rem',
-                                    background: 'rgba(139, 92, 246, 0.2)',
-                                    borderRadius: '12px',
-                                    fontSize: '0.7rem',
-                                    color: '#a78bfa',
-                                    border: '1px solid rgba(139, 92, 246, 0.3)'
-                                }}
-                            >
-                                {tag}
-                            </span>
-                        ))}
+                        ⚛️
                     </div>
-
-                    {/* SAR Note */}
-                    {molecule.sarNote && (
-                        <div style={{
-                            padding: '0.5rem 0.75rem',
-                            background: 'rgba(0,0,0,0.3)',
-                            borderRadius: '8px',
-                            fontSize: '0.75rem',
-                            color: '#94a3b8',
-                            marginBottom: '1rem'
-                        }}>
-                            SAR: {molecule.sarNote}
-                        </div>
-                    )}
-
-                    {/* View 3D Model Button */}
+                    <div>
+                        <h4 style={{ color: '#e2e8f0', fontSize: '1.1rem', fontWeight: 700, margin: 0 }}>
+                            {molecule.name}
+                        </h4>
+                        <span style={{ color: '#f59e0b', fontSize: '0.85rem', fontWeight: 600 }}>
+                            {molecule.formula}
+                        </span>
+                    </div>
+                </div>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => setIsExpanded(!isExpanded)}
+                        onClick={() => setShowInfo(!showInfo)}
                         style={{
-                            padding: '0.75rem 1.5rem',
-                            background: isExpanded ? '#ef4444' : 'linear-gradient(135deg, #f59e0b, #d97706)',
-                            border: 'none',
-                            borderRadius: '12px',
+                            padding: '0.5rem 0.75rem',
+                            background: showInfo ? '#8b5cf6' : 'rgba(139, 92, 246, 0.2)',
+                            border: '1px solid rgba(139, 92, 246, 0.3)',
+                            borderRadius: '8px',
                             color: 'white',
+                            fontSize: '0.75rem',
                             fontWeight: 600,
-                            fontSize: '0.9rem',
                             cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '0.5rem',
-                            width: '100%'
+                            gap: '0.3rem'
                         }}
                     >
-                        {isExpanded ? '✕ Close' : '🧬 View 3D Model'}
+                        ℹ️ Info
                     </motion.button>
                 </div>
-            </motion.div>
+            </div>
 
-            {/* Expanded View - Full Width */}
-            <AnimatePresence>
-                {isExpanded && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        style={{
-                            gridColumn: '1 / -1',
-                            background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.98))',
-                            borderRadius: '20px',
-                            border: '1px solid rgba(139, 92, 246, 0.3)',
-                            overflow: 'hidden',
-                            marginTop: '1rem'
-                        }}
-                    >
-                        {/* Header Bar */}
-                        <div style={{
-                            padding: '1rem 1.5rem',
-                            background: 'rgba(0,0,0,0.3)',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            flexWrap: 'wrap',
-                            gap: '1rem'
-                        }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                <span style={{ fontSize: '1.5rem' }}>{molecule.icon}</span>
-                                <div>
-                                    <div style={{ color: '#e2e8f0', fontWeight: 700 }}>{molecule.name}</div>
-                                    <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>{molecule.description}</div>
-                                </div>
-                            </div>
+            {/* Description */}
+            <div style={{ padding: '0.75rem 1.25rem', background: 'rgba(0,0,0,0.2)' }}>
+                <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0, lineHeight: 1.5 }}>
+                    {molecule.description}
+                </p>
+            </div>
 
-                            <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                <button
-                                    onClick={() => setViewMode('3d')}
-                                    style={{
-                                        padding: '0.5rem 1rem',
-                                        background: viewMode === '3d' ? '#8b5cf6' : 'rgba(255,255,255,0.1)',
-                                        border: 'none',
-                                        borderRadius: '8px',
-                                        color: 'white',
-                                        fontWeight: 600,
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    3D Interactive
-                                </button>
-                                <button
-                                    onClick={() => setViewMode('2d')}
-                                    style={{
-                                        padding: '0.5rem 1rem',
-                                        background: viewMode === '2d' ? '#8b5cf6' : 'rgba(255,255,255,0.1)',
-                                        border: 'none',
-                                        borderRadius: '8px',
-                                        color: 'white',
-                                        fontWeight: 600,
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    ◢ 2D Skeletal
-                                </button>
-                                <button
-                                    onClick={() => setIsExpanded(false)}
-                                    style={{
-                                        padding: '0.5rem 1rem',
-                                        background: '#ef4444',
-                                        border: 'none',
-                                        borderRadius: '8px',
-                                        color: 'white',
-                                        fontWeight: 600,
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    ✕ Close
-                                </button>
-                            </div>
-                        </div>
+            {/* 3D/2D Toggle */}
+            <div style={{
+                display: 'flex',
+                padding: '0.75rem 1.25rem',
+                gap: '0.5rem'
+            }}>
+                <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setViewMode('3d')}
+                    style={{
+                        flex: 1,
+                        padding: '0.6rem 1rem',
+                        background: viewMode === '3d'
+                            ? 'linear-gradient(135deg, #8b5cf6, #6366f1)'
+                            : 'rgba(255,255,255,0.05)',
+                        border: viewMode === '3d' ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: '10px',
+                        color: 'white',
+                        fontWeight: 600,
+                        fontSize: '0.85rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.4rem'
+                    }}
+                >
+                    🧬 3D Model
+                </motion.button>
+                <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setViewMode('2d')}
+                    style={{
+                        flex: 1,
+                        padding: '0.6rem 1rem',
+                        background: viewMode === '2d'
+                            ? 'linear-gradient(135deg, #8b5cf6, #6366f1)'
+                            : 'rgba(255,255,255,0.05)',
+                        border: viewMode === '2d' ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: '10px',
+                        color: 'white',
+                        fontWeight: 600,
+                        fontSize: '0.85rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.4rem'
+                    }}
+                >
+                    📄 2D Skeletal
+                </motion.button>
+            </div>
 
-                        {/* Viewer Area */}
-                        <div style={{ display: 'flex', gap: '1rem', padding: '1.5rem' }}>
-                            {/* 3D/2D Viewer */}
-                            <div style={{
-                                flex: 1,
-                                minHeight: '350px',
-                                background: viewMode === '2d' ? 'white' : 'rgba(0,0,0,0.3)',
-                                borderRadius: '12px',
-                                overflow: 'hidden',
+            {/* Molecule Viewer */}
+            <div style={{
+                margin: '0 1.25rem',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                background: 'rgba(0, 0, 0, 0.6)',
+                border: '1px solid rgba(255,255,255,0.05)'
+            }}>
+                <AnimatePresence mode="wait">
+                    {viewMode === '3d' ? (
+                        <motion.div
+                            key="3d"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            style={{ height: '240px' }}
+                        >
+                            <MoleculeViewer
+                                pubchemCid={molecule.cid}
+                                height={240}
+                                style={modelStyle}
+                                rotate={isRotating}
+                            />
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            key="2d"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            style={{
+                                height: '240px',
+                                background: 'white',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center'
+                            }}
+                        >
+                            <img
+                                src={`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${molecule.cid}/PNG?image_size=300x300`}
+                                alt={`2D structure of ${molecule.name}`}
+                                style={{ maxWidth: '90%', maxHeight: '220px' }}
+                            />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+
+            {/* Atoms Legend */}
+            <div style={{
+                padding: '0.75rem 1.25rem',
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                gap: '0.75rem'
+            }}>
+                {molecule.atoms.map(atom => (
+                    <div key={atom.name} style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.35rem',
+                        fontSize: '0.8rem',
+                        color: '#94a3b8'
+                    }}>
+                        <div style={{
+                            width: '12px',
+                            height: '12px',
+                            borderRadius: '50%',
+                            background: atom.color,
+                            border: atom.color === '#ffffff' ? '1px solid #64748b' : 'none'
+                        }} />
+                        <span>{atom.name}</span>
+                    </div>
+                ))}
+            </div>
+
+            {/* View Options (only for 3D) */}
+            {viewMode === '3d' && (
+                <div style={{
+                    padding: '0.5rem 1.25rem',
+                    display: 'flex',
+                    gap: '0.5rem',
+                    flexWrap: 'wrap'
+                }}>
+                    {(['stick', 'sphere', 'line'] as const).map(style => (
+                        <motion.button
+                            key={style}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setModelStyle(style)}
+                            style={{
+                                padding: '0.4rem 0.8rem',
+                                background: modelStyle === style
+                                    ? '#8b5cf6'
+                                    : 'rgba(255,255,255,0.08)',
+                                border: modelStyle === style ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                                borderRadius: '8px',
+                                color: 'white',
+                                fontSize: '0.8rem',
+                                fontWeight: 500,
+                                cursor: 'pointer',
+                                textTransform: 'capitalize'
+                            }}
+                        >
+                            {style}
+                        </motion.button>
+                    ))}
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setIsRotating(!isRotating)}
+                        style={{
+                            padding: '0.4rem 0.8rem',
+                            background: 'rgba(255,255,255,0.08)',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            borderRadius: '8px',
+                            color: 'white',
+                            fontSize: '0.8rem',
+                            fontWeight: 500,
+                            cursor: 'pointer',
+                            marginLeft: 'auto'
+                        }}
+                    >
+                        {isRotating ? '⏸ Pause' : '▶ Rotate'}
+                    </motion.button>
+                </div>
+            )}
+
+            {/* Info Panel */}
+            <AnimatePresence>
+                {showInfo && molecule.info && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        style={{
+                            margin: '0 1.25rem 1rem',
+                            background: 'rgba(139, 92, 246, 0.1)',
+                            borderRadius: '12px',
+                            border: '1px solid rgba(139, 92, 246, 0.2)',
+                            overflow: 'hidden'
+                        }}
+                    >
+                        <div style={{ padding: '1rem' }}>
+                            <div style={{
+                                color: '#a78bfa',
+                                fontWeight: 700,
+                                marginBottom: '0.5rem',
+                                fontSize: '0.9rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem'
                             }}>
-                                {viewMode === '3d' ? (
-                                    <div style={{ width: '100%', height: '350px' }}>
-                                        <MoleculeViewer
-                                            moleculeName={molecule.name}
-                                            cid={molecule.cid}
-                                            autoRotate={isRotating}
-                                            height={350}
-                                        />
-                                    </div>
-                                ) : (
-                                    <img
-                                        src={getPubChem2DImage(molecule.cid, 350)}
-                                        alt={molecule.name}
-                                        style={{ maxWidth: '100%', maxHeight: '350px' }}
-                                    />
-                                )}
+                                📋 Key Information
                             </div>
-
-                            {/* Controls Panel (only for 3D) */}
-                            {viewMode === '3d' && (
-                                <div style={{
-                                    width: '200px',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '1rem'
-                                }}>
-                                    {/* Element Colors */}
-                                    <div style={{
-                                        background: 'rgba(0,0,0,0.3)',
-                                        borderRadius: '12px',
-                                        padding: '1rem'
-                                    }}>
-                                        <div style={{ color: '#94a3b8', fontSize: '0.75rem', marginBottom: '0.75rem', fontWeight: 600 }}>
-                                            Element Colors
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                                            {ELEMENT_COLORS.map(el => (
-                                                <div key={el.element} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                                    <div style={{
-                                                        width: '14px',
-                                                        height: '14px',
-                                                        borderRadius: '50%',
-                                                        background: el.color,
-                                                        border: el.element === 'Hydrogen' ? '1px solid #64748b' : 'none'
-                                                    }} />
-                                                    <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>{el.symbol} {el.element}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Style Controls */}
-                                    <div style={{
-                                        background: 'rgba(0,0,0,0.3)',
-                                        borderRadius: '12px',
-                                        padding: '1rem'
-                                    }}>
-                                        <div style={{ color: '#94a3b8', fontSize: '0.75rem', marginBottom: '0.75rem', fontWeight: 600 }}>
-                                            View Style
-                                        </div>
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-                                            {['Stick', 'Sphere', 'Line'].map(style => (
-                                                <button
-                                                    key={style}
-                                                    onClick={() => setModelStyle(style.toLowerCase() as any)}
-                                                    style={{
-                                                        padding: '0.4rem 0.75rem',
-                                                        background: modelStyle === style.toLowerCase() ? '#8b5cf6' : 'rgba(255,255,255,0.1)',
-                                                        border: 'none',
-                                                        borderRadius: '6px',
-                                                        color: 'white',
-                                                        fontSize: '0.75rem',
-                                                        cursor: 'pointer'
-                                                    }}
-                                                >
-                                                    {style}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Rotation Control */}
-                                    <button
-                                        onClick={() => setIsRotating(!isRotating)}
-                                        style={{
-                                            padding: '0.75rem',
-                                            background: isRotating ? 'rgba(139, 92, 246, 0.3)' : 'rgba(255,255,255,0.1)',
-                                            border: '1px solid rgba(139, 92, 246, 0.5)',
-                                            borderRadius: '12px',
-                                            color: 'white',
-                                            fontSize: '0.85rem',
-                                            cursor: 'pointer',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            gap: '0.5rem'
-                                        }}
-                                    >
-                                        {isRotating ? '⏸ Pause' : '▶ Play'} Rotation
-                                    </button>
-                                </div>
-                            )}
+                            <ul style={{
+                                margin: 0,
+                                paddingLeft: '1.25rem',
+                                color: '#e2e8f0',
+                                fontSize: '0.85rem',
+                                lineHeight: 1.7
+                            }}>
+                                {molecule.info.map((item, i) => (
+                                    <li key={i}>{item}</li>
+                                ))}
+                            </ul>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </>
+
+            {/* Bottom padding */}
+            <div style={{ height: '0.75rem' }} />
+        </motion.div>
     );
 }
 
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
+
 export default function DiclofenacFeaturedMolecules() {
+    const [selectedMolecule, setSelectedMolecule] = useState<string | null>(null);
+
     return (
         <div style={{ padding: '1.5rem' }}>
             {/* Header */}
@@ -418,38 +460,40 @@ export default function DiclofenacFeaturedMolecules() {
                     color: 'var(--neutral-100)',
                     marginBottom: '0.5rem'
                 }}>
-                    Featured Drug Molecules
+                    Featured Molecules
                 </h3>
                 <p style={{ color: 'var(--neutral-400)', fontSize: '0.9rem' }}>
-                    BTK Inhibitors (Ibrutinib vs Pirtobrutinib) & Diclofenac Development
+                    Interactive 3D structures of key drug molecules
                 </p>
             </div>
 
             {/* Molecule Cards Grid */}
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
                 gap: '1.5rem'
             }}>
                 {FEATURED_MOLECULES.map((mol) => (
-                    <MoleculeCard key={mol.name} molecule={mol} />
+                    <ElegantMoleculeCard
+                        key={mol.name}
+                        molecule={mol}
+                        isSelected={selectedMolecule === mol.name}
+                        onSelect={() => setSelectedMolecule(mol.name)}
+                    />
                 ))}
             </div>
 
-            {/* Michael Addition Note */}
+            {/* Michael Addition Link */}
             <div style={{
                 marginTop: '2rem',
-                padding: '1.25rem',
+                padding: '1rem 1.5rem',
                 background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(168, 85, 247, 0.1))',
                 borderRadius: '16px',
                 border: '1px solid rgba(239, 68, 68, 0.3)',
                 textAlign: 'center'
             }}>
-                <div style={{ color: '#f87171', fontWeight: 700, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-                    <span>⚗️</span> Key Reaction: Michael Addition
-                </div>
                 <p style={{ color: '#e2e8f0', fontSize: '0.9rem', marginBottom: '0.75rem' }}>
-                    Ibrutinib's acrylamide warhead uses <strong>Michael Addition</strong> to form a covalent bond with Cys481.
+                    Ibrutinib uses <strong style={{ color: '#f87171' }}>Michael Addition</strong> to form a covalent bond with BTK.
                 </p>
                 <a
                     href="/reactions#michael-addition"
@@ -466,7 +510,7 @@ export default function DiclofenacFeaturedMolecules() {
                         textDecoration: 'none'
                     }}
                 >
-                    Learn Michael Addition Mechanism →
+                    Learn Michael Addition →
                 </a>
             </div>
         </div>
