@@ -43,10 +43,29 @@ interface MoleculeData {
     icon: string;
     tags: string[];
     sarNote?: string;
+    reactionLink?: string; // Link to reaction mechanism page
 }
 
-// Diclofenac development pipeline molecules
-const DICLOFENAC_MOLECULES: MoleculeData[] = [
+// Featured molecules for Lesson 8 (BTK Inhibitors + Diclofenac pipeline)
+const FEATURED_MOLECULES: MoleculeData[] = [
+    {
+        name: 'Ibrutinib',
+        formula: 'C₂₅H₂₄N₆O₂',
+        description: '(Covalent BTK Inhibitor) Uses acrylamide warhead to form irreversible C-S bond with Cys481 via Michael Addition',
+        cid: 6918474,
+        icon: '⚔️',
+        tags: ['Acrylamide Warhead', 'Michael Acceptor', 'BTK Inhibitor'],
+        sarNote: 'Irreversible | t½ = ∞ | Vulnerable to Cys481S mutation'
+    },
+    {
+        name: 'Pirtobrutinib',
+        formula: 'C₂₃H₂₂F₂N₆O₂',
+        description: '(Non-Covalent BTK Inhibitor) Uses H-bond network instead of covalent warhead - overcomes resistance',
+        cid: 135564947,
+        icon: '🎯',
+        tags: ['Reversible', 'H-Bond Network', 'Resistance-Proof'],
+        sarNote: 'Reversible | High selectivity | Works against Cys481S mutants'
+    },
     {
         name: '2-Anilinophenylacetic Acid',
         formula: 'C₁₄H₁₃NO₂',
@@ -392,17 +411,17 @@ export default function DiclofenacFeaturedMolecules() {
         <div style={{ padding: '1.5rem' }}>
             {/* Header */}
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>💊</div>
+                <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🧬</div>
                 <h3 style={{
                     fontSize: '1.5rem',
                     fontWeight: 700,
                     color: 'var(--neutral-100)',
                     marginBottom: '0.5rem'
                 }}>
-                    Diclofenac Development Pipeline
+                    Featured Drug Molecules
                 </h3>
                 <p style={{ color: 'var(--neutral-400)', fontSize: '0.9rem' }}>
-                    From lead discovery to optimized drug candidate
+                    BTK Inhibitors (Ibrutinib vs Pirtobrutinib) & Diclofenac Development
                 </p>
             </div>
 
@@ -412,9 +431,43 @@ export default function DiclofenacFeaturedMolecules() {
                 gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
                 gap: '1.5rem'
             }}>
-                {DICLOFENAC_MOLECULES.map((mol, idx) => (
+                {FEATURED_MOLECULES.map((mol) => (
                     <MoleculeCard key={mol.name} molecule={mol} />
                 ))}
+            </div>
+
+            {/* Michael Addition Note */}
+            <div style={{
+                marginTop: '2rem',
+                padding: '1.25rem',
+                background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(168, 85, 247, 0.1))',
+                borderRadius: '16px',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                textAlign: 'center'
+            }}>
+                <div style={{ color: '#f87171', fontWeight: 700, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                    <span>⚗️</span> Key Reaction: Michael Addition
+                </div>
+                <p style={{ color: '#e2e8f0', fontSize: '0.9rem', marginBottom: '0.75rem' }}>
+                    Ibrutinib's acrylamide warhead uses <strong>Michael Addition</strong> to form a covalent bond with Cys481.
+                </p>
+                <a
+                    href="/reactions#michael-addition"
+                    style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        padding: '0.5rem 1rem',
+                        background: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                        borderRadius: '8px',
+                        color: 'white',
+                        fontWeight: 600,
+                        fontSize: '0.85rem',
+                        textDecoration: 'none'
+                    }}
+                >
+                    Learn Michael Addition Mechanism →
+                </a>
             </div>
         </div>
     );

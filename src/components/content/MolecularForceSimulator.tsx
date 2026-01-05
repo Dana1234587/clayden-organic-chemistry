@@ -71,7 +71,7 @@ const DRUG_GROUPS = [
 
 export default function MolecularForceSimulator() {
     const [activeTab, setActiveTab] = useState<'learn' | 'simulate'>('learn');
-    const [drugPosition, setDrugPosition] = useState({ x: 400, y: 120 });
+    const [drugPosition, setDrugPosition] = useState({ x: 320, y: 100 });
     const [isDragging, setIsDragging] = useState(false);
     const [detectedBonds, setDetectedBonds] = useState<string[]>([]);
     const [bindingEnergy, setBindingEnergy] = useState(0);
@@ -335,8 +335,14 @@ export default function MolecularForceSimulator() {
                                                 : BOND_TYPES.vdw;
 
                                         // Calculate line endpoint based on drugPosition (scaled to SVG coords)
-                                        const drugSvgX = (drugPosition.x / 100) * 60 + 50;
-                                        const drugSvgY = (drugPosition.y / 100) * 75 + 50;
+                                        // Drug position is in container pixels, need to map to SVG viewBox (0-500, 0-300)
+                                        const containerWidth = 500; // approximate container width
+                                        const containerHeight = 400; // approximate container height
+                                        const svgWidth = 500;
+                                        const svgHeight = 300;
+
+                                        const drugSvgX = (drugPosition.x / containerWidth) * svgWidth + 50;
+                                        const drugSvgY = (drugPosition.y / containerHeight) * svgHeight + 25;
 
                                         return (
                                             <motion.line
@@ -355,43 +361,66 @@ export default function MolecularForceSimulator() {
                                     })}
                                 </svg>
 
-                                {/* Draggable Drug (HTML div) */}
+                                {/* Draggable Drug (HTML div) - Fixed with proper position tracking */}
                                 <motion.div
                                     drag
                                     dragConstraints={{
-                                        left: 20,
-                                        right: 500,
-                                        top: 20,
-                                        bottom: 320
+                                        left: 0,
+                                        right: 400,
+                                        top: 0,
+                                        bottom: 280
                                     }}
-                                    dragElastic={0.1}
+                                    dragElastic={0}
                                     dragMomentum={false}
+                                    initial={{ x: 320, y: 100 }}
                                     onDrag={(e, info) => {
-                                        const newPos = { x: info.point.x, y: info.point.y };
+                                        // Use offset from the starting position for stable dragging
+                                        const baseX = 320; // Initial x position 
+                                        const baseY = 100; // Initial y position
+                                        const newPos = {
+                                            x: baseX + info.offset.x,
+                                            y: baseY + info.offset.y
+                                        };
                                         setDrugPosition(newPos);
                                         calculateBonds(newPos);
                                     }}
+                                    onDragEnd={(e, info) => {
+                                        // Final position update
+                                        const baseX = 320;
+                                        const baseY = 100;
+                                        const finalPos = {
+                                            x: baseX + info.offset.x,
+                                            y: baseY + info.offset.y
+                                        };
+                                        setDrugPosition(finalPos);
+                                        calculateBonds(finalPos);
+                                    }}
                                     style={{
                                         position: 'absolute',
-                                        right: '80px',
-                                        top: '150px',
+                                        left: 0,
+                                        top: 0,
                                         width: '100px',
                                         height: '50px',
                                         background: detectedBonds.length > 2
                                             ? 'linear-gradient(135deg, #22c55e, #16a34a)'
-                                            : 'linear-gradient(135deg, #a855f7, #7c3aed)',
+                                            : detectedBonds.length > 0
+                                                ? 'linear-gradient(135deg, #f59e0b, #d97706)'
+                                                : 'linear-gradient(135deg, #a855f7, #7c3aed)',
                                         borderRadius: '12px',
-                                        border: '2px solid white',
+                                        border: detectedBonds.length > 2 ? '3px solid #22c55e' : '2px solid white',
                                         display: 'flex',
                                         flexDirection: 'column',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         cursor: 'grab',
-                                        boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
-                                        zIndex: 20
+                                        boxShadow: detectedBonds.length > 0
+                                            ? '0 0 20px rgba(139, 92, 246, 0.6)'
+                                            : '0 4px 20px rgba(0,0,0,0.4)',
+                                        zIndex: 20,
+                                        touchAction: 'none'
                                     }}
-                                    whileDrag={{ cursor: 'grabbing', scale: 1.05 }}
-                                    whileHover={{ scale: 1.02 }}
+                                    whileDrag={{ cursor: 'grabbing', scale: 1.1, boxShadow: '0 0 30px rgba(139, 92, 246, 0.8)' }}
+                                    whileHover={{ scale: 1.05 }}
                                 >
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                         <div style={{
