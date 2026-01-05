@@ -3,6 +3,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DiclofenacLab from './DiclofenacLab';
+import BTKMasterclass from './BTKMasterclass';
+import MolecularForceSimulator from './MolecularForceSimulator';
+import DiclofenacFeaturedMolecules from './DiclofenacFeaturedMolecules';
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -675,6 +678,7 @@ function BondingLab() {
 export default function AdvancedDrugLab({ lessonId }: AdvancedDrugLabProps) {
     const [activeTab, setActiveTab] = useState<'virtualLab' | 'discovery' | 'development'>('virtualLab');
     const [selectedDrug, setSelectedDrug] = useState<DrugCaseStudy | null>(null);
+    const [labTab, setLabTab] = useState<'diclofenac' | 'btk' | 'forces' | 'molecules'>('diclofenac');
 
     // Get drugs for this lesson
     const lessonDrugs = DRUG_CASES[lessonId] || DRUG_CASES['chemical-bonding'];
@@ -690,8 +694,16 @@ export default function AdvancedDrugLab({ lessonId }: AdvancedDrugLabProps) {
         { id: 'development', label: 'Drug Development', icon: '🧬' }
     ];
 
-    // Special case for Diclofenac Lab (Chemical Bonding Lesson)
+    // Special case for Diclofenac Lab (Chemical Bonding Lesson) - Now with multiple tabs
     if (lessonId === 'chemical-bonding') {
+
+        const labTabs = [
+            { id: 'diclofenac', label: 'Diclofenac Lab', icon: '🧪' },
+            { id: 'btk', label: 'BTK Masterclass', icon: '🎯' },
+            { id: 'forces', label: 'Molecular Forces', icon: '⚡' },
+            { id: 'molecules', label: 'Featured Molecules', icon: '💊' }
+        ];
+
         return (
             <div style={{
                 background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%)',
@@ -699,7 +711,7 @@ export default function AdvancedDrugLab({ lessonId }: AdvancedDrugLabProps) {
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 overflow: 'hidden'
             }}>
-                {/* Custom Header for Diclofenac */}
+                {/* Header */}
                 <div style={{
                     padding: '1.5rem 2rem',
                     borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
@@ -708,17 +720,76 @@ export default function AdvancedDrugLab({ lessonId }: AdvancedDrugLabProps) {
                     alignItems: 'center',
                     gap: '1rem'
                 }}>
-                    <span style={{ fontSize: '1.75rem' }}>🧪</span>
+                    <span style={{ fontSize: '1.75rem' }}>🎓</span>
                     <div>
                         <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'white', margin: 0 }}>
-                            Diclofenac Lead-to-Salt Laboratory
+                            Advanced Drug Discovery & Design
                         </h3>
                         <p style={{ color: 'var(--neutral-400)', margin: '0.25rem 0 0', fontSize: '0.9rem' }}>
-                            From Hit to Prescribed Medicine
+                            Molecular Mechanics • Covalent Resistance • Salt Engineering
                         </p>
                     </div>
                 </div>
-                <DiclofenacLab />
+
+                {/* Tab Navigation */}
+                <div style={{
+                    display: 'flex',
+                    gap: '0.5rem',
+                    padding: '1rem 2rem',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+                    flexWrap: 'wrap'
+                }}>
+                    {labTabs.map(tab => (
+                        <motion.button
+                            key={tab.id}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setLabTab(tab.id as any)}
+                            style={{
+                                padding: '0.6rem 1.2rem',
+                                background: labTab === tab.id
+                                    ? 'linear-gradient(135deg, #8b5cf6, #6366f1)'
+                                    : 'rgba(255,255,255,0.08)',
+                                border: labTab === tab.id ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                                borderRadius: '10px',
+                                color: 'white',
+                                fontWeight: 600,
+                                fontSize: '0.85rem',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem'
+                            }}
+                        >
+                            <span>{tab.icon}</span>
+                            {tab.label}
+                        </motion.button>
+                    ))}
+                </div>
+
+                {/* Tab Content */}
+                <AnimatePresence mode="wait">
+                    {labTab === 'diclofenac' && (
+                        <motion.div key="diclofenac" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                            <DiclofenacLab />
+                        </motion.div>
+                    )}
+                    {labTab === 'btk' && (
+                        <motion.div key="btk" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                            <BTKMasterclass />
+                        </motion.div>
+                    )}
+                    {labTab === 'forces' && (
+                        <motion.div key="forces" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                            <MolecularForceSimulator />
+                        </motion.div>
+                    )}
+                    {labTab === 'molecules' && (
+                        <motion.div key="molecules" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                            <DiclofenacFeaturedMolecules />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         );
     }

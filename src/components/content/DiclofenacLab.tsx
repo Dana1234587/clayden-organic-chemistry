@@ -971,26 +971,36 @@ function Phase4ClinicalChallenge({ onComplete }: { onComplete: () => void }) {
                         padding: '1rem',
                         marginBottom: '1rem'
                     }}>
-                        <svg viewBox="0 0 400 200" style={{ width: '100%', maxWidth: '400px' }}>
-                            {/* Grid */}
-                            {[50, 100, 150].map(y => (
-                                <line key={y} x1="40" y1={y} x2="360" y2={y} stroke="#334155" strokeWidth="1" strokeDasharray="4" />
+                        <svg viewBox="0 0 420 240" style={{ width: '100%', maxWidth: '420px', margin: '0 auto', display: 'block' }}>
+                            {/* Grid lines */}
+                            {[60, 90, 120, 150].map(y => (
+                                <line key={y} x1="50" y1={y} x2="380" y2={y} stroke="#334155" strokeWidth="1" strokeDasharray="4" />
                             ))}
 
                             {/* MEC Line */}
-                            <line x1="40" y1="120" x2="360" y2="120" stroke="#ef4444" strokeWidth="2" strokeDasharray="6" />
-                            <text x="365" y="124" fill="#ef4444" fontSize="10">MEC</text>
+                            <line x1="50" y1="130" x2="380" y2="130" stroke="#ef4444" strokeWidth="2" strokeDasharray="6" />
+                            <text x="385" y="134" fill="#ef4444" fontSize="9" fontWeight="600">MEC</text>
 
                             {/* Axes */}
-                            <line x1="40" y1="170" x2="360" y2="170" stroke="#64748b" strokeWidth="2" />
-                            <line x1="40" y1="170" x2="40" y2="30" stroke="#64748b" strokeWidth="2" />
+                            <line x1="50" y1="180" x2="380" y2="180" stroke="#94a3b8" strokeWidth="2" />
+                            <line x1="50" y1="180" x2="50" y2="40" stroke="#94a3b8" strokeWidth="2" />
 
-                            {/* Labels */}
-                            <text x="200" y="195" fill="#94a3b8" fontSize="10" textAnchor="middle">Time (hours)</text>
+                            {/* Y-Axis Labels (Concentration) */}
+                            <text x="25" y="60" fill="#94a3b8" fontSize="8" textAnchor="middle">Cmax</text>
+                            <text x="25" y="90" fill="#94a3b8" fontSize="8" textAnchor="middle">High</text>
+                            <text x="25" y="120" fill="#94a3b8" fontSize="8" textAnchor="middle">Med</text>
+                            <text x="25" y="150" fill="#94a3b8" fontSize="8" textAnchor="middle">Low</text>
+                            <text x="15" y="120" fill="#64748b" fontSize="9" textAnchor="middle" transform="rotate(-90 15 120)">[Plasma]</text>
 
-                            {/* K+ Pattern: Fast peak, sharp decline (MYSTERY CURVE) */}
+                            {/* X-Axis Labels (Time in hours) */}
+                            {[0, 1, 2, 4, 6, 8, 10, 12].map((t, i) => (
+                                <text key={t} x={50 + i * 41.25} y="195" fill="#94a3b8" fontSize="9" textAnchor="middle">{t}</text>
+                            ))}
+                            <text x="215" y="215" fill="#64748b" fontSize="10" textAnchor="middle">Time (hours)</text>
+
+                            {/* K+ Pattern: Fast peak (Tmax ~1hr), sharp decline */}
                             <motion.path
-                                d="M 40 170 Q 60 170, 80 50 Q 100 30, 120 50 Q 180 100, 260 160 Q 320 170, 360 170"
+                                d="M 50 180 Q 70 180, 90 60 Q 110 40, 130 60 Q 200 110, 290 170 Q 340 180, 380 180"
                                 fill="none"
                                 stroke="#8b5cf6"
                                 strokeWidth="3"
@@ -999,9 +1009,17 @@ function Phase4ClinicalChallenge({ onComplete }: { onComplete: () => void }) {
                                 transition={{ duration: 1.5 }}
                             />
 
-                            {/* Peak marker */}
-                            <circle cx="100" cy="35" r="5" fill="#8b5cf6" />
-                            <text x="100" y="20" fill="#8b5cf6" fontSize="9" textAnchor="middle">Peak</text>
+                            {/* Peak marker (Cmax) */}
+                            <circle cx="110" cy="45" r="5" fill="#8b5cf6" />
+                            <text x="110" y="32" fill="#f59e0b" fontSize="9" textAnchor="middle" fontWeight="600">Cmax</text>
+
+                            {/* Tmax Arrow */}
+                            <line x1="110" y1="50" x2="110" y2="175" stroke="#f59e0b" strokeWidth="1" strokeDasharray="3" />
+                            <text x="110" y="225" fill="#f59e0b" fontSize="8" textAnchor="middle">Tmax</text>
+
+                            {/* Duration above MEC bracket */}
+                            <line x1="70" y1="125" x2="200" y2="125" stroke="#22c55e" strokeWidth="2" />
+                            <text x="135" y="118" fill="#22c55e" fontSize="8" textAnchor="middle">Duration above MEC</text>
                         </svg>
                     </div>
 
