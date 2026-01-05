@@ -240,7 +240,7 @@ function Phase1Chemist({ onComplete }: { onComplete: () => void }) {
                         message: '🎉 Perfect! The 2,6-dichloro substitution forces the rings 80° apart, creating a perfect fit for the COX-2 hydrophobic pocket!',
                         type: 'success'
                     });
-                    setTimeout(onComplete, 3000);
+                    // Don't auto-advance - show Next button instead
                 }, 1000);
             }
         }
@@ -410,6 +410,34 @@ function Phase1Chemist({ onComplete }: { onComplete: () => void }) {
                                 Chlorines placed: <strong>{placedPositions.length}</strong> / 2
                             </div>
                         </div>
+
+                        {/* Next Step Button - shows after game complete */}
+                        {gameComplete && (
+                            <motion.button
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={onComplete}
+                                style={{
+                                    width: '100%',
+                                    padding: '1rem',
+                                    background: 'linear-gradient(135deg, #10b981, #059669)',
+                                    border: 'none',
+                                    borderRadius: '12px',
+                                    color: 'white',
+                                    fontWeight: 700,
+                                    fontSize: '1rem',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '0.5rem'
+                                }}
+                            >
+                                Next Step: Solubility Challenge →
+                            </motion.button>
+                        )}
                     </div>
                 </div>
             </div>
@@ -572,7 +600,8 @@ function Phase3Salt({ onComplete }: { onComplete: () => void }) {
             duration: '4-6 hr',
             latticeEnergy: 'Low',
             useCase: 'Acute Pain (migraine, toothache)',
-            pkPath: 'M 40 220 Q 60 220, 80 80 Q 100 40, 120 60 Q 180 100, 260 200 Q 300 220, 360 220'
+            pkPath: 'M 40 220 Q 60 220, 80 80 Q 100 40, 120 60 Q 180 100, 260 200 Q 300 220, 360 220',
+            explanation: 'K⁺ is a larger ion (1.38 Å) → weaker electrostatic attraction → lower lattice energy → faster crystal dissolution → rapid drug release!'
         },
         {
             id: 'Na',
@@ -584,7 +613,8 @@ function Phase3Salt({ onComplete }: { onComplete: () => void }) {
             duration: '8-12 hr',
             latticeEnergy: 'High',
             useCase: 'Chronic Pain (arthritis, back pain)',
-            pkPath: 'M 40 220 Q 80 220, 120 120 Q 160 80, 200 100 Q 280 140, 360 200'
+            pkPath: 'M 40 220 Q 80 220, 120 120 Q 160 80, 200 100 Q 280 140, 360 200',
+            explanation: 'Na⁺ is a smaller ion (1.02 Å) → stronger electrostatic attraction → higher lattice energy → slower crystal dissolution → sustained drug release!'
         },
         {
             id: 'Ca',
@@ -596,7 +626,8 @@ function Phase3Salt({ onComplete }: { onComplete: () => void }) {
             duration: 'N/A',
             latticeEnergy: 'Very High',
             useCase: 'Not used (too insoluble)',
-            pkPath: 'M 40 220 Q 100 215, 200 210 Q 300 205, 360 200'
+            pkPath: 'M 40 220 Q 100 215, 200 210 Q 300 205, 360 200',
+            explanation: 'Ca²⁺ is divalent (+2 charge) → very strong electrostatic attraction → extremely high lattice energy → practically insoluble in GI fluids!'
         }
     ];
 
@@ -776,6 +807,19 @@ function Phase3Salt({ onComplete }: { onComplete: () => void }) {
                                             <strong>Clinical Use:</strong> {selectedSaltData?.useCase}
                                         </div>
                                     </div>
+                                    {/* WHY Explanation */}
+                                    <div style={{
+                                        marginTop: '0.75rem',
+                                        padding: '0.75rem',
+                                        background: 'rgba(59, 130, 246, 0.1)',
+                                        borderRadius: '8px',
+                                        border: '1px solid rgba(59, 130, 246, 0.3)'
+                                    }}>
+                                        <div style={{ color: '#60a5fa', fontWeight: 600, fontSize: '0.8rem', marginBottom: '0.25rem' }}>💡 WHY?</div>
+                                        <div style={{ color: '#e2e8f0', fontSize: '0.85rem', lineHeight: 1.4 }}>
+                                            {selectedSaltData?.explanation}
+                                        </div>
+                                    </div>
                                 </div>
                             </motion.div>
                         )}
@@ -838,13 +882,170 @@ function Phase3Salt({ onComplete }: { onComplete: () => void }) {
                     )}
                 </AnimatePresence>
 
+                {/* CLINICAL CASE QUIZ */}
+                <ClinicalQuiz onComplete={onComplete} />
+            </div>
+        </div>
+    );
+}
+
+// Clinical Case Quiz Component
+function ClinicalQuiz({ onComplete }: { onComplete: () => void }) {
+    const [case1Answer, setCase1Answer] = useState<string | null>(null);
+    const [case2Answer, setCase2Answer] = useState<string | null>(null);
+    const [showResults, setShowResults] = useState(false);
+
+    const case1Correct = case1Answer === 'K';
+    const case2Correct = case2Answer === 'Na';
+    const allCorrect = case1Correct && case2Correct;
+
+    return (
+        <div style={{ marginTop: '2rem' }}>
+            <div style={{
+                background: 'rgba(139, 92, 246, 0.1)',
+                borderRadius: '16px',
+                border: '1px solid rgba(139, 92, 246, 0.3)',
+                padding: '1.5rem'
+            }}>
+                <h4 style={{ color: '#e2e8f0', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    🩺 Clinical Decision Challenge
+                </h4>
+                <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+                    Apply your knowledge! Which salt would you prescribe for each patient?
+                </p>
+
+                {/* Case 1: Acute Pain */}
+                <div style={{
+                    background: 'rgba(0,0,0,0.2)',
+                    borderRadius: '12px',
+                    padding: '1rem',
+                    marginBottom: '1rem'
+                }}>
+                    <div style={{ color: '#f59e0b', fontWeight: 600, marginBottom: '0.5rem' }}>Case 1: Acute Migraine</div>
+                    <div style={{ color: '#e2e8f0', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                        A 32-year-old patient presents with sudden severe migraine. They need <strong>fast pain relief</strong> to return to work.
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.75rem' }}>
+                        {['K', 'Na'].map(salt => (
+                            <motion.button
+                                key={salt}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => setCase1Answer(salt)}
+                                disabled={showResults}
+                                style={{
+                                    flex: 1,
+                                    padding: '0.75rem',
+                                    background: case1Answer === salt ? (showResults ? (salt === 'K' ? '#22c55e' : '#ef4444') : '#8b5cf6') : 'rgba(255,255,255,0.1)',
+                                    border: `2px solid ${case1Answer === salt ? (showResults ? (salt === 'K' ? '#22c55e' : '#ef4444') : '#8b5cf6') : 'rgba(255,255,255,0.1)'}`,
+                                    borderRadius: '8px',
+                                    color: 'white',
+                                    fontWeight: 600,
+                                    cursor: showResults ? 'default' : 'pointer'
+                                }}
+                            >
+                                {salt === 'K' ? '⚡ Potassium (Cataflam®)' : '💊 Sodium (Voltaren®)'}
+                            </motion.button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Case 2: Chronic Pain */}
+                <div style={{
+                    background: 'rgba(0,0,0,0.2)',
+                    borderRadius: '12px',
+                    padding: '1rem',
+                    marginBottom: '1rem'
+                }}>
+                    <div style={{ color: '#8b5cf6', fontWeight: 600, marginBottom: '0.5rem' }}>Case 2: Chronic Arthritis</div>
+                    <div style={{ color: '#e2e8f0', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                        A 65-year-old patient with osteoarthritis needs <strong>all-day pain control</strong> without frequent dosing.
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.75rem' }}>
+                        {['K', 'Na'].map(salt => (
+                            <motion.button
+                                key={salt}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => setCase2Answer(salt)}
+                                disabled={showResults}
+                                style={{
+                                    flex: 1,
+                                    padding: '0.75rem',
+                                    background: case2Answer === salt ? (showResults ? (salt === 'Na' ? '#22c55e' : '#ef4444') : '#8b5cf6') : 'rgba(255,255,255,0.1)',
+                                    border: `2px solid ${case2Answer === salt ? (showResults ? (salt === 'Na' ? '#22c55e' : '#ef4444') : '#8b5cf6') : 'rgba(255,255,255,0.1)'}`,
+                                    borderRadius: '8px',
+                                    color: 'white',
+                                    fontWeight: 600,
+                                    cursor: showResults ? 'default' : 'pointer'
+                                }}
+                            >
+                                {salt === 'K' ? '⚡ Potassium (Cataflam®)' : '💊 Sodium (Voltaren®)'}
+                            </motion.button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Submit/Results */}
+                {case1Answer && case2Answer && !showResults && (
+                    <motion.button
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setShowResults(true)}
+                        style={{
+                            width: '100%',
+                            padding: '1rem',
+                            background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                            border: 'none',
+                            borderRadius: '10px',
+                            color: 'white',
+                            fontWeight: 700,
+                            cursor: 'pointer'
+                        }}
+                    >
+                        Check My Answers ✓
+                    </motion.button>
+                )}
+
+                {showResults && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        style={{
+                            padding: '1rem',
+                            background: allCorrect ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+                            borderRadius: '10px',
+                            border: `1px solid ${allCorrect ? '#22c55e' : '#ef4444'}`,
+                            textAlign: 'center'
+                        }}
+                    >
+                        <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{allCorrect ? '🎉' : '🔄'}</div>
+                        <div style={{ color: allCorrect ? '#86efac' : '#fca5a5', fontWeight: 600, marginBottom: '0.5rem' }}>
+                            {allCorrect ? 'Perfect! You understand salt selection!' : `${case1Correct && case2Correct ? '2' : case1Correct || case2Correct ? '1' : '0'}/2 Correct`}
+                        </div>
+                        {!allCorrect && (
+                            <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
+                                {!case1Correct && 'Case 1: K⁺ for acute pain (fast onset). '}
+                                {!case2Correct && 'Case 2: Na⁺ for chronic pain (sustained release).'}
+                            </div>
+                        )}
+                    </motion.div>
+                )}
+            </div>
+
+            {/* Complete Button - only after quiz done */}
+            {showResults && allCorrect && (
                 <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={onComplete}
                     style={{
                         width: '100%',
-                        marginTop: '2rem',
+                        marginTop: '1.5rem',
                         padding: '1rem',
                         background: 'linear-gradient(135deg, #10b981, #059669)',
                         border: 'none',
@@ -856,10 +1057,11 @@ function Phase3Salt({ onComplete }: { onComplete: () => void }) {
                 >
                     Complete Salt Engineering Module ✓
                 </motion.button>
-            </div>
+            )}
         </div>
     );
 }
+
 
 // ============================================================================
 // INTERACTIVE 2D STRUCTURE VIEWER (Professional with Clickable Zones)
