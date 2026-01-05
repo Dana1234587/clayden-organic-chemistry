@@ -283,10 +283,10 @@ function ElegantMoleculeCard({ molecule, isSelected, onSelect }: {
                             style={{ height: '240px' }}
                         >
                             <MoleculeViewer
-                                pubchemCid={molecule.cid}
+                                moleculeName={molecule.name}
+                                cid={molecule.cid}
                                 height={240}
-                                style={modelStyle}
-                                rotate={isRotating}
+                                autoRotate={isRotating}
                             />
                         </motion.div>
                     ) : (
