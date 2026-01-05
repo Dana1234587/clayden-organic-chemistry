@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import DiclofenacLab from './DiclofenacLab';
 import BTKMasterclass from './BTKMasterclass';
 import MolecularForceSimulator from './MolecularForceSimulator';
-import DiclofenacFeaturedMolecules from './DiclofenacFeaturedMolecules';
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -678,7 +677,7 @@ function BondingLab() {
 export default function AdvancedDrugLab({ lessonId }: AdvancedDrugLabProps) {
     const [activeTab, setActiveTab] = useState<'virtualLab' | 'discovery' | 'development'>('virtualLab');
     const [selectedDrug, setSelectedDrug] = useState<DrugCaseStudy | null>(null);
-    const [labTab, setLabTab] = useState<'diclofenac' | 'btk' | 'forces' | 'molecules'>('diclofenac');
+    const [labTab, setLabTab] = useState<'diclofenac' | 'btk' | 'forces'>('diclofenac');
 
     // Get drugs for this lesson
     const lessonDrugs = DRUG_CASES[lessonId] || DRUG_CASES['chemical-bonding'];
@@ -700,8 +699,7 @@ export default function AdvancedDrugLab({ lessonId }: AdvancedDrugLabProps) {
         const labTabs = [
             { id: 'diclofenac', label: 'Diclofenac Lab', icon: '🧪' },
             { id: 'btk', label: 'BTK Masterclass', icon: '🎯' },
-            { id: 'forces', label: 'Molecular Forces', icon: '⚡' },
-            { id: 'molecules', label: 'Featured Molecules', icon: '💊' }
+            { id: 'forces', label: 'Molecular Forces', icon: '⚡' }
         ];
 
         return (
@@ -782,11 +780,6 @@ export default function AdvancedDrugLab({ lessonId }: AdvancedDrugLabProps) {
                     {labTab === 'forces' && (
                         <motion.div key="forces" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                             <MolecularForceSimulator />
-                        </motion.div>
-                    )}
-                    {labTab === 'molecules' && (
-                        <motion.div key="molecules" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                            <DiclofenacFeaturedMolecules />
                         </motion.div>
                     )}
                 </AnimatePresence>

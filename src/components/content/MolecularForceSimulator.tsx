@@ -293,32 +293,32 @@ export default function MolecularForceSimulator() {
                                     </span>
                                 </div>
 
-                                {/* SVG Canvas */}
+                                {/* SVG Background (static) */}
                                 <svg
                                     viewBox="0 0 500 300"
-                                    style={{ width: '100%', height: '100%' }}
+                                    style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
                                 >
                                     {/* Receptor Pocket */}
                                     <ellipse
-                                        cx="180" cy="120" rx="150" ry="100"
+                                        cx="180" cy="150" rx="150" ry="100"
                                         fill="rgba(139, 92, 246, 0.1)"
                                         stroke="#8b5cf6"
                                         strokeWidth="2"
                                         strokeDasharray="5"
                                     />
-                                    <text x="180" y="20" fill="#8b5cf6" fontSize="12" textAnchor="middle" fontWeight="600">
+                                    <text x="180" y="40" fill="#8b5cf6" fontSize="12" textAnchor="middle" fontWeight="600">
                                         Receptor Binding Pocket
                                     </text>
 
                                     {/* Pocket Residues */}
                                     {POCKET_RESIDUES.map(res => (
                                         <g key={res.id}>
-                                            <circle cx={res.x} cy={res.y} r="20" fill={res.color} opacity="0.3" />
-                                            <circle cx={res.x} cy={res.y} r="15" fill={res.color} />
-                                            <text x={res.x} y={res.y + 4} fill="white" fontSize="8" textAnchor="middle" fontWeight="600">
+                                            <circle cx={res.x} cy={res.y + 30} r="20" fill={res.color} opacity="0.3" />
+                                            <circle cx={res.x} cy={res.y + 30} r="15" fill={res.color} />
+                                            <text x={res.x} y={res.y + 34} fill="white" fontSize="8" textAnchor="middle" fontWeight="600">
                                                 {res.label}
                                             </text>
-                                            <text x={res.x} y={res.y + 30} fill={res.color} fontSize="9" textAnchor="middle">
+                                            <text x={res.x} y={res.y + 55} fill={res.color} fontSize="9" textAnchor="middle">
                                                 {res.charge === '+' ? '(+)' : res.charge === 'H' ? '(H-bond)' : '(VdW)'}
                                             </text>
                                         </g>
@@ -334,57 +334,94 @@ export default function MolecularForceSimulator() {
                                             : bond.includes('hbond') ? BOND_TYPES.hydrogen
                                                 : BOND_TYPES.vdw;
 
+                                        // Calculate line endpoint based on drugPosition (scaled to SVG coords)
+                                        const drugSvgX = (drugPosition.x / 100) * 60 + 50;
+                                        const drugSvgY = (drugPosition.y / 100) * 75 + 50;
+
                                         return (
                                             <motion.line
                                                 key={i}
-                                                initial={{ pathLength: 0 }}
-                                                animate={{ pathLength: 1 }}
-                                                x1={drugPosition.x - 60}
-                                                y1={drugPosition.y}
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                x1={drugSvgX}
+                                                y1={drugSvgY}
                                                 x2={residue.x}
-                                                y2={residue.y}
+                                                y2={residue.y + 30}
                                                 stroke={bondType.color}
                                                 strokeWidth="3"
                                                 strokeDasharray={bondType.lineStyle === 'dashed' ? '8,4' : 'none'}
                                             />
                                         );
                                     })}
-
-                                    {/* Drug Molecule (Draggable) */}
-                                    <motion.g
-                                        drag
-                                        dragConstraints={{ left: 100, right: 450, top: 30, bottom: 250 }}
-                                        dragElastic={0.1}
-                                        onDrag={(e, info) => {
-                                            const newPos = { x: info.point.x - 100, y: info.point.y - 100 };
-                                            setDrugPosition(newPos);
-                                            calculateBonds(newPos);
-                                        }}
-                                        onDragStart={() => setIsDragging(true)}
-                                        onDragEnd={() => setIsDragging(false)}
-                                        style={{ cursor: 'grab' }}
-                                        animate={{ x: drugPosition.x - 400, y: drugPosition.y - 120 }}
-                                    >
-                                        {/* Drug body */}
-                                        <rect
-                                            x={380} y={100} width="80" height="40" rx="8"
-                                            fill={detectedBonds.length > 2 ? '#22c55e' : '#a855f7'}
-                                            stroke="white"
-                                            strokeWidth="2"
-                                        />
-                                        <text x="420" y="125" fill="white" fontSize="10" textAnchor="middle" fontWeight="600">
-                                            Drug
-                                        </text>
-
-                                        {/* COO- group */}
-                                        <circle cx="380" cy="120" r="10" fill="#3b82f6" />
-                                        <text x="380" y="123" fill="white" fontSize="7" textAnchor="middle">−</text>
-
-                                        {/* Aromatic rings */}
-                                        <circle cx="410" cy="95" r="12" fill="none" stroke="#64748b" strokeWidth="2" />
-                                        <circle cx="440" cy="95" r="12" fill="none" stroke="#64748b" strokeWidth="2" />
-                                    </motion.g>
                                 </svg>
+
+                                {/* Draggable Drug (HTML div) */}
+                                <motion.div
+                                    drag
+                                    dragConstraints={{
+                                        left: 20,
+                                        right: 500,
+                                        top: 20,
+                                        bottom: 320
+                                    }}
+                                    dragElastic={0.1}
+                                    dragMomentum={false}
+                                    onDrag={(e, info) => {
+                                        const newPos = { x: info.point.x, y: info.point.y };
+                                        setDrugPosition(newPos);
+                                        calculateBonds(newPos);
+                                    }}
+                                    style={{
+                                        position: 'absolute',
+                                        right: '80px',
+                                        top: '150px',
+                                        width: '100px',
+                                        height: '50px',
+                                        background: detectedBonds.length > 2
+                                            ? 'linear-gradient(135deg, #22c55e, #16a34a)'
+                                            : 'linear-gradient(135deg, #a855f7, #7c3aed)',
+                                        borderRadius: '12px',
+                                        border: '2px solid white',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        cursor: 'grab',
+                                        boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+                                        zIndex: 20
+                                    }}
+                                    whileDrag={{ cursor: 'grabbing', scale: 1.05 }}
+                                    whileHover={{ scale: 1.02 }}
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                        <div style={{
+                                            width: '16px',
+                                            height: '16px',
+                                            borderRadius: '50%',
+                                            background: '#3b82f6',
+                                            fontSize: '10px',
+                                            color: 'white',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}>−</div>
+                                        <span style={{ color: 'white', fontWeight: 700, fontSize: '12px' }}>Drug</span>
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '4px', marginTop: '4px' }}>
+                                        <div style={{
+                                            width: '20px',
+                                            height: '20px',
+                                            border: '2px solid #64748b',
+                                            borderRadius: '50%'
+                                        }} />
+                                        <div style={{
+                                            width: '20px',
+                                            height: '20px',
+                                            border: '2px solid #64748b',
+                                            borderRadius: '50%'
+                                        }} />
+                                    </div>
+                                </motion.div>
                             </div>
 
                             {/* Controls Panel */}
