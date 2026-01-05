@@ -39,7 +39,7 @@ const MOLECULES: Molecule[] = [
     {
         name: '2-Anilinophenylacetic Acid',
         stage: 'Lead Compound',
-        pubchemCid: 12560,
+        pubchemCid: 854057,
         description: 'The starting point: A derivative of phenylacetic acid with some anti-inflammatory activity but significant toxicity.',
         functionalGroups: [
             { name: 'Carboxylic Acid (-COOH)', role: 'COX binding', benefit: 'Basic anti-inflammatory activity', color: '#ef4444', targetId: 'cooh' },
@@ -137,7 +137,7 @@ function Phase0LeadDiscovery({ onComplete }: { onComplete: () => void }) {
                         textAlign: 'center'
                     }}>
                         <img
-                            src={getPubChem2DImage(12560, 250)}
+                            src={getPubChem2DImage(854057, 250)}
                             alt="Lead Compound: 2-Anilinophenylacetic Acid"
                             style={{ maxWidth: '100%', height: 'auto' }}
                         />
@@ -881,182 +881,379 @@ function Phase3Salt({ onComplete }: { onComplete: () => void }) {
                         </motion.div>
                     )}
                 </AnimatePresence>
-
-                {/* CLINICAL CASE QUIZ */}
-                <ClinicalQuiz onComplete={onComplete} />
-            </div>
-        </div>
-    );
-}
-
-// Clinical Case Quiz Component
-function ClinicalQuiz({ onComplete }: { onComplete: () => void }) {
-    const [case1Answer, setCase1Answer] = useState<string | null>(null);
-    const [case2Answer, setCase2Answer] = useState<string | null>(null);
-    const [showResults, setShowResults] = useState(false);
-
-    const case1Correct = case1Answer === 'K';
-    const case2Correct = case2Answer === 'Na';
-    const allCorrect = case1Correct && case2Correct;
-
-    return (
-        <div style={{ marginTop: '2rem' }}>
-            <div style={{
-                background: 'rgba(139, 92, 246, 0.1)',
-                borderRadius: '16px',
-                border: '1px solid rgba(139, 92, 246, 0.3)',
-                padding: '1.5rem'
-            }}>
-                <h4 style={{ color: '#e2e8f0', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    🩺 Clinical Decision Challenge
-                </h4>
-                <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-                    Apply your knowledge! Which salt would you prescribe for each patient?
-                </p>
-
-                {/* Case 1: Acute Pain */}
-                <div style={{
-                    background: 'rgba(0,0,0,0.2)',
-                    borderRadius: '12px',
-                    padding: '1rem',
-                    marginBottom: '1rem'
-                }}>
-                    <div style={{ color: '#f59e0b', fontWeight: 600, marginBottom: '0.5rem' }}>Case 1: Acute Migraine</div>
-                    <div style={{ color: '#e2e8f0', fontSize: '0.9rem', marginBottom: '1rem' }}>
-                        A 32-year-old patient presents with sudden severe migraine. They need <strong>fast pain relief</strong> to return to work.
-                    </div>
-                    <div style={{ display: 'flex', gap: '0.75rem' }}>
-                        {['K', 'Na'].map(salt => (
-                            <motion.button
-                                key={salt}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => setCase1Answer(salt)}
-                                disabled={showResults}
-                                style={{
-                                    flex: 1,
-                                    padding: '0.75rem',
-                                    background: case1Answer === salt ? (showResults ? (salt === 'K' ? '#22c55e' : '#ef4444') : '#8b5cf6') : 'rgba(255,255,255,0.1)',
-                                    border: `2px solid ${case1Answer === salt ? (showResults ? (salt === 'K' ? '#22c55e' : '#ef4444') : '#8b5cf6') : 'rgba(255,255,255,0.1)'}`,
-                                    borderRadius: '8px',
-                                    color: 'white',
-                                    fontWeight: 600,
-                                    cursor: showResults ? 'default' : 'pointer'
-                                }}
-                            >
-                                {salt === 'K' ? '⚡ Potassium (Cataflam®)' : '💊 Sodium (Voltaren®)'}
-                            </motion.button>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Case 2: Chronic Pain */}
-                <div style={{
-                    background: 'rgba(0,0,0,0.2)',
-                    borderRadius: '12px',
-                    padding: '1rem',
-                    marginBottom: '1rem'
-                }}>
-                    <div style={{ color: '#8b5cf6', fontWeight: 600, marginBottom: '0.5rem' }}>Case 2: Chronic Arthritis</div>
-                    <div style={{ color: '#e2e8f0', fontSize: '0.9rem', marginBottom: '1rem' }}>
-                        A 65-year-old patient with osteoarthritis needs <strong>all-day pain control</strong> without frequent dosing.
-                    </div>
-                    <div style={{ display: 'flex', gap: '0.75rem' }}>
-                        {['K', 'Na'].map(salt => (
-                            <motion.button
-                                key={salt}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => setCase2Answer(salt)}
-                                disabled={showResults}
-                                style={{
-                                    flex: 1,
-                                    padding: '0.75rem',
-                                    background: case2Answer === salt ? (showResults ? (salt === 'Na' ? '#22c55e' : '#ef4444') : '#8b5cf6') : 'rgba(255,255,255,0.1)',
-                                    border: `2px solid ${case2Answer === salt ? (showResults ? (salt === 'Na' ? '#22c55e' : '#ef4444') : '#8b5cf6') : 'rgba(255,255,255,0.1)'}`,
-                                    borderRadius: '8px',
-                                    color: 'white',
-                                    fontWeight: 600,
-                                    cursor: showResults ? 'default' : 'pointer'
-                                }}
-                            >
-                                {salt === 'K' ? '⚡ Potassium (Cataflam®)' : '💊 Sodium (Voltaren®)'}
-                            </motion.button>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Submit/Results */}
-                {case1Answer && case2Answer && !showResults && (
-                    <motion.button
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setShowResults(true)}
-                        style={{
-                            width: '100%',
-                            padding: '1rem',
-                            background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-                            border: 'none',
-                            borderRadius: '10px',
-                            color: 'white',
-                            fontWeight: 700,
-                            cursor: 'pointer'
-                        }}
-                    >
-                        Check My Answers ✓
-                    </motion.button>
-                )}
-
-                {showResults && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        style={{
-                            padding: '1rem',
-                            background: allCorrect ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)',
-                            borderRadius: '10px',
-                            border: `1px solid ${allCorrect ? '#22c55e' : '#ef4444'}`,
-                            textAlign: 'center'
-                        }}
-                    >
-                        <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{allCorrect ? '🎉' : '🔄'}</div>
-                        <div style={{ color: allCorrect ? '#86efac' : '#fca5a5', fontWeight: 600, marginBottom: '0.5rem' }}>
-                            {allCorrect ? 'Perfect! You understand salt selection!' : `${case1Correct && case2Correct ? '2' : case1Correct || case2Correct ? '1' : '0'}/2 Correct`}
-                        </div>
-                        {!allCorrect && (
-                            <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
-                                {!case1Correct && 'Case 1: K⁺ for acute pain (fast onset). '}
-                                {!case2Correct && 'Case 2: Na⁺ for chronic pain (sustained release).'}
-                            </div>
-                        )}
-                    </motion.div>
-                )}
-            </div>
-
-            {/* Complete Button - only after quiz done */}
-            {showResults && allCorrect && (
+                {/* Next to Phase 4: Clinical Challenge */}
                 <motion.button
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={onComplete}
                     style={{
                         width: '100%',
-                        marginTop: '1.5rem',
+                        marginTop: '2rem',
                         padding: '1rem',
                         background: 'linear-gradient(135deg, #10b981, #059669)',
                         border: 'none',
                         borderRadius: '12px',
                         color: 'white',
                         fontWeight: 700,
+                        fontSize: '1rem',
                         cursor: 'pointer'
                     }}
                 >
-                    Complete Salt Engineering Module ✓
+                    Next: Clinical Challenge 🩺 →
                 </motion.button>
+            </div>
+        </div>
+    );
+}
+
+// ============================================================================
+// PHASE 4: CLINICAL CHALLENGE (PK Curve Guessing + Clinical Cases)
+// ============================================================================
+
+function Phase4ClinicalChallenge({ onComplete }: { onComplete: () => void }) {
+    const [pkGuess, setPkGuess] = useState<string | null>(null);
+    const [case1Answer, setCase1Answer] = useState<string | null>(null);
+    const [case2Answer, setCase2Answer] = useState<string | null>(null);
+    const [showPkResult, setShowPkResult] = useState(false);
+    const [showCaseResults, setShowCaseResults] = useState(false);
+    const [currentChallenge, setCurrentChallenge] = useState<'pk' | 'cases'>('pk');
+
+    const pkCorrect = pkGuess === 'K';
+    const case1Correct = case1Answer === 'K';
+    const case2Correct = case2Answer === 'Na';
+    const allCasesCorrect = case1Correct && case2Correct;
+
+    return (
+        <div style={{ padding: '1.5rem' }}>
+            {/* Phase Header */}
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                marginBottom: '1.5rem'
+            }}>
+                <div style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontWeight: 700
+                }}>4</div>
+                <div>
+                    <h4 style={{ color: '#e2e8f0', margin: 0 }}>Clinical Decision Challenge</h4>
+                    <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.85rem' }}>
+                        Apply your pharmacokinetic knowledge
+                    </p>
+                </div>
+            </div>
+
+            {/* Challenge 1: PK Curve Identification */}
+            {currentChallenge === 'pk' && (
+                <div style={{
+                    background: 'rgba(0, 0, 0, 0.4)',
+                    borderRadius: '16px',
+                    padding: '1.5rem',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                    <h5 style={{ color: '#f59e0b', marginBottom: '1rem' }}>📈 Challenge 1: Identify the Salt</h5>
+                    <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                        Look at this plasma concentration vs. time curve. Which salt form does it represent?
+                    </p>
+
+                    {/* PK Curve SVG (showing K+ pattern - fast rise, fast fall) */}
+                    <div style={{
+                        background: 'rgba(15, 23, 42, 0.8)',
+                        borderRadius: '12px',
+                        padding: '1rem',
+                        marginBottom: '1rem'
+                    }}>
+                        <svg viewBox="0 0 400 200" style={{ width: '100%', maxWidth: '400px' }}>
+                            {/* Grid */}
+                            {[50, 100, 150].map(y => (
+                                <line key={y} x1="40" y1={y} x2="360" y2={y} stroke="#334155" strokeWidth="1" strokeDasharray="4" />
+                            ))}
+
+                            {/* MEC Line */}
+                            <line x1="40" y1="120" x2="360" y2="120" stroke="#ef4444" strokeWidth="2" strokeDasharray="6" />
+                            <text x="365" y="124" fill="#ef4444" fontSize="10">MEC</text>
+
+                            {/* Axes */}
+                            <line x1="40" y1="170" x2="360" y2="170" stroke="#64748b" strokeWidth="2" />
+                            <line x1="40" y1="170" x2="40" y2="30" stroke="#64748b" strokeWidth="2" />
+
+                            {/* Labels */}
+                            <text x="200" y="195" fill="#94a3b8" fontSize="10" textAnchor="middle">Time (hours)</text>
+
+                            {/* K+ Pattern: Fast peak, sharp decline (MYSTERY CURVE) */}
+                            <motion.path
+                                d="M 40 170 Q 60 170, 80 50 Q 100 30, 120 50 Q 180 100, 260 160 Q 320 170, 360 170"
+                                fill="none"
+                                stroke="#8b5cf6"
+                                strokeWidth="3"
+                                initial={{ pathLength: 0 }}
+                                animate={{ pathLength: 1 }}
+                                transition={{ duration: 1.5 }}
+                            />
+
+                            {/* Peak marker */}
+                            <circle cx="100" cy="35" r="5" fill="#8b5cf6" />
+                            <text x="100" y="20" fill="#8b5cf6" fontSize="9" textAnchor="middle">Peak</text>
+                        </svg>
+                    </div>
+
+                    {/* Answer Options */}
+                    <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+                        {['K', 'Na'].map(salt => (
+                            <motion.button
+                                key={salt}
+                                whileHover={{ scale: 1.03 }}
+                                whileTap={{ scale: 0.97 }}
+                                onClick={() => setPkGuess(salt)}
+                                disabled={showPkResult}
+                                style={{
+                                    flex: 1,
+                                    padding: '1rem',
+                                    background: pkGuess === salt
+                                        ? (showPkResult ? (salt === 'K' ? '#22c55e' : '#ef4444') : '#8b5cf6')
+                                        : 'rgba(255,255,255,0.1)',
+                                    border: `2px solid ${pkGuess === salt
+                                        ? (showPkResult ? (salt === 'K' ? '#22c55e' : '#ef4444') : '#8b5cf6')
+                                        : 'rgba(255,255,255,0.2)'}`,
+                                    borderRadius: '12px',
+                                    color: 'white',
+                                    fontWeight: 600,
+                                    cursor: showPkResult ? 'default' : 'pointer'
+                                }}
+                            >
+                                {salt === 'K' ? '⚡ Potassium Salt (Cataflam®)' : '💊 Sodium Salt (Voltaren®)'}
+                            </motion.button>
+                        ))}
+                    </div>
+
+                    {/* Check Button */}
+                    {pkGuess && !showPkResult && (
+                        <motion.button
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            whileHover={{ scale: 1.02 }}
+                            onClick={() => setShowPkResult(true)}
+                            style={{
+                                width: '100%',
+                                padding: '0.75rem',
+                                background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                border: 'none',
+                                borderRadius: '10px',
+                                color: 'white',
+                                fontWeight: 600,
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Check Answer
+                        </motion.button>
+                    )}
+
+                    {/* Result */}
+                    {showPkResult && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            style={{
+                                padding: '1rem',
+                                background: pkCorrect ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+                                borderRadius: '12px',
+                                border: `1px solid ${pkCorrect ? '#22c55e' : '#ef4444'}`,
+                                marginBottom: '1rem'
+                            }}
+                        >
+                            <div style={{ color: pkCorrect ? '#86efac' : '#fca5a5', fontWeight: 600 }}>
+                                {pkCorrect ? '✅ Correct!' : '❌ Not quite!'}
+                            </div>
+                            <div style={{ color: '#e2e8f0', fontSize: '0.85rem', marginTop: '0.5rem' }}>
+                                This is <strong>Potassium salt</strong>: Fast Tmax (1 hr), high peak, short duration.
+                                K⁺ has lower lattice energy → faster dissolution → rapid absorption!
+                            </div>
+                        </motion.div>
+                    )}
+
+                    {/* Next Button */}
+                    {showPkResult && (
+                        <motion.button
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            whileHover={{ scale: 1.02 }}
+                            onClick={() => setCurrentChallenge('cases')}
+                            style={{
+                                width: '100%',
+                                padding: '1rem',
+                                background: 'linear-gradient(135deg, #10b981, #059669)',
+                                border: 'none',
+                                borderRadius: '10px',
+                                color: 'white',
+                                fontWeight: 700,
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Next: Clinical Cases →
+                        </motion.button>
+                    )}
+                </div>
+            )}
+
+            {/* Challenge 2: Clinical Cases */}
+            {currentChallenge === 'cases' && (
+                <div style={{
+                    background: 'rgba(139, 92, 246, 0.1)',
+                    borderRadius: '16px',
+                    border: '1px solid rgba(139, 92, 246, 0.3)',
+                    padding: '1.5rem'
+                }}>
+                    <h5 style={{ color: '#8b5cf6', marginBottom: '1rem' }}>🩺 Challenge 2: Prescribe the Right Salt</h5>
+                    <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+                        Which salt would you prescribe for each patient?
+                    </p>
+
+                    {/* Case 1: Acute */}
+                    <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '12px', padding: '1rem', marginBottom: '1rem' }}>
+                        <div style={{ color: '#f59e0b', fontWeight: 600, marginBottom: '0.5rem' }}>Case 1: Acute Migraine</div>
+                        <div style={{ color: '#e2e8f0', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                            32-year-old needs <strong>fast pain relief</strong> to return to work.
+                        </div>
+                        <div style={{ display: 'flex', gap: '0.75rem' }}>
+                            {['K', 'Na'].map(salt => (
+                                <motion.button
+                                    key={salt}
+                                    whileHover={{ scale: 1.03 }}
+                                    whileTap={{ scale: 0.97 }}
+                                    onClick={() => setCase1Answer(salt)}
+                                    disabled={showCaseResults}
+                                    style={{
+                                        flex: 1,
+                                        padding: '0.75rem',
+                                        background: case1Answer === salt
+                                            ? (showCaseResults ? (salt === 'K' ? '#22c55e' : '#ef4444') : '#8b5cf6')
+                                            : 'rgba(255,255,255,0.1)',
+                                        border: 'none',
+                                        borderRadius: '8px',
+                                        color: 'white',
+                                        fontWeight: 600,
+                                        cursor: showCaseResults ? 'default' : 'pointer'
+                                    }}
+                                >
+                                    {salt === 'K' ? '⚡ Potassium' : '💊 Sodium'}
+                                </motion.button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Case 2: Chronic */}
+                    <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '12px', padding: '1rem', marginBottom: '1rem' }}>
+                        <div style={{ color: '#8b5cf6', fontWeight: 600, marginBottom: '0.5rem' }}>Case 2: Chronic Arthritis</div>
+                        <div style={{ color: '#e2e8f0', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                            65-year-old needs <strong>all-day pain control</strong> without frequent dosing.
+                        </div>
+                        <div style={{ display: 'flex', gap: '0.75rem' }}>
+                            {['K', 'Na'].map(salt => (
+                                <motion.button
+                                    key={salt}
+                                    whileHover={{ scale: 1.03 }}
+                                    whileTap={{ scale: 0.97 }}
+                                    onClick={() => setCase2Answer(salt)}
+                                    disabled={showCaseResults}
+                                    style={{
+                                        flex: 1,
+                                        padding: '0.75rem',
+                                        background: case2Answer === salt
+                                            ? (showCaseResults ? (salt === 'Na' ? '#22c55e' : '#ef4444') : '#8b5cf6')
+                                            : 'rgba(255,255,255,0.1)',
+                                        border: 'none',
+                                        borderRadius: '8px',
+                                        color: 'white',
+                                        fontWeight: 600,
+                                        cursor: showCaseResults ? 'default' : 'pointer'
+                                    }}
+                                >
+                                    {salt === 'K' ? '⚡ Potassium' : '💊 Sodium'}
+                                </motion.button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Check Button */}
+                    {case1Answer && case2Answer && !showCaseResults && (
+                        <motion.button
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            whileHover={{ scale: 1.02 }}
+                            onClick={() => setShowCaseResults(true)}
+                            style={{
+                                width: '100%',
+                                padding: '0.75rem',
+                                background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                border: 'none',
+                                borderRadius: '10px',
+                                color: 'white',
+                                fontWeight: 600,
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Check My Answers
+                        </motion.button>
+                    )}
+
+                    {/* Results */}
+                    {showCaseResults && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            style={{
+                                padding: '1rem',
+                                background: allCasesCorrect ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+                                borderRadius: '10px',
+                                border: `1px solid ${allCasesCorrect ? '#22c55e' : '#ef4444'}`,
+                                textAlign: 'center',
+                                marginBottom: '1rem'
+                            }}
+                        >
+                            <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{allCasesCorrect ? '🎉' : '🔄'}</div>
+                            <div style={{ color: allCasesCorrect ? '#86efac' : '#fca5a5', fontWeight: 600, marginBottom: '0.5rem' }}>
+                                {allCasesCorrect ? 'Perfect! You understand salt selection!' : `${(case1Correct ? 1 : 0) + (case2Correct ? 1 : 0)}/2 Correct`}
+                            </div>
+                            {!allCasesCorrect && (
+                                <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
+                                    {!case1Correct && 'Case 1: K⁺ for acute (fast onset). '}
+                                    {!case2Correct && 'Case 2: Na⁺ for chronic (sustained).'}
+                                </div>
+                            )}
+                        </motion.div>
+                    )}
+
+                    {/* Complete Button */}
+                    {showCaseResults && allCasesCorrect && (
+                        <motion.button
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={onComplete}
+                            style={{
+                                width: '100%',
+                                padding: '1rem',
+                                background: 'linear-gradient(135deg, #10b981, #059669)',
+                                border: 'none',
+                                borderRadius: '12px',
+                                color: 'white',
+                                fontWeight: 700,
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Complete Diclofenac Lab 🎓 ✓
+                        </motion.button>
+                    )}
+                </div>
             )}
         </div>
     );
@@ -1216,17 +1413,17 @@ function Interactive2DStructure({ molecule }: { molecule: Molecule }) {
 // ============================================================================
 
 export default function DiclofenacLab() {
-    const [phase, setPhase] = useState<0 | 1 | 2 | 3 | 4>(0);
+    const [phase, setPhase] = useState<0 | 1 | 2 | 3 | 4 | 5>(0);
     const [completedPhases, setCompletedPhases] = useState<number[]>([]);
 
     const handlePhaseComplete = (phaseNum: number) => {
         if (!completedPhases.includes(phaseNum)) {
             setCompletedPhases([...completedPhases, phaseNum]);
         }
-        if (phaseNum < 3) {
+        if (phaseNum < 4) {
             setPhase((phaseNum + 1) as any);
         } else {
-            setPhase(4); // Final state - show interactive structure
+            setPhase(5); // Final state - show completion
         }
     };
 
@@ -1238,12 +1435,12 @@ export default function DiclofenacLab() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 padding: '2rem 2rem 0',
-                maxWidth: '900px',
+                maxWidth: '1000px',
                 margin: '0 auto',
                 width: '100%',
                 position: 'relative'
             }}>
-                {['Discovery', 'Optimization', 'Solubility', 'Salt Eng.'].map((step, i) => (
+                {['Discovery', 'Optimization', 'Solubility', 'Salt Eng.', 'Clinical'].map((step, i) => (
                     <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', position: 'relative', zIndex: 1 }}>
                         <motion.div
                             animate={{
@@ -1286,7 +1483,7 @@ export default function DiclofenacLab() {
                     zIndex: 0
                 }}>
                     <motion.div
-                        animate={{ width: `${(phase / 3) * 100}%` }}
+                        animate={{ width: `${(phase / 4) * 100}%` }}
                         style={{ height: '100%', background: '#8b5cf6' }}
                     />
                 </div>
@@ -1316,7 +1513,12 @@ export default function DiclofenacLab() {
                         </motion.div>
                     )}
                     {phase === 4 && (
-                        <motion.div key="phase4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} style={{ padding: '1.5rem' }}>
+                        <motion.div key="phase4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                            <Phase4ClinicalChallenge onComplete={() => handlePhaseComplete(4)} />
+                        </motion.div>
+                    )}
+                    {phase === 5 && (
+                        <motion.div key="phase5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} style={{ padding: '1.5rem' }}>
                             <div style={{
                                 textAlign: 'center',
                                 padding: '2rem',
