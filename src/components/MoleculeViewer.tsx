@@ -218,6 +218,7 @@ interface MoleculeViewerProps {
     rcsbLigandId?: string; // RCSB ligand ID (e.g., "FLP" for Diclofenac)
     autoRotate?: boolean;
     showControls?: boolean;
+    startExpanded?: boolean; // Start with 3D model visible immediately
 }
 
 // ============================================
@@ -241,14 +242,15 @@ export default function MoleculeViewer({
     cid,
     pdbId,
     rcsbLigandId,
-    autoRotate = true // Default to true if not specified
+    autoRotate = true, // Default to true if not specified
+    startExpanded = false // Default to collapsed (legacy behavior)
 }: MoleculeViewerProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const viewerRef = useRef<any>(null);
     const rotationRef = useRef<number | null>(null);
     const [viewStyle, setViewStyle] = useState<ViewStyle>('stick');
     const [isLoading, setIsLoading] = useState(false);
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(startExpanded);
     const [isRotating, setIsRotating] = useState(autoRotate);
     const [showLabels, setShowLabels] = useState(false); // Default to NO labels for cleaner view
     const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d'); // Toggle between 3D and 2D

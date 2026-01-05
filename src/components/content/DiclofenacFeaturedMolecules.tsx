@@ -257,6 +257,7 @@ function MoleculeCard({ molecule }: { molecule: MoleculeData }) {
                                 cid={molecule.cid}
                                 height={280}
                                 autoRotate={isRotating}
+                                startExpanded={true}
                             />
                         </motion.div>
                     ) : (
