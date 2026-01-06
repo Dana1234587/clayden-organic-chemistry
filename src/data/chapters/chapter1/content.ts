@@ -36,10 +36,50 @@ export const sections: ChapterSection[] = [
       duration: '5:30'
     },
     molecules: [
-      { name: "11-cis-Retinal", description: "The light-sensitive molecule in your eyes - before light hits it" },
-      { name: "all-trans-Retinal", description: "The same molecule AFTER absorbing light - shape changed!" },
-      { name: "Serotonin", description: "The 'happiness' neurotransmitter that regulates mood" },
-      { name: "Caffeine", description: "The stimulant that helps you stay awake" }
+      {
+        name: "11-cis-Retinal",
+        description: "The light-sensitive molecule in your eyes - before light hits it",
+        cid: 5280490,
+        formula: "C₂₀H₂₈O",
+        functionalGroups: [
+          { name: "Aldehyde", formula: "-CHO", importance: "Binds to opsin protein via Schiff base linkage" },
+          { name: "Conjugated Polyene", formula: "(-CH=CH-)ₙ", importance: "6 conjugated double bonds - absorbs visible light" },
+          { name: "cis Double Bond", formula: "C=C (cis)", importance: "11-cis configuration creates the bent shape essential for vision" }
+        ]
+      },
+      {
+        name: "all-trans-Retinal",
+        description: "The same molecule AFTER absorbing light - shape changed!",
+        cid: 638015,
+        formula: "C₂₀H₂₈O",
+        functionalGroups: [
+          { name: "Aldehyde", formula: "-CHO", importance: "Remains after isomerization" },
+          { name: "Conjugated Polyene", formula: "(-CH=CH-)ₙ", importance: "Extended conjugation after light absorption" },
+          { name: "trans Configuration", formula: "C=C (trans)", importance: "Straightened molecule triggers nerve signal" }
+        ]
+      },
+      {
+        name: "Serotonin",
+        description: "The 'happiness' neurotransmitter that regulates mood",
+        cid: 5202,
+        formula: "C₁₀H₁₂N₂O",
+        functionalGroups: [
+          { name: "Indole Ring", formula: "C₈H₇N", importance: "Bicyclic aromatic core - binds to 5-HT receptors" },
+          { name: "Primary Amine", formula: "-NH₂", importance: "Positive charge at physiological pH - essential for receptor binding" },
+          { name: "Hydroxyl Group", formula: "-OH", importance: "5-hydroxy position - distinguishes from tryptamine" }
+        ]
+      },
+      {
+        name: "Caffeine",
+        description: "The stimulant that helps you stay awake",
+        cid: 2519,
+        formula: "C₈H₁₀N₄O₂",
+        functionalGroups: [
+          { name: "Purine Base", formula: "C₅H₄N₄", importance: "Xanthine derivative - mimics adenosine structure" },
+          { name: "N-Methyl Groups", formula: "N-CH₃ (×3)", importance: "Three methyl groups increase lipophilicity & CNS penetration" },
+          { name: "Carbonyl Groups", formula: "C=O (×2)", importance: "Part of xanthine ring system - H-bonding acceptors" }
+        ]
+      }
     ],
     keyPoints: [
       "11-cis-retinal enables vision through light-induced shape change",
@@ -106,8 +146,26 @@ export const sections: ChapterSection[] = [
       duration: '10:00'
     },
     molecules: [
-      { name: "Methane", description: "The simplest organic molecule (CH₄)" },
-      { name: "Ethanol", description: "Simple alcohol found in beverages" }
+      {
+        name: "Methane",
+        description: "The simplest organic molecule (CH₄)",
+        cid: 297,
+        formula: "CH₄",
+        functionalGroups: [
+          { name: "Alkane", formula: "CₙH₂ₙ₊₂", importance: "Simplest hydrocarbon - fully saturated C-H bonds" },
+          { name: "sp³ Carbon", formula: "C(sp³)", importance: "Tetrahedral geometry - 109.5° bond angles" }
+        ]
+      },
+      {
+        name: "Ethanol",
+        description: "Simple alcohol found in beverages",
+        cid: 702,
+        formula: "C₂H₅OH",
+        functionalGroups: [
+          { name: "Hydroxyl Group", formula: "-OH", importance: "Polar, hydrogen bonding - makes ethanol miscible with water" },
+          { name: "Alkyl Chain", formula: "C₂H₅-", importance: "Ethyl group provides lipophilic character" }
+        ]
+      }
     ],
     keyPoints: [
       "'Vital force' theory was believed until Wöhler synthesized urea in 1828",
@@ -315,13 +373,79 @@ export const sections: ChapterSection[] = [
       duration: '15:00'
     },
     molecules: [
-      { name: "Prontosil", description: "The first antibacterial drug - a red azo dye that is metabolized to release Sulfanilamide" },
-      { name: "Sulfanilamide", description: "The TRUE antibiotic - active metabolite that inhibits bacterial folate synthesis" },
-      { name: "Sulfisoxazole", description: "Short-acting (6h) - Isoxazole ring modification for acute UTI treatment" },
-      { name: "Sulfamethoxazole", description: "Medium-acting (12h) - The Joker drug, combined with Trimethoprim in Bactrim" },
-      { name: "Sulfadoxine", description: "Long-acting (100h+) - Methoxy-pyrimidine group for malaria prevention (Fansidar)" },
-      { name: "Silver Sulfadiazine", description: "Topical - Silver atom modification for burn wound infection prevention" },
-      { name: "Sulfasalazine", description: "Gut-acting prodrug - Azo-linkage for ulcerative colitis treatment" }
+      {
+        name: "Prontosil",
+        description: "The first antibacterial drug - a red azo dye that is metabolized to release Sulfanilamide",
+        cid: 66895,
+        formula: "C₁₂H₁₃N₅O₂S",
+        functionalGroups: [
+          { name: "Azo Group", formula: "-N=N-", importance: "Red chromophore - cleaved in body to release active drug" },
+          { name: "Sulfonamide", formula: "-SO₂NH₂", importance: "Core pharmacophore - inhibits bacterial DHPS enzyme" },
+          { name: "Diaminobenzene", formula: "C₆H₄(NH₂)₂", importance: "Provides selectivity and cell penetration" }
+        ]
+      },
+      {
+        name: "Sulfanilamide",
+        description: "The TRUE antibiotic - active metabolite that inhibits bacterial folate synthesis",
+        cid: 5333,
+        formula: "C₆H₈N₂O₂S",
+        functionalGroups: [
+          { name: "Sulfonamide", formula: "-SO₂NH₂", importance: "Mimics PABA - competitive inhibitor of DHPS" },
+          { name: "Primary Aromatic Amine", formula: "Ar-NH₂", importance: "H-bonding with enzyme active site" }
+        ]
+      },
+      {
+        name: "Sulfisoxazole",
+        description: "Short-acting (6h) - Isoxazole ring modification for acute UTI treatment",
+        cid: 5344,
+        formula: "C₁₁H₁₃N₃O₃S",
+        functionalGroups: [
+          { name: "Isoxazole Ring", formula: "C₃H₃NO", importance: "Increases water solubility - faster renal excretion" },
+          { name: "Sulfonamide", formula: "-SO₂NH₂", importance: "Core antibacterial pharmacophore" }
+        ]
+      },
+      {
+        name: "Sulfamethoxazole",
+        description: "Medium-acting (12h) - The Joker drug, combined with Trimethoprim in Bactrim",
+        cid: 5329,
+        formula: "C₁₀H₁₁N₃O₃S",
+        functionalGroups: [
+          { name: "Oxazole Ring", formula: "C₃H₃NO", importance: "Optimal half-life for combination therapy" },
+          { name: "Methyl Group", formula: "-CH₃", importance: "Lipophilicity tuning" },
+          { name: "Sulfonamide", formula: "-SO₂NH₂", importance: "Synergizes with Trimethoprim for sequential folate blockade" }
+        ]
+      },
+      {
+        name: "Sulfadoxine",
+        description: "Long-acting (100h+) - Methoxy-pyrimidine group for malaria prevention (Fansidar)",
+        cid: 17134,
+        formula: "C₁₂H₁₄N₄O₄S",
+        functionalGroups: [
+          { name: "Dimethoxy-pyrimidine", formula: "C₆H₈N₂O₂", importance: "Creates very long half-life - weekly dosing for malaria prophylaxis" },
+          { name: "Sulfonamide", formula: "-SO₂NH₂", importance: "Blocks Plasmodium folate synthesis" }
+        ]
+      },
+      {
+        name: "Silver Sulfadiazine",
+        description: "Topical - Silver atom modification for burn wound infection prevention",
+        cid: 441244,
+        formula: "C₁₀H₉AgN₄O₂S",
+        functionalGroups: [
+          { name: "Silver Ion", formula: "Ag⁺", importance: "Broad-spectrum antimicrobial - denatures bacterial proteins" },
+          { name: "Pyrimidine Ring", formula: "C₄H₄N₂", importance: "Sulfadiazine base for anti-folate activity" }
+        ]
+      },
+      {
+        name: "Sulfasalazine",
+        description: "Gut-acting prodrug - Azo-linkage for ulcerative colitis treatment",
+        cid: 5339,
+        formula: "C₁₈H₁₄N₄O₅S",
+        functionalGroups: [
+          { name: "Azo Linkage", formula: "-N=N-", importance: "Cleaved by gut bacteria - releases 5-ASA locally" },
+          { name: "5-Aminosalicylic Acid", formula: "C₇H₇NO₃", importance: "Anti-inflammatory in colon mucosa" },
+          { name: "Sulfapyridine", formula: "C₁₁H₁₁N₃O₂S", importance: "Carrier molecule - absorbed systemically" }
+        ]
+      }
     ],
     keyPoints: [
       "William Perkin accidentally discovered Mauveine in 1856",
@@ -477,14 +601,89 @@ export const sections: ChapterSection[] = [
       duration: '14:00'
     },
     molecules: [
-      { name: "R-Limonene", description: "SAR: R-config binds GPCR → ORANGE smell (ΔG = -8.4 kcal/mol)" },
-      { name: "S-Limonene", description: "SAR: S-config binds differently → LEMON smell (ΔG = -3.2 kcal/mol)" },
-      { name: "Thalidomide", description: "SAR: R-form = sedative (safe), S-form = teratogenic (birth defects)" },
-      { name: "Ibuprofen", description: "SAR: S-form = active COX inhibitor, R-form = inactive prodrug" },
-      { name: "Muscone", description: "Musk deer pheromone - 15-membered ring macrocycle" },
-      { name: "Civetone", description: "Civet cat pheromone - 17-membered ring for perfumes" },
-      { name: "Frontalin", description: "Beetle pheromone - one enantiomer attracts, the other repels!" },
-      { name: "Thioacetone", description: "The worst-smelling compound - evacuated Freiburg in 1889!" }
+      {
+        name: "R-Limonene",
+        description: "SAR: R-config binds GPCR → ORANGE smell (ΔG = -8.4 kcal/mol)",
+        cid: 440917,
+        formula: "C₁₀H₁₆",
+        functionalGroups: [
+          { name: "Cyclohexene Ring", formula: "C₆H₁₀", importance: "Monoterpene backbone - fits olfactory receptor" },
+          { name: "Isopropenyl Group", formula: "CH₂=C(CH₃)-", importance: "Provides volatility for airborne transport" },
+          { name: "R-Chiral Center", formula: "C* (R)", importance: "R-configuration recognized as 'orange' by receptors" }
+        ]
+      },
+      {
+        name: "S-Limonene",
+        description: "SAR: S-config binds differently → LEMON smell (ΔG = -3.2 kcal/mol)",
+        cid: 439250,
+        formula: "C₁₀H₁₆",
+        functionalGroups: [
+          { name: "Cyclohexene Ring", formula: "C₆H₁₀", importance: "Same backbone as R-form" },
+          { name: "S-Chiral Center", formula: "C* (S)", importance: "Mirror image - binds olfactory receptor differently → 'lemon'" }
+        ]
+      },
+      {
+        name: "Thalidomide",
+        description: "SAR: R-form = sedative (safe), S-form = teratogenic (birth defects)",
+        cid: 5426,
+        formula: "C₁₃H₁₀N₂O₄",
+        functionalGroups: [
+          { name: "Glutarimide Ring", formula: "C₅H₈NO₂", importance: "Binds cereblon E3 ligase - central to activity" },
+          { name: "Phthalimide Ring", formula: "C₈H₅NO₂", importance: "Anti-inflammatory properties" },
+          { name: "Chiral Center", formula: "C*", importance: "CRITICAL: R-form sedative, S-form causes birth defects" }
+        ]
+      },
+      {
+        name: "Ibuprofen",
+        description: "SAR: S-form = active COX inhibitor, R-form = inactive prodrug",
+        cid: 3672,
+        formula: "C₁₃H₁₈O₂",
+        functionalGroups: [
+          { name: "Carboxylic Acid", formula: "-COOH", importance: "Binds COX enzyme active site arginine" },
+          { name: "Isobutyl Group", formula: "(CH₃)₂CHCH₂-", importance: "Lipophilic - improves membrane penetration" },
+          { name: "Chiral Center", formula: "C*", importance: "S-form is 160x more active; R-form converts to S in vivo" }
+        ]
+      },
+      {
+        name: "Muscone",
+        description: "Musk deer pheromone - 15-membered ring macrocycle",
+        cid: 10947,
+        formula: "C₁₆H₃₀O",
+        functionalGroups: [
+          { name: "Macrocyclic Ketone", formula: "C₁₅H₂₉-CO-", importance: "15-membered ring - unique musky odor" },
+          { name: "Methyl Branch", formula: "-CH₃", importance: "Position determines specific scent character" }
+        ]
+      },
+      {
+        name: "Civetone",
+        description: "Civet cat pheromone - 17-membered ring for perfumes",
+        cid: 5315941,
+        formula: "C₁₇H₃₀O",
+        functionalGroups: [
+          { name: "Macrocyclic Ketone", formula: "C₁₆-CO-", importance: "17-membered ring - excellent perfume fixative" },
+          { name: "cis Double Bond", formula: "C=C (cis)", importance: "Specific configuration required for scent" }
+        ]
+      },
+      {
+        name: "Frontalin",
+        description: "Beetle pheromone - one enantiomer attracts, the other repels!",
+        cid: 10888022,
+        formula: "C₈H₁₄O₂",
+        functionalGroups: [
+          { name: "Bicyclic Acetal", formula: "C₇H₁₂O₂", importance: "Bicyclic structure critical for receptor binding" },
+          { name: "Chiral Centers", formula: "C* (×2)", importance: "Stereochemistry determines attract vs. repel!" }
+        ]
+      },
+      {
+        name: "Thioacetone",
+        description: "The worst-smelling compound - evacuated Freiburg in 1889!",
+        cid: 641811,
+        formula: "C₃H₆S",
+        functionalGroups: [
+          { name: "Thioketone", formula: "C=S", importance: "Sulfur analog of ketone - extremely volatile" },
+          { name: "Methyl Groups", formula: "-CH₃ (×2)", importance: "Small size enables rapid vapor diffusion" }
+        ]
+      }
     ],
     keyPoints: [
       "Smell works through molecular shape recognition",
@@ -604,10 +803,51 @@ export const sections: ChapterSection[] = [
     ],
     stereochemistryLab: true,
     molecules: [
-      { name: "R-Thalidomide", description: "EUTOMER: Sedative/anti-nausea, IC₅₀ = 0.5 µM" },
-      { name: "S-Thalidomide", description: "DISTOMER: Teratogenic (birth defects), 100x less potent" },
-      { name: "Escitalopram", description: "Chiral Switch from Citalopram (2002), 2x more potent SSRI" },
-      { name: "Esomeprazole", description: "Chiral Switch from Omeprazole (2001), better bioavailability" }
+      {
+        name: "R-Thalidomide",
+        description: "EUTOMER: Sedative/anti-nausea, IC₅₀ = 0.5 µM",
+        cid: 75792,
+        formula: "C₁₃H₁₀N₂O₄",
+        functionalGroups: [
+          { name: "Glutarimide Ring", formula: "C₅H₇NO₂", importance: "Target binding site for cereblon" },
+          { name: "Phthalimide Ring", formula: "C₈H₅NO₂", importance: "Provides structural rigidity" },
+          { name: "R-Chiral Center", formula: "C* (R)", importance: "R-configuration = SAFE sedative effect" }
+        ]
+      },
+      {
+        name: "S-Thalidomide",
+        description: "DISTOMER: Teratogenic (birth defects), 100x less potent",
+        cid: 92142,
+        formula: "C₁₃H₁₀N₂O₄",
+        functionalGroups: [
+          { name: "Glutarimide Ring", formula: "C₅H₇NO₂", importance: "Same ring but different binding orientation" },
+          { name: "S-Chiral Center", formula: "C* (S)", importance: "DANGER: S-form causes birth defects; interconverts in vivo" }
+        ]
+      },
+      {
+        name: "Escitalopram",
+        description: "Chiral Switch from Citalopram (2002), 2x more potent SSRI",
+        cid: 146570,
+        formula: "C₂₀H₂₁FN₂O",
+        functionalGroups: [
+          { name: "Isobenzofuran Core", formula: "C₈H₆O", importance: "Tricyclic structure for SERT binding" },
+          { name: "Fluorophenyl", formula: "C₆H₄F", importance: "Fluorine improves selectivity and metabolic stability" },
+          { name: "S-Chiral Center", formula: "C* (S)", importance: "S-enantiomer = EUTOMER, marketed as Lexapro" },
+          { name: "Dimethylamino", formula: "-N(CH₃)₂", importance: "Basic nitrogen - protonated at physiological pH" }
+        ]
+      },
+      {
+        name: "Esomeprazole",
+        description: "Chiral Switch from Omeprazole (2001), better bioavailability",
+        cid: 9568614,
+        formula: "C₁₇H₁₉N₃O₃S",
+        functionalGroups: [
+          { name: "Benzimidazole", formula: "C₇H₅N₂", importance: "Core structure for proton pump inhibition" },
+          { name: "Sulfinyl Group", formula: "-S(O)-", importance: "Prodrug - activated in acidic parietal cells" },
+          { name: "S-Chiral Center (sulfur)", formula: "S* (S)", importance: "S-enantiomer = less variable metabolism via CYP2C19" },
+          { name: "Methoxy Groups", formula: "-OCH₃ (×2)", importance: "Tune lipophilicity and H-pump binding" }
+        ]
+      }
     ]
   },
   {
@@ -711,8 +951,27 @@ export const sections: ChapterSection[] = [
     },
     advancedDrugLab: true,
     molecules: [
-      { name: "Methane", description: "Perfect example of 4 covalent C-H bonds" },
-      { name: "Ethanol", description: "Contains C-C, C-H, C-O, and O-H bonds" }
+      {
+        name: "Methane",
+        description: "Perfect example of 4 covalent C-H bonds",
+        cid: 297,
+        formula: "CH₄",
+        functionalGroups: [
+          { name: "Alkane", formula: "CₙH₂ₙ₊₂", importance: "Simplest hydrocarbon - only single bonds" },
+          { name: "4 C-H Bonds", formula: "C-H (×4)", importance: "Demonstrates carbon's tetravalency" }
+        ]
+      },
+      {
+        name: "Ethanol",
+        description: "Contains C-C, C-H, C-O, and O-H bonds",
+        cid: 702,
+        formula: "C₂H₅OH",
+        functionalGroups: [
+          { name: "C-C Bond", formula: "C-C", importance: "σ bond formed by sp³-sp³ overlap" },
+          { name: "C-O Bond", formula: "C-O", importance: "Polar covalent bond - δ+ on carbon" },
+          { name: "O-H Bond", formula: "O-H", importance: "Very polar - enables hydrogen bonding" }
+        ]
+      }
     ],
     keyPoints: [
       "Ionic bonds: electron transfer (not common in organic chemistry)",
@@ -887,7 +1146,64 @@ export const sections: ChapterSection[] = [
         correctIndex: 1,
         explanation: "Because double bonds can't rotate, groups can be 'locked' on the same side (cis) or opposite sides (trans)."
       }
-    ]
+    ],
+    combretastatinLab: true,
+    featuredReaction: {
+      name: 'Michael Addition',
+      path: '/reactions',
+      relevance: 'The C=C double bond in α,β-unsaturated systems can be attacked by nucleophiles via conjugate addition—the basis for targeted covalent inhibitors like Ibrutinib.'
+    },
+    molecules: [
+      {
+        name: "Combretastatin A-4 (cis)",
+        description: "Z-isomer: Potent tubulin inhibitor, IC₅₀ = 1-10 nM",
+        cid: 5409806,
+        formula: "C₁₈H₂₀O₅",
+        functionalGroups: [
+          { name: "cis-Stilbene", formula: "Z-C=C", importance: "Curved geometry fits tubulin colchicine site perfectly" },
+          { name: "Trimethoxyphenyl", formula: "(OCH₃)₃", importance: "H-bonding with β-tubulin Asn258 and Thr179" },
+          { name: "Hydroxymethoxyphenyl", formula: "OH + OCH₃", importance: "Additional H-bond donor/acceptor" }
+        ]
+      },
+      {
+        name: "trans-Combretastatin A-4",
+        description: "E-isomer: 1000× less potent, IC₅₀ = 1-10 μM",
+        cid: 637542,
+        formula: "C₁₈H₂₀O₅",
+        functionalGroups: [
+          { name: "trans-Stilbene", formula: "E-C=C", importance: "Linear geometry causes steric clash with receptor pocket" },
+          { name: "Same Substituents", formula: "-", importance: "Identical functional groups but wrong geometry" }
+        ]
+      }
+    ],
+    drugDiscovery: {
+      title: 'The Geometric Trap: Cis-Trans Drug Selectivity',
+      subtitle: 'How π bond rigidity determines therapeutic efficacy',
+      story: [
+        {
+          phase: 'discovery',
+          title: '🔬 The Discovery',
+          year: '1989',
+          content: 'Combretastatin A-4 was isolated as a potent tubulin-binding agent. Researchers discovered that only the cis-isomer showed significant anticancer activity.',
+          molecule: 'Combretastatin A-4'
+        },
+        {
+          phase: 'mechanism',
+          title: '🎯 The Geometric Lock',
+          year: 'Key Insight',
+          content: 'The C=C double bond π electrons prevent rotation. The cis-isomer has a curved shape that fits the tubulin colchicine site, while the trans-isomer is too linear—steric clash prevents binding.',
+          molecule: 'π Bond Rigidity'
+        },
+        {
+          phase: 'clinical',
+          title: '💊 Clinical Development',
+          year: '2000s',
+          content: 'CA-4 Phosphate (fosbretabulin) was developed as a prodrug. The phosphate group increases water solubility, and the active cis-form is released in tumor vasculature.',
+          molecule: 'CA-4P'
+        }
+      ],
+      keyInsight: 'This case perfectly demonstrates that π bond rigidity is not just a chemistry concept—it is literally the difference between a drug that kills cancer cells and one that does nothing. Same atoms, same bonds, different geometry = 1000× difference in potency.'
+    }
   },
   {
     id: "electronegativity-polarity",
@@ -1092,8 +1408,27 @@ export const sections: ChapterSection[] = [
       • Polyester: Wrinkle-resistant, durable
       • Spandex (Lycra): Stretchy material for athletic wear`,
     molecules: [
-      { name: "Vanillin", description: "The main flavor in vanilla" },
-      { name: "Limonene", description: "Citrus scent found in many products" }
+      {
+        name: "Vanillin",
+        description: "The main flavor in vanilla",
+        cid: 1183,
+        formula: "C₈H₈O₃",
+        functionalGroups: [
+          { name: "Aldehyde", formula: "-CHO", importance: "Provides sweet vanilla aroma" },
+          { name: "Methoxy Group", formula: "-OCH₃", importance: "Contributes to creamy flavor notes" },
+          { name: "Phenol", formula: "Ar-OH", importance: "Enables hydrogen bonding with receptors" }
+        ]
+      },
+      {
+        name: "Limonene",
+        description: "Citrus scent found in many products",
+        cid: 22311,
+        formula: "C₁₀H₁₆",
+        functionalGroups: [
+          { name: "Cyclohexene", formula: "C₆H₁₀", importance: "Monoterpene ring structure" },
+          { name: "Isopropenyl", formula: "CH₂=C(CH₃)-", importance: "Provides volatility for fragrance" }
+        ]
+      }
     ],
     video: {
       type: 'hls' as const,
@@ -1164,9 +1499,37 @@ export const sections: ChapterSection[] = [
       Menthol has 8 possible stereoisomers, but only one specific form (−)-menthol gives 
       the intense cooling sensation. Organic chemists synthesize exactly this form!`,
     molecules: [
-      { name: "Vanillin", description: "The primary flavor compound in vanilla" },
-      { name: "Menthol", description: "The cooling compound from peppermint" },
-      { name: "Damascenone", description: "The deep 'essence' of roses - incredibly powerful scent!" }
+      {
+        name: "Vanillin",
+        description: "The primary flavor compound in vanilla",
+        cid: 1183,
+        formula: "C₈H₈O₃",
+        functionalGroups: [
+          { name: "Aldehyde", formula: "-CHO", importance: "Key to vanilla aroma profile" },
+          { name: "Guaiacyl Group", formula: "C₆H₄(OH)(OCH₃)", importance: "Phenolic structure from lignin" }
+        ]
+      },
+      {
+        name: "Menthol",
+        description: "The cooling compound from peppermint",
+        cid: 16666,
+        formula: "C₁₀H₂₀O",
+        functionalGroups: [
+          { name: "Cyclohexanol", formula: "C₆H₁₁OH", importance: "Secondary alcohol - activates cold receptors (TRPM8)" },
+          { name: "Isopropyl Group", formula: "(CH₃)₂CH-", importance: "Lipophilic - enhances membrane penetration" },
+          { name: "Chiral Centers", formula: "C* (×3)", importance: "Only (−)-menthol gives intense cooling" }
+        ]
+      },
+      {
+        name: "Damascenone",
+        description: "The deep 'essence' of roses - incredibly powerful scent!",
+        cid: 5366074,
+        formula: "C₁₃H₁₈O",
+        functionalGroups: [
+          { name: "Conjugated Ketone", formula: "C=C-C=O", importance: "Extended conjugation - intense olfactory impact" },
+          { name: "Isoprene Units", formula: "C₅H₈", importance: "Terpenoid backbone - rose aroma precursor" }
+        ]
+      }
     ],
     video: {
       type: 'hls' as const,
@@ -1248,13 +1611,81 @@ export const sections: ChapterSection[] = [
       It takes about 12 years and $2.6 billion to bring a new drug to market. 
       Organic chemistry is essential at every step.`,
     molecules: [
-      { name: "Aspirin", description: "Classic pain reliever and anti-inflammatory" },
-      { name: "Quinine", description: "Natural malaria treatment from tree bark" },
-      { name: "Penicillin G", description: "First antibiotic - note the strained β-lactam ring!" },
-      { name: "Taxol", description: "Anticancer drug with 11 chiral centers" },
-      { name: "Caffeine", description: "Stimulant found in coffee and tea" },
-      { name: "Atorvastatin", description: "Lipitor - the best-selling drug in history ($12B/year)" },
-      { name: "Omeprazole", description: "Losec/Prilosec - proton pump inhibitor for stomach ulcers" }
+      {
+        name: "Aspirin",
+        description: "Classic pain reliever and anti-inflammatory",
+        cid: 2244,
+        formula: "C₉H₈O₄",
+        functionalGroups: [
+          { name: "Acetyl Ester", formula: "CH₃CO-O-", importance: "Acetylates COX enzyme - irreversible inhibition" },
+          { name: "Carboxylic Acid", formula: "-COOH", importance: "Enhances water solubility at intestinal pH" }
+        ]
+      },
+      {
+        name: "Quinine",
+        description: "Natural malaria treatment from tree bark",
+        cid: 3034034,
+        formula: "C₂₀H₂₄N₂O₂",
+        functionalGroups: [
+          { name: "Quinoline Ring", formula: "C₉H₇N", importance: "Intercalates with Plasmodium DNA" },
+          { name: "Quinuclidine", formula: "C₇H₁₃N", importance: "Bicyclic amine - key for antimalarial activity" },
+          { name: "Vinyl Group", formula: "-CH=CH₂", importance: "Provides metabolic stability" }
+        ]
+      },
+      {
+        name: "Penicillin G",
+        description: "First antibiotic - note the strained β-lactam ring!",
+        cid: 5904,
+        formula: "C₁₆H₁₈N₂O₄S",
+        functionalGroups: [
+          { name: "β-Lactam Ring", formula: "C₃H₄NO", importance: "4-membered ring - acylates bacterial PBP enzymes" },
+          { name: "Thiazolidine Ring", formula: "C₃H₅NS", importance: "Fused 5-membered ring with sulfur" },
+          { name: "Benzyl Group", formula: "C₆H₅CH₂-", importance: "Determines spectrum of activity" }
+        ]
+      },
+      {
+        name: "Taxol",
+        description: "Anticancer drug with 11 chiral centers",
+        cid: 36314,
+        formula: "C₄₇H₅₁NO₁₄",
+        functionalGroups: [
+          { name: "Taxane Core", formula: "C₂₀H₂₈", importance: "Complex diterpenoid skeleton" },
+          { name: "11 Chiral Centers", formula: "C* (×11)", importance: "Only one stereoisomer is active" },
+          { name: "Ester Linkages", formula: "-CO-O-", importance: "Side chain essential for tubulin binding" }
+        ]
+      },
+      {
+        name: "Caffeine",
+        description: "Stimulant found in coffee and tea",
+        cid: 2519,
+        formula: "C₈H₁₀N₄O₂",
+        functionalGroups: [
+          { name: "Xanthine", formula: "C₅H₄N₄O₂", importance: "Adenosine receptor antagonist" },
+          { name: "N-Methyl Groups", formula: "N-CH₃ (×3)", importance: "Increase CNS penetration" }
+        ]
+      },
+      {
+        name: "Atorvastatin",
+        description: "Lipitor - the best-selling drug in history ($12B/year)",
+        cid: 60823,
+        formula: "C₃₃H₃₅FN₂O₅",
+        functionalGroups: [
+          { name: "Dihydroxyheptanoic Acid", formula: "C₇H₁₄O₄", importance: "HMG-CoA reductase inhibitor pharmacophore" },
+          { name: "Pyrrole Ring", formula: "C₄H₅N", importance: "Core heterocycle for binding" },
+          { name: "Fluorophenyl", formula: "C₆H₄F", importance: "Improves metabolic stability & potency" }
+        ]
+      },
+      {
+        name: "Omeprazole",
+        description: "Losec/Prilosec - proton pump inhibitor for stomach ulcers",
+        cid: 4594,
+        formula: "C₁₇H₁₉N₃O₃S",
+        functionalGroups: [
+          { name: "Benzimidazole", formula: "C₇H₆N₂", importance: "Core structure - converted to active sulfenamide" },
+          { name: "Sulfinyl Group", formula: "-S(O)-", importance: "Prodrug - activated at low pH in parietal cells" },
+          { name: "Pyridine Ring", formula: "C₅H₅N", importance: "Proton acceptor - triggers activation" }
+        ]
+      }
     ],
     video: {
       type: 'hls' as const,

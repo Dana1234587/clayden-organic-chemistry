@@ -411,6 +411,146 @@ function Phase1Chemist({ onComplete }: { onComplete: () => void }) {
                             </div>
                         </div>
 
+                        {/* Steric Twist Visualization - shows after game complete */}
+                        {gameComplete && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                style={{
+                                    padding: '1rem',
+                                    background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(139, 92, 246, 0.1))',
+                                    borderRadius: '12px',
+                                    border: '1px solid rgba(34, 197, 94, 0.3)',
+                                    marginBottom: '1rem'
+                                }}
+                            >
+                                <div style={{ color: '#22c55e', fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                    <span>🔄</span> Steric Twist Effect
+                                </div>
+
+                                {/* 3D Twist Visualization */}
+                                <div style={{
+                                    background: 'rgba(0, 0, 0, 0.3)',
+                                    borderRadius: '12px',
+                                    padding: '1rem',
+                                    position: 'relative',
+                                    overflow: 'hidden'
+                                }}>
+                                    <svg viewBox="0 0 280 160" style={{ width: '100%', height: '140px' }}>
+                                        {/* Ring 1 - Front (slightly tilted) */}
+                                        <g transform="translate(70, 80)">
+                                            <motion.g
+                                                animate={{ rotateY: [0, 5, 0] }}
+                                                transition={{ duration: 2, repeat: Infinity }}
+                                            >
+                                                <ellipse cx="0" cy="0" rx="35" ry="30" fill="none" stroke="#3b82f6" strokeWidth="3" />
+                                                <circle cx="0" cy="0" r="18" fill="none" stroke="#3b82f6" strokeWidth="1" strokeDasharray="3" />
+                                            </motion.g>
+                                            <text x="0" y="55" fill="#3b82f6" fontSize="10" textAnchor="middle" fontWeight="600">Ring 1</text>
+                                            {/* COOH coming out */}
+                                            <line x1="25" y1="-20" x2="45" y2="-35" stroke="#ef4444" strokeWidth="2" />
+                                            <text x="55" y="-35" fill="#ef4444" fontSize="9" fontWeight="700">COOH</text>
+                                        </g>
+
+                                        {/* NH Bridge */}
+                                        <line x1="105" y1="80" x2="135" y2="80" stroke="#f59e0b" strokeWidth="3" />
+                                        <text x="120" y="70" fill="#f59e0b" fontSize="10" textAnchor="middle" fontWeight="700">NH</text>
+
+                                        {/* Ring 2 - Back (twisted 80°) */}
+                                        <g transform="translate(175, 80)">
+                                            <motion.g
+                                                animate={{
+                                                    rotateY: [75, 85, 75],
+                                                    rotateZ: [0, 2, 0]
+                                                }}
+                                                transition={{ duration: 2, repeat: Infinity }}
+                                                style={{ transformOrigin: 'center' }}
+                                            >
+                                                {/* Tilted ring (appears narrow due to perspective) */}
+                                                <ellipse cx="0" cy="0" rx="12" ry="30" fill="none" stroke="#8b5cf6" strokeWidth="3" />
+                                                <ellipse cx="0" cy="0" rx="6" ry="18" fill="none" stroke="#8b5cf6" strokeWidth="1" strokeDasharray="3" />
+                                            </motion.g>
+                                            <text x="0" y="55" fill="#8b5cf6" fontSize="10" textAnchor="middle" fontWeight="600">Ring 2</text>
+
+                                            {/* Chlorine atoms causing the twist */}
+                                            <motion.g
+                                                animate={{ scale: [1, 1.1, 1] }}
+                                                transition={{ duration: 1, repeat: Infinity }}
+                                            >
+                                                <circle cx="-8" cy="-25" r="10" fill="#22c55e" />
+                                                <text x="-8" y="-21" fill="white" fontSize="8" textAnchor="middle" fontWeight="700">Cl</text>
+                                            </motion.g>
+                                            <motion.g
+                                                animate={{ scale: [1, 1.1, 1] }}
+                                                transition={{ duration: 1, repeat: Infinity, delay: 0.5 }}
+                                            >
+                                                <circle cx="-8" cy="25" r="10" fill="#22c55e" />
+                                                <text x="-8" y="29" fill="white" fontSize="8" textAnchor="middle" fontWeight="700">Cl</text>
+                                            </motion.g>
+                                        </g>
+
+                                        {/* Twist Angle Indicator */}
+                                        <g transform="translate(230, 80)">
+                                            <motion.path
+                                                d="M 0,-30 A 35,35 0 0,1 25,20"
+                                                fill="none"
+                                                stroke="#f59e0b"
+                                                strokeWidth="2"
+                                                strokeDasharray="4"
+                                                animate={{ opacity: [0.5, 1, 0.5] }}
+                                                transition={{ duration: 1.5, repeat: Infinity }}
+                                            />
+                                            <text x="30" y="0" fill="#f59e0b" fontSize="12" fontWeight="700">80°</text>
+                                        </g>
+
+                                        {/* Steric clash arrows */}
+                                        <motion.g
+                                            animate={{ opacity: [0.3, 1, 0.3] }}
+                                            transition={{ duration: 1, repeat: Infinity }}
+                                        >
+                                            <line x1="130" y1="65" x2="145" y2="55" stroke="#ef4444" strokeWidth="2" markerEnd="url(#arrowhead)" />
+                                            <line x1="130" y1="95" x2="145" y2="105" stroke="#ef4444" strokeWidth="2" markerEnd="url(#arrowhead)" />
+                                        </motion.g>
+
+                                        {/* Arrow marker definition */}
+                                        <defs>
+                                            <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                                                <path d="M0,0 L6,3 L0,6 Z" fill="#ef4444" />
+                                            </marker>
+                                        </defs>
+                                    </svg>
+
+                                    {/* Legend */}
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        gap: '1rem',
+                                        marginTop: '0.5rem',
+                                        flexWrap: 'wrap'
+                                    }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                                            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#22c55e' }} />
+                                            <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Cl atoms</span>
+                                        </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                                            <div style={{ width: '10px', height: '3px', background: '#ef4444' }} />
+                                            <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Steric clash</span>
+                                        </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                                            <span style={{ color: '#f59e0b', fontSize: '0.8rem', fontWeight: 700 }}>80°</span>
+                                            <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Twist angle</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style={{ color: '#e2e8f0', fontSize: '0.85rem', marginTop: '0.75rem', lineHeight: 1.5 }}>
+                                    The <strong style={{ color: '#22c55e' }}>ortho-Chlorines</strong> create <strong style={{ color: '#ef4444' }}>steric clash</strong> with the NH bridge,
+                                    forcing Ring 2 to twist <strong style={{ color: '#f59e0b' }}>~80° out of plane</strong>.
+                                    This non-planar conformation fits perfectly into the COX-2 hydrophobic pocket!
+                                </div>
+                            </motion.div>
+                        )}
+
                         {/* Next Step Button - shows after game complete */}
                         {gameComplete && (
                             <motion.button

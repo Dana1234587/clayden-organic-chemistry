@@ -1038,13 +1038,12 @@ function VanDerWaalsViz() {
 // ============================================================================
 
 export default function BioisosterismLab() {
-    const [activeTab, setActiveTab] = useState<'architect' | 'bioisosteres' | 'atoms' | 'vdw'>('architect');
+    const [activeTab, setActiveTab] = useState<'architect' | 'bioisosteres' | 'atoms'>('architect');
 
     const tabs = [
         { id: 'architect', label: 'Electron Architect', icon: '🏗️' },
         { id: 'bioisosteres', label: 'Bioisosteres', icon: '🔄' },
-        { id: 'atoms', label: 'Golden Atoms', icon: '⭐' },
-        { id: 'vdw', label: 'VdW Forces', icon: '☁️' }
+        { id: 'atoms', label: 'Golden Atoms', icon: '⭐' }
     ];
 
     return (
@@ -1140,17 +1139,6 @@ export default function BioisosterismLab() {
                         exit={{ opacity: 0, y: -20 }}
                     >
                         <GoldenAtomsTable />
-                    </motion.div>
-                )}
-
-                {activeTab === 'vdw' && (
-                    <motion.div
-                        key="vdw"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                    >
-                        <VanDerWaalsViz />
                     </motion.div>
                 )}
             </AnimatePresence>

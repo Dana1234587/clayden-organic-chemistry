@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DiclofenacLab from './DiclofenacLab';
 import BTKMasterclass from './BTKMasterclass';
-import MolecularForceSimulator from './MolecularForceSimulator';
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -698,8 +697,7 @@ export default function AdvancedDrugLab({ lessonId }: AdvancedDrugLabProps) {
 
         const labTabs = [
             { id: 'diclofenac', label: 'Diclofenac Lab', icon: '🧪' },
-            { id: 'btk', label: 'BTK Masterclass', icon: '🎯' },
-            { id: 'forces', label: 'Molecular Forces', icon: '⚡' }
+            { id: 'btk', label: 'BTK Masterclass', icon: '🎯' }
         ];
 
         return (
@@ -775,11 +773,6 @@ export default function AdvancedDrugLab({ lessonId }: AdvancedDrugLabProps) {
                     {labTab === 'btk' && (
                         <motion.div key="btk" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                             <BTKMasterclass />
-                        </motion.div>
-                    )}
-                    {labTab === 'forces' && (
-                        <motion.div key="forces" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                            <MolecularForceSimulator />
                         </motion.div>
                     )}
                 </AnimatePresence>

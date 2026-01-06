@@ -219,6 +219,8 @@ interface MoleculeViewerProps {
     autoRotate?: boolean;
     showControls?: boolean;
     startExpanded?: boolean; // Start with 3D model visible immediately
+    formula?: string; // Chemical formula to display
+    functionalGroups?: { name: string; formula?: string; importance: string }[]; // Functional groups with their functions
 }
 
 // ============================================
@@ -242,8 +244,10 @@ export default function MoleculeViewer({
     cid,
     pdbId,
     rcsbLigandId,
-    autoRotate = true, // Default to true if not specified
-    startExpanded = false // Default to collapsed (legacy behavior)
+    autoRotate = false, // Default to false - user clicks to rotate
+    startExpanded = false, // Default to collapsed (legacy behavior)
+    formula, // Chemical formula
+    functionalGroups // Functional groups data
 }: MoleculeViewerProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const viewerRef = useRef<any>(null);
@@ -254,6 +258,8 @@ export default function MoleculeViewer({
     const [isRotating, setIsRotating] = useState(autoRotate);
     const [showLabels, setShowLabels] = useState(false); // Default to NO labels for cleaner view
     const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d'); // Toggle between 3D and 2D
+    const [showInfo, setShowInfo] = useState(false); // Info panel toggle
+    const [selectedFg, setSelectedFg] = useState<number | null>(null); // Selected functional group index
     const isMobile = useIsMobile();
 
     // Try to get from registry, or construct transient object if cid or rcsbLigandId provided
@@ -261,7 +267,7 @@ export default function MoleculeViewer({
     if (!molecule && (cid || rcsbLigandId)) {
         molecule = {
             name: moleculeName,
-            formula: 'Loading...',
+            formula: formula || 'Structure',
             skeletal: 'Structure',
             description: description || 'Loaded from PubChem',
             functionalGroups: [],
@@ -690,41 +696,50 @@ export default function MoleculeViewer({
                 borderBottom: '1px solid var(--card-border)',
                 display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'flex-start',
+                alignItems: 'center',
                 gap: '0.5rem',
                 flexWrap: 'wrap'
             }}>
-                <div style={{ flex: '1 1 auto', minWidth: '200px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: '1 1 auto' }}>
+                    <span style={{ fontSize: '1.2rem' }}>{molecule?.emoji || '🧬'}</span>
                     <h4 style={{
                         margin: 0,
                         fontSize: '1rem',
                         color: 'var(--neutral-100)',
                         fontWeight: 600,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        flexWrap: 'wrap',
                     }}>
-                        <span>{molecule?.emoji || '🧬'}</span>
                         {moleculeName}
-                        <span style={{
-                            fontFamily: 'monospace',
-                            color: molecule?.color || 'var(--primary-400)',
-                            fontSize: '0.85rem',
-                        }}>
-                            {molecule?.formula}
-                        </span>
                     </h4>
-                    <p style={{
-                        margin: '0.25rem 0 0',
-                        fontSize: '0.75rem',
-                        color: 'var(--neutral-400)',
-                        lineHeight: 1.3,
+                    <span style={{
+                        fontFamily: 'monospace',
+                        color: molecule?.color || 'var(--primary-400)',
+                        fontSize: '0.85rem',
                     }}>
-                        📐 {molecule?.skeletal || description}
-                    </p>
+                        {molecule?.formula}
+                    </span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+                    {/* Info Button */}
+                    {functionalGroups && functionalGroups.length > 0 && (
+                        <button
+                            onClick={() => setShowInfo(!showInfo)}
+                            style={{
+                                padding: '6px 12px',
+                                background: showInfo ? 'linear-gradient(135deg, #8b5cf6, #6366f1)' : 'rgba(139, 92, 246, 0.2)',
+                                border: '1px solid rgba(139, 92, 246, 0.4)',
+                                borderRadius: '6px',
+                                color: 'white',
+                                fontSize: '0.75rem',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                            }}
+                        >
+                            ℹ️ Info
+                        </button>
+                    )}
                     <span className="badge" style={{ fontSize: '0.7rem', padding: '4px 8px' }}>3D Interactive</span>
                     <button
                         onClick={handleClose}
@@ -746,6 +761,53 @@ export default function MoleculeViewer({
                     </button>
                 </div>
             </div>
+
+            {/* Info Panel */}
+            <AnimatePresence>
+                {showInfo && functionalGroups && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        style={{
+                            overflow: 'hidden',
+                            background: 'linear-gradient(180deg, rgba(139, 92, 246, 0.1) 0%, rgba(15, 23, 42, 0.95) 100%)',
+                            borderBottom: '1px solid rgba(139, 92, 246, 0.2)'
+                        }}
+                    >
+                        <div style={{ padding: '0.75rem 1rem' }}>
+                            <div style={{ color: '#a78bfa', fontSize: '0.65rem', fontWeight: 700, marginBottom: '0.5rem', textTransform: 'uppercase' }}>
+                                🧬 Functional Groups
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                                {functionalGroups.map((fg, i) => (
+                                    <div key={i} style={{
+                                        padding: '0.5rem 0.6rem',
+                                        background: 'rgba(99, 102, 241, 0.08)',
+                                        borderRadius: '8px',
+                                        borderLeft: '3px solid #8b5cf6'
+                                    }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                                            <span style={{ color: '#e2e8f0', fontSize: '0.8rem', fontWeight: 600 }}>{fg.name}</span>
+                                            {fg.formula && (
+                                                <span style={{
+                                                    color: '#a78bfa',
+                                                    fontSize: '0.75rem',
+                                                    fontFamily: 'monospace',
+                                                    background: 'rgba(139, 92, 246, 0.15)',
+                                                    padding: '2px 6px',
+                                                    borderRadius: '4px'
+                                                }}>{fg.formula}</span>
+                                            )}
+                                        </div>
+                                        <div style={{ color: '#94a3b8', fontSize: '0.7rem', marginTop: '0.2rem' }}>{fg.importance}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Viewer */}
             <div style={{ position: 'relative' }}>
@@ -810,15 +872,101 @@ export default function MoleculeViewer({
                         borderRadius: '12px',
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
                         overflow: 'hidden',
                     }}>
-                        <Structure2DRenderer
-                            pubchemCid={molecule.pubchemCid}
-                            smiles={molecule.smiles}
-                            moleculeName={moleculeName}
-                        />
+                        {/* 2D Structure Image */}
+                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem' }}>
+                            <Structure2DRenderer
+                                pubchemCid={molecule.pubchemCid}
+                                smiles={molecule.smiles}
+                                moleculeName={moleculeName}
+                            />
+                        </div>
+
+                        {/* Interactive Functional Groups */}
+                        {functionalGroups && functionalGroups.length > 0 && (
+                            <div style={{
+                                background: 'linear-gradient(180deg, #1e1e2e 0%, #0f0f1a 100%)',
+                                padding: '0.75rem',
+                                borderTop: '1px solid rgba(139, 92, 246, 0.2)'
+                            }}>
+                                <div style={{
+                                    color: '#a78bfa',
+                                    fontSize: '0.6rem',
+                                    fontWeight: 700,
+                                    marginBottom: '0.5rem',
+                                    textTransform: 'uppercase',
+                                    textAlign: 'center'
+                                }}>
+                                    👆 Click a functional group to learn more
+                                </div>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', justifyContent: 'center' }}>
+                                    {functionalGroups.map((fg, i) => (
+                                        <button
+                                            key={i}
+                                            onClick={() => setSelectedFg(selectedFg === i ? null : i)}
+                                            style={{
+                                                padding: '0.4rem 0.7rem',
+                                                background: selectedFg === i
+                                                    ? 'linear-gradient(135deg, #8b5cf6, #6366f1)'
+                                                    : 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(99, 102, 241, 0.2))',
+                                                border: '1px solid rgba(139, 92, 246, 0.4)',
+                                                borderRadius: '8px',
+                                                color: '#e2e8f0',
+                                                fontSize: '0.75rem',
+                                                fontWeight: 600,
+                                                cursor: 'pointer',
+                                                transition: 'all 0.2s',
+                                                transform: selectedFg === i ? 'scale(1.05)' : 'scale(1)'
+                                            }}
+                                        >
+                                            {fg.name}
+                                            {fg.formula && (
+                                                <span style={{
+                                                    marginLeft: '0.3rem',
+                                                    color: selectedFg === i ? '#fff' : '#a78bfa',
+                                                    fontFamily: 'monospace',
+                                                    fontSize: '0.65rem'
+                                                }}>
+                                                    {fg.formula}
+                                                </span>
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                                {/* Selected functional group info */}
+                                {selectedFg !== null && functionalGroups[selectedFg] && (
+                                    <div style={{
+                                        marginTop: '0.5rem',
+                                        padding: '0.6rem 0.8rem',
+                                        background: 'rgba(139, 92, 246, 0.15)',
+                                        borderRadius: '10px',
+                                        borderLeft: '3px solid #8b5cf6'
+                                    }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.3rem' }}>
+                                            <span style={{ color: '#f1f5f9', fontSize: '0.85rem', fontWeight: 700 }}>
+                                                {functionalGroups[selectedFg].name}
+                                            </span>
+                                            {functionalGroups[selectedFg].formula && (
+                                                <span style={{
+                                                    color: '#a78bfa',
+                                                    fontSize: '0.8rem',
+                                                    fontFamily: 'monospace',
+                                                    background: 'rgba(139, 92, 246, 0.2)',
+                                                    padding: '2px 6px',
+                                                    borderRadius: '4px'
+                                                }}>
+                                                    {functionalGroups[selectedFg].formula}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div style={{ color: '#94a3b8', fontSize: '0.75rem', lineHeight: 1.4 }}>
+                                            {functionalGroups[selectedFg].importance}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
@@ -827,13 +975,13 @@ export default function MoleculeViewer({
             {viewMode === '3d' && (
                 <div style={{
                     display: 'flex',
-                    flexWrap: 'wrap',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    padding: '8px 16px',
+                    flexWrap: 'nowrap',
+                    justifyContent: 'space-between',
+                    gap: '4px',
+                    padding: '6px 12px',
                     background: 'rgba(0, 0, 0, 0.3)',
-                    margin: '0 16px',
-                    borderRadius: '8px'
+                    margin: '0',
+                    borderRadius: '0'
                 }}>
                     {[
                         { elem: 'C', color: '#909090', name: 'Carbon' },
@@ -846,13 +994,13 @@ export default function MoleculeViewer({
                         <div key={item.elem} style={{
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '4px',
-                            fontSize: '0.7rem',
+                            gap: '3px',
+                            fontSize: '0.6rem',
                             color: 'var(--neutral-400)'
                         }}>
                             <div style={{
-                                width: 12,
-                                height: 12,
+                                width: 8,
+                                height: 8,
                                 borderRadius: '50%',
                                 background: item.color,
                                 border: item.elem === 'H' ? '1px solid #666' : 'none'
@@ -913,75 +1061,90 @@ export default function MoleculeViewer({
             </div>
 
             {/* Controls */}
-            <div className="molecule-controls">
+            <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '8px',
+                padding: '12px 16px',
+                background: 'rgba(0, 0, 0, 0.4)',
+                alignItems: 'center'
+            }}>
                 <button
-                    className={viewStyle === 'stick' ? 'active' : ''}
                     onClick={() => handleStyleChange('stick')}
+                    style={{
+                        padding: '8px 14px',
+                        background: viewStyle === 'stick' ? 'linear-gradient(135deg, #8b5cf6, #6366f1)' : 'rgba(255, 255, 255, 0.1)',
+                        border: 'none',
+                        borderRadius: '8px',
+                        color: 'white',
+                        fontSize: '0.8rem',
+                        fontWeight: 500,
+                        cursor: 'pointer'
+                    }}
                 >
                     Stick
                 </button>
                 <button
-                    className={viewStyle === 'sphere' ? 'active' : ''}
                     onClick={() => handleStyleChange('sphere')}
+                    style={{
+                        padding: '8px 14px',
+                        background: viewStyle === 'sphere' ? 'linear-gradient(135deg, #8b5cf6, #6366f1)' : 'rgba(255, 255, 255, 0.1)',
+                        border: 'none',
+                        borderRadius: '8px',
+                        color: 'white',
+                        fontSize: '0.8rem',
+                        fontWeight: 500,
+                        cursor: 'pointer'
+                    }}
                 >
                     Sphere
                 </button>
                 <button
-                    className={viewStyle === 'line' ? 'active' : ''}
                     onClick={() => handleStyleChange('line')}
+                    style={{
+                        padding: '8px 14px',
+                        background: viewStyle === 'line' ? 'linear-gradient(135deg, #8b5cf6, #6366f1)' : 'rgba(255, 255, 255, 0.1)',
+                        border: 'none',
+                        borderRadius: '8px',
+                        color: 'white',
+                        fontSize: '0.8rem',
+                        fontWeight: 500,
+                        cursor: 'pointer'
+                    }}
                 >
                     Line
                 </button>
                 <button
-                    className={viewStyle === 'cartoon' ? 'active' : ''}
                     onClick={() => handleStyleChange('cartoon')}
+                    style={{
+                        padding: '8px 14px',
+                        background: viewStyle === 'cartoon' ? 'linear-gradient(135deg, #8b5cf6, #6366f1)' : 'rgba(255, 255, 255, 0.1)',
+                        border: 'none',
+                        borderRadius: '8px',
+                        color: 'white',
+                        fontSize: '0.8rem',
+                        fontWeight: 500,
+                        cursor: 'pointer'
+                    }}
                 >
                     Colored
                 </button>
                 <div style={{ flex: 1 }} />
-                <button onClick={toggleRotation}>
+                <button
+                    onClick={toggleRotation}
+                    style={{
+                        padding: '8px 14px',
+                        background: isRotating ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'rgba(255, 255, 255, 0.1)',
+                        border: 'none',
+                        borderRadius: '8px',
+                        color: 'white',
+                        fontSize: '0.8rem',
+                        fontWeight: 500,
+                        cursor: 'pointer'
+                    }}
+                >
                     {isRotating ? '⏸ Pause' : '▶ Rotate'}
                 </button>
-            </div>
-
-            {/* Element Color Legend */}
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '16px',
-                flexWrap: 'wrap',
-                padding: '10px 16px',
-                background: 'rgba(0, 0, 0, 0.3)',
-                borderRadius: '12px',
-                margin: '12px 16px 0',
-            }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--neutral-400)', marginRight: '4px' }}>Colors:</span>
-                {[
-                    { symbol: 'C', name: 'Carbon', color: '#909090' },
-                    { symbol: 'O', name: 'Oxygen', color: '#FF0D0D' },
-                    { symbol: 'N', name: 'Nitrogen', color: '#3050F8' },
-                    { symbol: 'H', name: 'Hydrogen', color: '#FFFFFF' },
-                    { symbol: 'S', name: 'Sulfur', color: '#FFFF30' },
-                ].map(el => (
-                    <div key={el.symbol} style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '0.7rem',
-                        color: 'var(--neutral-300)',
-                    }}>
-                        <span style={{
-                            width: '12px',
-                            height: '12px',
-                            borderRadius: '50%',
-                            background: el.color,
-                            border: el.symbol === 'H' ? '1px solid #666' : 'none',
-                            boxShadow: `0 0 6px ${el.color}60`,
-                        }} />
-                        <span style={{ fontWeight: 600 }}>{el.symbol}</span>
-                        <span style={{ color: 'var(--neutral-500)' }}>{el.name}</span>
-                    </div>
-                ))}
             </div>
         </motion.div>
     );

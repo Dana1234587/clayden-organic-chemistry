@@ -264,9 +264,81 @@ const DiclofenacFeaturedMolecules = dynamic(() => import('../content/DiclofenacF
     )
 });
 
+// Dynamic import for MolecularForcesLab (Lesson 8 - Molecular Forces)
+const MolecularForcesLab = dynamic(() => import('../content/MolecularForcesLab'), {
+    ssr: false,
+    loading: () => (
+        <div style={{
+            height: '400px',
+            background: 'var(--gradient-card)',
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--neutral-400)'
+        }}>
+            Loading Molecular Forces Lab...
+        </div>
+    )
+});
+
+// Dynamic import for HybridizationLabPro (Lesson 9)
+const HybridizationLabPro = dynamic(() => import('../content/HybridizationLabPro'), {
+    ssr: false,
+    loading: () => (
+        <div style={{
+            height: '400px',
+            background: 'var(--gradient-card)',
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--neutral-400)'
+        }}>
+            Loading Hybridization Lab...
+        </div>
+    )
+});
+
+// Dynamic import for AmideDrugDevelopmentLab (Lesson 9)
+const AmideDrugDevelopmentLab = dynamic(() => import('../content/AmideDrugDevelopmentLab'), {
+    ssr: false,
+    loading: () => (
+        <div style={{
+            height: '400px',
+            background: 'var(--gradient-card)',
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--neutral-400)'
+        }}>
+            Loading Drug Development Lab...
+        </div>
+    )
+});
+
+// Dynamic import for CombretastatinCaseStudy (Lesson 10 - Sigma & Pi Bonds)
+const CombretastatinCaseStudy = dynamic(() => import('../content/CombretastatinCaseStudy'), {
+    ssr: false,
+    loading: () => (
+        <div style={{
+            height: '400px',
+            background: 'var(--gradient-card)',
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--neutral-400)'
+        }}>
+            Loading Case Study...
+        </div>
+    )
+});
+
 // ... imports ...
 
-type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective' | 'research' | 'virtualLab' | 'drugDevelopmentLab' | 'advancedDrugDiscovery' | 'stereochemistryLab' | 'bioisosterismLab' | 'advancedDrugLab' | 'diclofenacFeatured';
+type TabType = 'lesson' | 'quickCheck' | 'molecules' | 'simulation' | 'drugDiscovery' | 'conjugation' | 'colors' | 'clinical' | 'detective' | 'research' | 'virtualLab' | 'drugDevelopmentLab' | 'advancedDrugDiscovery' | 'stereochemistryLab' | 'bioisosterismLab' | 'advancedDrugLab' | 'diclofenacFeatured' | 'molecularForces' | 'featuredReaction' | 'hybridizationLab' | 'hybridDrugDev' | 'combretastatinLab' | 'sigmaPiFeaturedReaction';
 
 export default function LessonViewer({
     section,
@@ -317,14 +389,20 @@ export default function LessonViewer({
         ...(section.stereochemistryLab ? [{ id: 'stereochemistryLab' as const, icon: '🪞', label: 'Chiral Lab' }] : []),
         ...(section.bioisosterismLab ? [{ id: 'bioisosterismLab' as const, icon: '⚛️', label: 'Electron Architect' }] : []),
         ...(section.advancedDrugLab ? [{ id: 'advancedDrugLab' as const, icon: section.id === 'chemical-bonding' ? '💊' : '🎓', label: section.id === 'chemical-bonding' ? 'Drug Development' : 'PhD Drug Lab' }] : []),
-        ...(section.id === 'chemical-bonding' ? [{ id: 'diclofenacFeatured' as const, icon: '🧪', label: 'Featured Molecules' }] : []),
+        ...(section.id === 'chemical-bonding' ? [{ id: 'molecularForces' as const, icon: '⚡', label: 'Molecular Forces' }] : []),
+        ...(section.id === 'chemical-bonding' ? [{ id: 'featuredReaction' as const, icon: '🧪', label: 'Featured Reaction' }] : []),
+        ...(section.id === 'chemical-bonding' ? [{ id: 'diclofenacFeatured' as const, icon: '💊', label: 'Featured Molecules' }] : []),
+        ...(section.id === 'hybridization' ? [{ id: 'hybridizationLab' as const, icon: '🔬', label: 'Hybridization Lab' }] : []),
+        ...(section.id === 'hybridization' ? [{ id: 'hybridDrugDev' as const, icon: '💊', label: 'Drug Development' }] : []),
+        ...(section.combretastatinLab ? [{ id: 'combretastatinLab' as const, icon: '💊', label: 'Drug Development' }] : []),
+        ...(section.featuredReaction ? [{ id: 'sigmaPiFeaturedReaction' as const, icon: '⚗️', label: 'Featured Reaction' }] : []),
         ...(section.conjugationDiagram ? [{ id: 'conjugation' as const, icon: '🌈', label: 'Conjugation Rule' }] : []),
         ...(section.colorExamples ? [{ id: 'colors' as const, icon: '🧪', label: 'Featured Molecules' }] : []),
         ...(isColorLesson ? [{ id: 'clinical' as const, icon: '💊', label: 'Clinical Colors' }] : []),
         ...(isColorLesson ? [{ id: 'research' as const, icon: '🧬', label: 'Research Tools' }] : []),
         ...(isColorLesson ? [{ id: 'detective' as const, icon: '🔬', label: 'Color Detective' }] : []),
         { id: 'quickCheck' as const, icon: '✅', label: 'Quick Check' },
-        ...(!isColorLesson && section.id !== 'chemical-bonding' ? [{ id: 'molecules' as const, icon: '🧪', label: 'Molecules' }] : []),
+        ...(!isColorLesson && section.id !== 'chemical-bonding' ? [{ id: 'molecules' as const, icon: '🧪', label: 'Featured Molecules' }] : []),
         ...(section.simulation ? [{ id: 'simulation' as const, icon: '🎮', label: 'Simulation' }] : []),
         ...(showDrugDiscoveryTab ? [{ id: 'drugDiscovery' as const, icon: '💉', label: 'Drug Discovery' }] : [])
     ];
@@ -775,6 +853,347 @@ export default function LessonViewer({
                         </motion.div>
                     )}
 
+                    {/* MOLECULAR FORCES TAB (Lesson 8 - chemical-bonding) */}
+                    {activeTab === 'molecularForces' && section.id === 'chemical-bonding' && (
+                        <motion.div
+                            key="molecularForces"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                        >
+                            <MolecularForcesLab />
+                        </motion.div>
+                    )}
+
+                    {/* FEATURED REACTION TAB (Lesson 8 - chemical-bonding) */}
+                    {activeTab === 'featuredReaction' && section.id === 'chemical-bonding' && (
+                        <motion.div
+                            key="featuredReaction"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            style={{ padding: '1.5rem' }}
+                        >
+                            <div style={{
+                                background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%)',
+                                borderRadius: '24px',
+                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                overflow: 'hidden'
+                            }}>
+                                {/* Header */}
+                                <div style={{
+                                    padding: '1.5rem 2rem',
+                                    borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                                    background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem'
+                                }}>
+                                    <span style={{ fontSize: '2rem' }}>⚗️</span>
+                                    <div>
+                                        <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'white', margin: 0 }}>
+                                            Featured Reaction: Michael Addition
+                                        </h3>
+                                        <p style={{ color: 'var(--neutral-400)', margin: '0.25rem 0 0', fontSize: '0.9rem' }}>
+                                            The key reaction behind covalent kinase inhibitors
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Content */}
+                                <div style={{ padding: '2rem' }}>
+                                    {/* Ibrutinib Overview */}
+                                    <div style={{
+                                        display: 'grid',
+                                        gridTemplateColumns: '1fr 1fr',
+                                        gap: '2rem',
+                                        marginBottom: '2rem'
+                                    }}>
+                                        {/* Left: Molecule Image */}
+                                        <div style={{
+                                            background: 'white',
+                                            borderRadius: '16px',
+                                            padding: '1.5rem',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center'
+                                        }}>
+                                            <img
+                                                src="https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/24821094/PNG?image_size=250x250"
+                                                alt="Ibrutinib Structure"
+                                                style={{ maxWidth: '100%', height: 'auto' }}
+                                            />
+                                            <div style={{ color: '#1e293b', fontWeight: 700, marginTop: '0.5rem' }}>
+                                                Ibrutinib (Imbruvica®)
+                                            </div>
+                                            <div style={{ color: '#64748b', fontSize: '0.85rem' }}>
+                                                BTK Inhibitor • CID: 24821094
+                                            </div>
+                                        </div>
+
+                                        {/* Right: Reaction Overview */}
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                            <div style={{
+                                                padding: '1rem',
+                                                background: 'rgba(239, 68, 68, 0.1)',
+                                                borderRadius: '12px',
+                                                border: '1px solid rgba(239, 68, 68, 0.3)'
+                                            }}>
+                                                <div style={{ color: '#ef4444', fontWeight: 700, marginBottom: '0.5rem' }}>
+                                                    🎯 The Reaction
+                                                </div>
+                                                <div style={{ color: '#e2e8f0', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                                                    <strong>Michael Addition</strong> is a 1,4-conjugate addition where a
+                                                    nucleophile attacks the β-carbon of an α,β-unsaturated carbonyl system.
+                                                </div>
+                                            </div>
+
+                                            <div style={{
+                                                padding: '1rem',
+                                                background: 'rgba(139, 92, 246, 0.1)',
+                                                borderRadius: '12px',
+                                                border: '1px solid rgba(139, 92, 246, 0.3)'
+                                            }}>
+                                                <div style={{ color: '#a78bfa', fontWeight: 700, marginBottom: '0.5rem' }}>
+                                                    💊 In Ibrutinib
+                                                </div>
+                                                <div style={{ color: '#e2e8f0', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                                                    The <strong>acrylamide warhead</strong> (CH₂=CH-CO-NH-) accepts nucleophilic
+                                                    attack from <strong>Cys481 thiol (-SH)</strong> via Michael Addition, forming
+                                                    an <strong>irreversible C-S bond</strong>.
+                                                </div>
+                                            </div>
+
+                                            <div style={{
+                                                padding: '1rem',
+                                                background: 'rgba(34, 197, 94, 0.1)',
+                                                borderRadius: '12px',
+                                                border: '1px solid rgba(34, 197, 94, 0.3)'
+                                            }}>
+                                                <div style={{ color: '#22c55e', fontWeight: 700, marginBottom: '0.5rem' }}>
+                                                    ✅ Clinical Impact
+                                                </div>
+                                                <div style={{ color: '#e2e8f0', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                                                    Approved for <strong>CLL, MCL, and Waldenstrom&apos;s</strong>.
+                                                    The covalent mechanism provides <strong>sustained BTK inhibition</strong>
+                                                    even after drug clearance.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Reaction Mechanism Preview */}
+                                    <div style={{
+                                        padding: '1.5rem',
+                                        background: 'rgba(0, 0, 0, 0.4)',
+                                        borderRadius: '16px',
+                                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                                        marginBottom: '1.5rem'
+                                    }}>
+                                        <div style={{ color: '#f59e0b', fontWeight: 700, marginBottom: '1rem', fontSize: '1.1rem' }}>
+                                            ⚡ Mechanism Overview
+                                        </div>
+                                        <div style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: '1rem',
+                                            flexWrap: 'wrap'
+                                        }}>
+                                            <div style={{
+                                                padding: '1rem',
+                                                background: 'rgba(59, 130, 246, 0.2)',
+                                                borderRadius: '12px',
+                                                textAlign: 'center',
+                                                minWidth: '120px'
+                                            }}>
+                                                <div style={{ fontSize: '1.5rem' }}>🧬</div>
+                                                <div style={{ color: '#60a5fa', fontWeight: 600 }}>Cys481-SH</div>
+                                                <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Nucleophile</div>
+                                            </div>
+                                            <div style={{ color: '#f59e0b', fontSize: '1.5rem' }}>→</div>
+                                            <div style={{
+                                                padding: '1rem',
+                                                background: 'rgba(239, 68, 68, 0.2)',
+                                                borderRadius: '12px',
+                                                textAlign: 'center',
+                                                minWidth: '120px'
+                                            }}>
+                                                <div style={{ fontSize: '1.5rem' }}>⚗️</div>
+                                                <div style={{ color: '#ef4444', fontWeight: 600 }}>Acrylamide</div>
+                                                <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Electrophile</div>
+                                            </div>
+                                            <div style={{ color: '#f59e0b', fontSize: '1.5rem' }}>→</div>
+                                            <div style={{
+                                                padding: '1rem',
+                                                background: 'rgba(34, 197, 94, 0.2)',
+                                                borderRadius: '12px',
+                                                textAlign: 'center',
+                                                minWidth: '120px'
+                                            }}>
+                                                <div style={{ fontSize: '1.5rem' }}>🔗</div>
+                                                <div style={{ color: '#22c55e', fontWeight: 600 }}>C-S Bond</div>
+                                                <div style={{ color: '#94a3b8', fontSize: '0.75rem' }}>Irreversible</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Link to Full Reactions Page */}
+                                    <a
+                                        href="/reactions"
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: '0.75rem',
+                                            padding: '1.25rem 2rem',
+                                            background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                            borderRadius: '16px',
+                                            color: 'white',
+                                            fontWeight: 700,
+                                            fontSize: '1.1rem',
+                                            textDecoration: 'none',
+                                            boxShadow: '0 4px 20px rgba(139, 92, 246, 0.4)',
+                                            transition: 'transform 0.2s, box-shadow 0.2s'
+                                        }}
+                                    >
+                                        <span>🔬</span>
+                                        Explore Full Michael Addition Lab
+                                        <span style={{ fontSize: '1.25rem' }}>→</span>
+                                    </a>
+                                    <p style={{
+                                        textAlign: 'center',
+                                        color: '#94a3b8',
+                                        fontSize: '0.85rem',
+                                        marginTop: '0.75rem'
+                                    }}>
+                                        Interactive mechanism, orbital diagrams, quiz, and more!
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+
+                    {/* HYBRIDIZATION LAB TAB (Lesson 9 - hybridization) */}
+                    {activeTab === 'hybridizationLab' && section.id === 'hybridization' && (
+                        <motion.div
+                            key="hybridizationLab"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            style={{ padding: '1.5rem' }}
+                        >
+                            <HybridizationLabPro />
+                        </motion.div>
+                    )}
+
+                    {/* DRUG DEVELOPMENT TAB (Lesson 9 - hybridization) */}
+                    {activeTab === 'hybridDrugDev' && section.id === 'hybridization' && (
+                        <motion.div
+                            key="hybridDrugDev"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            style={{ padding: '1.5rem' }}
+                        >
+                            <AmideDrugDevelopmentLab />
+                        </motion.div>
+                    )}
+
+                    {/* COMBRETASTATIN CASE STUDY TAB (Lesson 10 - sigma-and-pi-bonds) */}
+                    {activeTab === 'combretastatinLab' && section.combretastatinLab && (
+                        <motion.div
+                            key="combretastatinLab"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                        >
+                            <CombretastatinCaseStudy />
+                        </motion.div>
+                    )}
+
+                    {/* FEATURED REACTION TAB (Lesson 10 - sigma-and-pi-bonds) */}
+                    {activeTab === 'sigmaPiFeaturedReaction' && section.featuredReaction && (
+                        <motion.div
+                            key="sigmaPiFeaturedReaction"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            style={{ padding: '1.5rem' }}
+                        >
+                            <div style={{
+                                background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%)',
+                                borderRadius: '24px',
+                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                overflow: 'hidden'
+                            }}>
+                                <div style={{
+                                    padding: '1.5rem 2rem',
+                                    borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(239, 68, 68, 0.15) 100%)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem'
+                                }}>
+                                    <span style={{ fontSize: '2rem' }}>⚗️</span>
+                                    <div>
+                                        <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'white', margin: 0 }}>
+                                            Featured Reaction: {section.featuredReaction.name}
+                                        </h3>
+                                        <p style={{ color: 'var(--neutral-400)', margin: '0.25rem 0 0', fontSize: '0.9rem' }}>
+                                            Understanding π bond reactivity in drug design
+                                        </p>
+                                    </div>
+                                </div>
+                                <div style={{ padding: '2rem' }}>
+                                    <div style={{
+                                        padding: '1.25rem',
+                                        background: 'rgba(245, 158, 11, 0.1)',
+                                        borderRadius: '12px',
+                                        border: '1px solid rgba(245, 158, 11, 0.3)',
+                                        marginBottom: '1.5rem'
+                                    }}>
+                                        <div style={{ color: '#f59e0b', fontWeight: 700, marginBottom: '0.5rem' }}>
+                                            🔗 Connection to This Lesson
+                                        </div>
+                                        <div style={{ color: '#e2e8f0', fontSize: '0.95rem', lineHeight: 1.6 }}>
+                                            {section.featuredReaction.relevance}
+                                        </div>
+                                    </div>
+                                    <a
+                                        href={section.featuredReaction.path}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: '0.75rem',
+                                            padding: '1.25rem 2rem',
+                                            background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                                            borderRadius: '16px',
+                                            color: 'white',
+                                            fontWeight: 700,
+                                            fontSize: '1.1rem',
+                                            textDecoration: 'none',
+                                            boxShadow: '0 4px 20px rgba(245, 158, 11, 0.4)',
+                                            transition: 'transform 0.2s, box-shadow 0.2s'
+                                        }}
+                                    >
+                                        <span>🔬</span>
+                                        Explore Full {section.featuredReaction.name} Lab
+                                        <span style={{ fontSize: '1.25rem' }}>→</span>
+                                    </a>
+                                    <p style={{
+                                        textAlign: 'center',
+                                        color: '#94a3b8',
+                                        fontSize: '0.85rem',
+                                        marginTop: '0.75rem'
+                                    }}>
+                                        Interactive mechanism, orbital diagrams, quiz, and more!
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
                     {/* DICLOFENAC FEATURED MOLECULES TAB (Lesson 8 - chemical-bonding) */}
                     {activeTab === 'diclofenacFeatured' && section.id === 'chemical-bonding' && (
                         <motion.div
@@ -1034,170 +1453,172 @@ export default function LessonViewer({
                                 </div>
                             )}
                         </motion.div>
-                    )}
+                    )
+                    }
 
                     {/* FEATURED MOLECULES TAB */}
-                    {activeTab === 'molecules' && (
-                        <motion.div
-                            key="molecules"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                        >
-                            <div style={{
-                                textAlign: 'center',
-                                marginBottom: '2rem'
-                            }}>
-                                <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>🧪</div>
-                                <h3 style={{
-                                    fontSize: '1.5rem',
-                                    fontWeight: 700,
-                                    color: 'var(--neutral-100)',
-                                    marginBottom: '0.5rem'
-                                }}>
-                                    Featured Molecules
-                                </h3>
-                                <p style={{
-                                    color: 'var(--neutral-400)',
-                                    fontSize: '0.95rem'
-                                }}>
-                                    Explore the molecules mentioned in this section
-                                </p>
-                            </div>
-
-                            {section.molecules && section.molecules.length > 0 ? (
-                                <div style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                                    gap: '1.5rem'
-                                }}>
-                                    {section.molecules.map((mol, idx) => (
-                                        <motion.div
-                                            key={idx}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: idx * 0.1 }}
-                                            style={{
-                                                background: 'var(--neutral-900)',
-                                                borderRadius: '16px',
-                                                border: '1px solid var(--neutral-800)',
-                                                overflow: 'hidden'
-                                            }}
-                                        >
-                                            <MoleculeViewer
-                                                moleculeName={mol.name}
-                                                description={mol.description}
-                                                height={220}
-                                            />
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            ) : (
+                    {
+                        activeTab === 'molecules' && (
+                            <motion.div
+                                key="molecules"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                            >
                                 <div style={{
                                     textAlign: 'center',
-                                    padding: '3rem 2rem',
-                                    background: 'var(--neutral-900)',
-                                    borderRadius: '16px',
-                                    border: '1px solid var(--neutral-800)'
+                                    marginBottom: '2rem'
                                 }}>
-                                    <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}>🧬</div>
+                                    <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>🧪</div>
+                                    <h3 style={{
+                                        fontSize: '1.5rem',
+                                        fontWeight: 700,
+                                        color: 'var(--neutral-100)',
+                                        marginBottom: '0.5rem'
+                                    }}>
+                                        Featured Molecules
+                                    </h3>
                                     <p style={{
                                         color: 'var(--neutral-400)',
-                                        fontSize: '1rem'
+                                        fontSize: '0.95rem'
                                     }}>
-                                        3D molecules coming soon for this section!
+                                        Explore the molecules mentioned in this section
                                     </p>
                                 </div>
-                            )}
-                        </motion.div>
-                    )}
 
-                    {/* SIMULATION TAB */}
-                    {activeTab === 'simulation' && section.simulation && (
-                        <motion.div
-                            key="simulation"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                        >
-                            {section.simulation.type === 'vision' && (
-                                <VisionSimulator />
-                            )}
-
-                            {section.simulation.type === 'drug-docking' && (
-                                <DrugDockingSimulator />
-                            )}
-
-                            {section.simulation.type === 'magic-bullet' && (
-                                <MagicBulletExplorer />
-                            )}
-
-                            {/* Placeholder for other simulation types */}
-                            {section.simulation.type !== 'vision' &&
-                                section.simulation.type !== 'drug-docking' &&
-                                section.simulation.type !== 'magic-bullet' && (
+                                {section.molecules && section.molecules.length > 0 ? (
+                                    <div style={{
+                                        display: 'grid',
+                                        gridTemplateColumns: 'repeat(2, 1fr)',
+                                        gap: '1.25rem'
+                                    }}>
+                                        {section.molecules.map((mol, idx) => (
+                                            <MoleculeViewer
+                                                key={idx}
+                                                moleculeName={mol.name}
+                                                description={mol.description}
+                                                cid={(mol as any).cid}
+                                                formula={(mol as any).formula}
+                                                functionalGroups={(mol as any).functionalGroups}
+                                                height={320}
+                                                autoRotate={false}
+                                                startExpanded={true}
+                                            />
+                                        ))}
+                                    </div>
+                                ) : (
                                     <div style={{
                                         textAlign: 'center',
                                         padding: '3rem 2rem',
-                                        background: 'var(--gradient-card)',
+                                        background: 'var(--neutral-900)',
                                         borderRadius: '16px',
                                         border: '1px solid var(--neutral-800)'
                                     }}>
-                                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎮</div>
+                                        <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}>🧬</div>
                                         <p style={{
                                             color: 'var(--neutral-400)',
                                             fontSize: '1rem'
                                         }}>
-                                            Simulation coming soon!
+                                            3D molecules coming soon for this section!
                                         </p>
                                     </div>
                                 )}
-                        </motion.div>
-                    )}
+                            </motion.div>
+                        )
+                    }
+
+                    {/* SIMULATION TAB */}
+                    {
+                        activeTab === 'simulation' && section.simulation && (
+                            <motion.div
+                                key="simulation"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                            >
+                                {section.simulation.type === 'vision' && (
+                                    <VisionSimulator />
+                                )}
+
+                                {section.simulation.type === 'drug-docking' && (
+                                    <DrugDockingSimulator />
+                                )}
+
+                                {section.simulation.type === 'magic-bullet' && (
+                                    <MagicBulletExplorer />
+                                )}
+
+                                {/* Placeholder for other simulation types */}
+                                {section.simulation.type !== 'vision' &&
+                                    section.simulation.type !== 'drug-docking' &&
+                                    section.simulation.type !== 'magic-bullet' && (
+                                        <div style={{
+                                            textAlign: 'center',
+                                            padding: '3rem 2rem',
+                                            background: 'var(--gradient-card)',
+                                            borderRadius: '16px',
+                                            border: '1px solid var(--neutral-800)'
+                                        }}>
+                                            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎮</div>
+                                            <p style={{
+                                                color: 'var(--neutral-400)',
+                                                fontSize: '1rem'
+                                            }}>
+                                                Simulation coming soon!
+                                            </p>
+                                        </div>
+                                    )}
+                            </motion.div>
+                        )
+                    }
 
                     {/* VIRTUAL LAB TAB (Lesson 4 - Synthetic Dyes) */}
-                    {activeTab === 'virtualLab' && section.id === 'synthetic-dyes' && (
-                        <motion.div
-                            key="virtualLab"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                        >
-                            <VirtualLabContainer />
-                        </motion.div>
-                    )}
+                    {
+                        activeTab === 'virtualLab' && section.id === 'synthetic-dyes' && (
+                            <motion.div
+                                key="virtualLab"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                            >
+                                <VirtualLabContainer />
+                            </motion.div>
+                        )
+                    }
 
                     {/* DRUG DISCOVERY TAB */}
-                    {activeTab === 'drugDiscovery' && showDrugDiscoveryTab && (
-                        <motion.div
-                            key="drugDiscovery"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                        >
-                            {/* Lesson 1: Cisplatin/Transplatin Drug Discovery */}
-                            {section.id === 'organic-chemistry-and-you' && (
-                                <DrugDiscoveryPanel sectionId={section.id} />
-                            )}
-
-                            {/* Lesson 4: Sulfa Drug Discovery (Synthetic Dyes) */}
-                            {section.id === 'synthetic-dyes' && section.sulfaDrugDiscovery && (
-                                <SulfaDrugDiscoveryPanel />
-                            )}
-
-                            {/* Other Lessons with drugDiscovery property (e.g., Aspirin story) */}
-                            {section.drugDiscovery &&
-                                section.id !== 'organic-chemistry-and-you' &&
-                                section.id !== 'synthetic-dyes' && (
-                                    <AspirinDiscoveryPanel drugDiscovery={section.drugDiscovery} />
+                    {
+                        activeTab === 'drugDiscovery' && showDrugDiscoveryTab && (
+                            <motion.div
+                                key="drugDiscovery"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                            >
+                                {/* Lesson 1: Cisplatin/Transplatin Drug Discovery */}
+                                {section.id === 'organic-chemistry-and-you' && (
+                                    <DrugDiscoveryPanel sectionId={section.id} />
                                 )}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
+
+                                {/* Lesson 4: Sulfa Drug Discovery (Synthetic Dyes) */}
+                                {section.id === 'synthetic-dyes' && section.sulfaDrugDiscovery && (
+                                    <SulfaDrugDiscoveryPanel />
+                                )}
+
+                                {/* Other Lessons with drugDiscovery property (e.g., Aspirin story) */}
+                                {section.drugDiscovery &&
+                                    section.id !== 'organic-chemistry-and-you' &&
+                                    section.id !== 'synthetic-dyes' && (
+                                        <AspirinDiscoveryPanel drugDiscovery={section.drugDiscovery} />
+                                    )}
+                            </motion.div>
+                        )
+                    }
+                </AnimatePresence >
+            </div >
 
             {/* Navigation Footer */}
-            <div style={{
+            < div style={{
                 padding: '1.5rem',
                 borderTop: '1px solid var(--neutral-800)',
                 display: 'flex',
@@ -1277,7 +1698,7 @@ export default function LessonViewer({
                         </motion.button>
                     )}
                 </div>
-            </div>
-        </motion.div>
+            </div >
+        </motion.div >
     );
 }
