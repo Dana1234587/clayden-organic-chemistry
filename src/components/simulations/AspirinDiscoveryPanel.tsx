@@ -33,7 +33,7 @@ const aspirinMolecules = [
         name: 'Salicin',
         formula: 'C₁₃H₁₈O₇',
         cid: 439503,
-        source: 'Willow Bark (لحاء الصفصاف)',
+        source: 'Willow Bark',
         mw: 286.28,
         functionalGroups: [
             { name: 'Glycosidic Bond', symbol: 'C-O-C', role: 'Links glucose to benzene', effect: 'Slow release through hydrolysis', color: '#22c55e' },

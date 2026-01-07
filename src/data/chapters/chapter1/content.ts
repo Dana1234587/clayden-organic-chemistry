@@ -203,7 +203,7 @@ export const sections: ChapterSection[] = [
           phase: 'from-nature',
           title: '🌿 From Nature (Vitalism Root)',
           year: 'Ancient - 1800s',
-          content: `For thousands of years, humans used Willow Bark (لحاء شجر الصفصاف) to treat pain and fever. 
+          content: `For thousands of years, humans used Willow Bark to treat pain and fever. 
             Even Hippocrates recommended it in ancient Greece. People believed the "secret of healing" 
             existed only in this living tree - a perfect example of vitalism thinking.`,
           molecule: 'Salicin'

@@ -9,7 +9,7 @@ const CisplatinDockingSim = () => {
     const [distance, setDistance] = useState(25.0);
     const [dnaModel, setDnaModel] = useState<any>(null);
 
-    // 1. تهيئة المكتبة عند تحميل الصفحة
+    // 1. Initialize library when page loads
     useEffect(() => {
         let viewer: any = null;
         import('3dmol/build/3Dmol-min.js').then((mol) => {
@@ -22,7 +22,7 @@ const CisplatinDockingSim = () => {
         return () => { if (viewer) viewer.clear(); };
     }, []);
 
-    // تحميل DNA بشكل Ball-and-Stick (للنشر العلمي)
+    // Load DNA as Ball-and-Stick (publication quality)
     const loadDNA = (v: any, mol: any) => {
         mol.download("pdb:1BNA", v, {}, (model: any) => {
             setDnaModel(model);
@@ -45,12 +45,12 @@ const CisplatinDockingSim = () => {
         });
     };
 
-    // 2. إضافة Cisplatin molecule
+    // 2. Add Cisplatin molecule
     const handleSelectCisplatin = () => {
         if (!glViewer) return;
         setSimState('selecting');
 
-        // رسم Cisplatin بشكل Ball-and-Stick
+        // Draw Cisplatin as Ball-and-Stick
         // Pt center
         glViewer.addSphere({ center: { x: 30, y: 15, z: 15 }, radius: 0.8, color: '#d4d4d4' });
         // Cl atoms (cis arrangement)
@@ -84,7 +84,7 @@ const CisplatinDockingSim = () => {
         glViewer.render();
     };
 
-    // 3. محاكاة الـ Docking
+    // 3. Docking Simulation
     const runSimulation = () => {
         if (!glViewer || !$3Dmol) return;
         setSimState('docking');
@@ -152,7 +152,7 @@ const CisplatinDockingSim = () => {
         }, 80);
     };
 
-    // 4. عرض النتيجة النهائية مع الرابطة الظاهرة
+    // 4. Show final result with visible bond
     const finalizeAdduct = () => {
         setSimState('finished');
         if (!$3Dmol || !glViewer) return;
