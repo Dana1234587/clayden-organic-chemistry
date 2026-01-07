@@ -121,7 +121,7 @@ END`
         formula: 'C₈Cl₂N₂O₂',
         skeletal: 'Quinone ring with two cyano and two chloro groups',
         functionalGroups: ['Quinone', 'Nitrile (-CN)', 'Chloride'],
-        pubchemCid: 6586,
+        pubchemCid: 6775,
         pdb: `COMPND    DDQ`
     },
     'diazomethane': {
@@ -130,7 +130,7 @@ END`
         formula: 'CH₂N₂',
         skeletal: 'Linear C=N=N structure with resonance',
         functionalGroups: ['Diazo group (=N2)', 'Methylidene'],
-        pubchemCid: 9551,
+        pubchemCid: 9550,
         pdb: `COMPND    DIAZOMETHANE`
     },
     '9-nitrosojulolidine': {
@@ -139,7 +139,7 @@ END`
         formula: 'C₁₂H₁₄N₂O',
         skeletal: 'Fused tricyclic nitrogen system with nitroso group',
         functionalGroups: ['Nitroso (-N=O)', 'Tertiary amine', 'Fused rings'],
-        pubchemCid: 70831,
+        // Note: No PubChem 3D available for this compound
         pdb: `COMPND    9-NITROSOJULOLIDINE`
     },
     'beta-carotene': {
