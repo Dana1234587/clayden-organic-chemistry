@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Chemistry Visualization Platform - Dana Salem Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .portfolio {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-badge span {
+            font-size: 28px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .author-info {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px 30px;
+            margin: 25px auto;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .author-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #a5f3fc;
+        }
+
+        .author-details {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-top: 20px;
+        }
+
+        .header-meta div {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Sections */
+        .section {
+            padding: 40px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .section-title span {
+            font-size: 1.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), transparent);
+            margin-left: 10px;
+        }
+
+        /* Overview Box */
+        .overview-box {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 16px;
+            padding: 30px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .overview-box p {
+            color: var(--dark);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        /* Feature Table */
+        .feature-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-table th,
+        .feature-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .feature-table th {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .feature-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .feature-table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .feature-table tr:hover {
+            background: #f0f9ff;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge-lab {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-sim {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-game {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-tool {
+            background: #f3e8ff;
+            color: #7c3aed;
+        }
+
+        .badge-research {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
+        /* Labs Grid */
+        .labs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .lab-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .lab-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            border-color: var(--primary);
+        }
+
+        .lab-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lab-card p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        .level-research {
+            background: linear-gradient(135deg, #7c3aed, #5b21b6);
+            color: white;
+        }
+
+        .level-grad {
+            background: linear-gradient(135deg, #ea580c, #c2410c);
+            color: white;
+        }
+
+        .level-undergrad {
+            background: linear-gradient(135deg, #0891b2, #0e7490);
+            color: white;
+        }
+
+        /* Modes Section */
+        .modes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .mode-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .mode-card:hover {
+            border-color: var(--primary);
+            transform: scale(1.02);
+        }
+
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .mode-card h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .mode-card p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Molecules Grid */
+        .molecules-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .molecule-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: white;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Tech Stack */
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: white;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Chapter Location Badge */
+        .chapter-location {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        /* Course Mode Note */
+        .course-mode-note {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .course-mode-note .icon {
+            font-size: 1.5rem;
+        }
+
+        .course-mode-note .text {
+            color: #92400e;
+            font-size: 0.9rem;
+        }
+
+        .course-mode-note strong {
+            color: #78350f;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            transition: background 0.3s;
+        }
+
+        .footer-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-date {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .container {
+                padding: 0;
+                max-width: 100%;
+            }
+
+            .portfolio {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            /* Header - Make text visible on print */
+            .header {
+                background: #1e3a5f !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                padding: 30px 25px;
+            }
+
+            .header h1,
+            .header .subtitle,
+            .header-content,
+            .logo-badge,
+            .author-info,
+            .author-name,
+            .author-details,
+            .header-meta,
+            .header-meta div {
+                color: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .author-name {
+                color: #a5f3fc !important;
+            }
+
+            .logo-badge,
+            .author-info {
+                background: rgba(255, 255, 255, 0.15) !important;
+                border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            }
+
+            /* Sections */
+            .section {
+                page-break-inside: avoid;
+                padding: 25px;
+            }
+
+            .section-title {
+                color: #1e293b !important;
+            }
+
+            /* Overview Box */
+            .overview-box {
+                background: #f0f9ff !important;
+                border-left: 5px solid #6366f1 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Stats Grid - Fix gradient text */
+            .stat-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 2px solid #e2e8f0 !important;
+                background: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .stat-number {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                background-clip: unset !important;
+                -webkit-text-fill-color: #6366f1 !important;
+                color: #6366f1 !important;
+            }
+
+            .stat-label {
+                color: #64748b !important;
+            }
+
+            /* Mode Cards */
+            .mode-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 2px solid #e2e8f0 !important;
+                background: #f8fafc !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .mode-card h4 {
+                color: #1e293b !important;
+            }
+
+            .mode-card p {
+                color: #64748b !important;
+            }
+
+            /* Lab Cards */
+            .lab-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 2px solid #e2e8f0 !important;
+                background: white !important;
+            }
+
+            .lab-card h4 {
+                color: #1e293b !important;
+            }
+
+            .lab-card p {
+                color: #64748b !important;
+            }
+
+            /* Level Badges */
+            .level-badge {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .level-research {
+                background: #7c3aed !important;
+                color: white !important;
+            }
+
+            .level-grad {
+                background: #ea580c !important;
+                color: white !important;
+            }
+
+            .level-undergrad {
+                background: #0891b2 !important;
+                color: white !important;
+            }
+
+            /* Category Badges */
+            .category-badge {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Feature Table */
+            .feature-table {
+                box-shadow: none;
+            }
+
+            .feature-table th {
+                background: #6366f1 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Tech badges and molecule tags */
+            .tech-badge,
+            .molecule-tag {
+                border: 1px solid #ccc !important;
+                box-shadow: none;
+            }
+
+            /* Footer */
+            .footer {
+                background: #1e293b !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .footer,
+            .footer-links a,
+            .footer-date {
+                color: white !important;
+            }
+
+            /* Hide hover effects */
+            .lab-card:hover,
+            .stat-card:hover,
+            .mode-card:hover {
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="portfolio">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-content">
+                    <div class="logo-badge">
+                        <span>🧪</span>
+                        <span>🔬</span>
+                        <span>💊</span>
+                    </div>
+                    <h1>Organic Chemistry Visualization Platform</h1>
+                    <p class="subtitle">Interactive Learning Platform Based on Clayden's Organic Chemistry</p>
+
+                    <div class="author-info">
+                        <div class="author-name">👩‍🔬 DANA SALEM</div>
+                        <div class="author-details">
+                            <strong>Incoming Student</strong><br>
+                            🎓 VICTORIA UNIVERSITY OF WELLINGTON<br>
+                            📚 Drug Discovery and Development Program
+                        </div>
+                    </div>
+
+                    <div class="header-meta">
+                        <div>📚 Based on Clayden, Greeves & Warren Textbook</div>
+                        <div>🌐 Live: clayden-organic-chemistry.vercel.app</div>
+                        <div>📅 January 2026</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Project Overview -->
+            <section class="section">
+                <h2 class="section-title"><span>📋</span> Project Overview</h2>
+                <div class="overview-box">
+                    <p>
+                        This platform is a comprehensive, <strong>interactive digital learning environment</strong> for
+                        Organic Chemistry education, structured according to the <strong>Clayden Modular
+                            Architecture</strong>. The project transforms complex organic chemistry concepts into
+                        accessible, visual experiences through <strong>3D molecular visualizations</strong>,
+                        <strong>research-level virtual laboratories</strong>, <strong>interactive simulations</strong>,
+                        and <strong>gamified learning experiences</strong>.
+                    </p>
+                    <p style="margin-top: 15px;">
+                        Designed to scale to <strong>40+ chapters</strong> covering the entire Clayden curriculum, the
+                        platform offers multiple learning modes including <strong>Course Mode</strong> for structured
+                        learning and <strong>Reading Mode</strong> for flexible study, enhanced with flashcards,
+                        quizzes, and real-world pharmaceutical case studies.
+                    </p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">Virtual Labs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">40+</div>
+                        <div class="stat-label">Planned Chapters</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">13</div>
+                        <div class="stat-label">Simulations</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">3D Molecules</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Learning Modes -->
+            <section class="section">
+                <h2 class="section-title"><span>📖</span> Learning Modes</h2>
+                <div class="modes-grid">
+                    <div class="mode-card">
+                        <div class="mode-icon">🎓</div>
+                        <h4>Course Mode</h4>
+                        <p>Structured, sequential learning path with progress tracking, assessments, and completion
+                            certificates. Ideal for academic courses.</p>
+                    </div>
+                    <div class="mode-card">
+                        <div class="mode-icon">📚</div>
+                        <h4>Reading Mode</h4>
+                        <p>Flexible, self-paced exploration of topics. Perfect for reference, review, or supplementary
+                            learning.</p>
+                    </div>
+                    <div class="mode-card">
+                        <div class="mode-icon">🃏</div>
+                        <h4>Flashcards</h4>
+                        <p>Spaced repetition system for memorizing functional groups, reactions, mechanisms, and key
+                            concepts.</p>
+                    </div>
+                    <div class="mode-card">
+                        <div class="mode-icon">🎮</div>
+                        <h4>Learning Games</h4>
+                        <p>Interactive games including molecular puzzles, reaction prediction challenges, and structure
+                            identification.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Research-Level Virtual Labs -->
+            <section class="section">
+                <h2 class="section-title"><span>🔬</span> Research-Level Virtual Laboratories</h2>
+
+                <div class="course-mode-note">
+                    <span class="icon">📌</span>
+                    <div class="text">
+                        <strong>Course Mode Status:</strong> Currently, only <strong>Chapter 1</strong> has full Course
+                        Mode implementation with structured lessons, progress tracking, and assessments. Other chapters
+                        are available in Reading Mode. Additional Course Mode chapters are planned for future releases.
+                    </div>
+                </div>
+
+                <p style="margin-bottom: 20px; color: var(--gray);">Research-grade interactive laboratories simulating
+                    real pharmaceutical development processes:</p>
+
+                <div class="labs-grid">
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 1 • Lesson 6</span>
+                        <h4>💊 Chiral Drug Discovery Lab</h4>
+                        <p>Explores stereochemistry in drug development, thalidomide tragedy case study, and chiral
+                            synthesis strategies.</p>
+                        <span class="level-badge level-research">Research Level</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 1 • Lesson 4</span>
+                        <h4>🧬 Diclofenac Lead-to-Salt Lab</h4>
+                        <p>Complete pharmaceutical development workflow: lead optimization, salt screening, and
+                            pharmacokinetic modeling.</p>
+                        <span class="level-badge level-research">Research Level</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 1 • Lesson 5</span>
+                        <h4>🎯 BTK Inhibitor Masterclass</h4>
+                        <p>Design selective kinase inhibitors for cancer therapy. Structure-activity relationship (SAR)
+                            studies.</p>
+                        <span class="level-badge level-research">Research Level</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 1 • Lesson 5</span>
+                        <h4>🔄 Bioisosterism Lab</h4>
+                        <p>Explore isosteric replacements to optimize drug properties: metabolic stability,
+                            bioavailability, and selectivity.</p>
+                        <span class="level-badge level-research">Research Level</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 2 • Lesson 4</span>
+                        <h4>⚗️ Amide Drug Development Lab</h4>
+                        <p>Synthetic peptide mimetics and amide bond modifications for improved pharmacological
+                            profiles.</p>
+                        <span class="level-badge level-grad">Graduate Level</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 7 • Planned</span>
+                        <h4>🧪 Combretastatin Case Study</h4>
+                        <p>Cis-trans isomerism in anticancer agent design, tubulin binding mechanism, and vascular
+                            disruption.</p>
+                        <span class="level-badge level-research">Research Level</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 1 • Lesson 4</span>
+                        <h4>🔬 Sulfonamide Discovery Panel</h4>
+                        <p>History of antibiotics, carbonic anhydrase inhibitors, and modern sulfa drug applications.
+                        </p>
+                        <span class="level-badge level-grad">Graduate Level</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 3 • Lesson 1</span>
+                        <h4>💪 Molecular Forces Lab</h4>
+                        <p>Visualize hydrogen bonding, van der Waals, and electrostatic interactions in drug-receptor
+                            binding.</p>
+                        <span class="level-badge level-undergrad">Undergraduate</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Drug Discovery Lab -->
+            <section class="section">
+                <h2 class="section-title"><span>🎯</span> Advanced Drug Discovery Lab</h2>
+                <p style="margin-bottom: 20px; color: var(--gray);">Research-level simulations from receptors to
+                    clinical diagnostics:</p>
+
+                <div class="labs-grid">
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 1 • Lesson 5</span>
+                        <h4>🎯 Molecular Docking</h4>
+                        <p>3D protein-ligand docking visualization with binding affinity calculations and pose
+                            prediction.</p>
+                        <span class="level-badge level-research">Research Level</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 1 • Lesson 5</span>
+                        <h4>🔮 AI Smell Predictor</h4>
+                        <p>Machine learning-based olfactory property prediction from molecular structure using QSAR
+                            models.</p>
+                        <span class="level-badge level-research">Research Level</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 1 • Lesson 5</span>
+                        <h4>👃 E-Nose Lab</h4>
+                        <p>Electronic nose simulation for volatile compound detection and pattern recognition analysis.
+                        </p>
+                        <span class="level-badge level-research">Research Level</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Bonus Content</span>
+                        <h4>🌿 NZ Natural Products</h4>
+                        <p>Exploration of bioactive compounds from New Zealand's unique flora and marine organisms.</p>
+                        <span class="level-badge level-research">Research Level</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conjugation System & Color Chemistry -->
+            <section class="section">
+                <h2 class="section-title"><span>🌈</span> Conjugation System & Color Chemistry</h2>
+                <p style="margin-bottom: 20px; color: var(--gray);">Interactive tools exploring how molecular structure
+                    determines color:</p>
+
+                <div class="labs-grid">
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 1 • Lesson 3</span>
+                        <h4>🎨 Pharmacist Palette Colors</h4>
+                        <p>Research tool exploring how drug molecules absorb light and why certain compounds have
+                            characteristic colors.</p>
+                        <span class="level-badge level-research">Research Tool</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 2 • Lesson 4</span>
+                        <h4>💡 Functional Group Effect on Drug Property</h4>
+                        <p>Interactive analysis of how functional groups influence solubility, bioavailability, and
+                            pharmacokinetics.</p>
+                        <span class="level-badge level-grad">Graduate Level</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 1 • Lesson 3</span>
+                        <h4>⚡ The Energy Gap Navigator</h4>
+                        <p>Compare how conjugation length affects the HOMO-LUMO energy gap and molecular color
+                            absorption.</p>
+                        <span class="level-badge level-grad">Graduate Level</span>
+                    </div>
+                    <div class="lab-card">
+                        <span class="chapter-location">📍 Chapter 1 • Lesson 3</span>
+                        <h4>🧬 Interactive HOMO-LUMO Simulation</h4>
+                        <p>Visualize frontier molecular orbitals, electron density, and predict reactivity based on
+                            orbital theory.</p>
+                        <span class="level-badge level-research">Research Level</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Simulations -->
+            <section class="section">
+                <h2 class="section-title"><span>🎬</span> Interactive Simulations</h2>
+                <table class="feature-table">
+                    <thead>
+                        <tr>
+                            <th>Simulation Name</th>
+                            <th>Location</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Aspirin Discovery Journey</strong></td>
+                            <td><span class="chapter-location">Ch.1 L.2</span></td>
+                            <td><span class="category-badge badge-sim">Historical</span></td>
+                            <td>Interactive timeline of aspirin's discovery, from willow bark to COX inhibition
+                                mechanism</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Drug Docking Simulator</strong></td>
+                            <td><span class="chapter-location">Ch.1 L.5</span></td>
+                            <td><span class="category-badge badge-sim">Molecular</span></td>
+                            <td>3D protein-ligand docking visualization with binding affinity calculations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cisplatin Binding Mechanism</strong></td>
+                            <td><span class="chapter-location">Ch.1 L.4</span></td>
+                            <td><span class="category-badge badge-sim">Anticancer</span></td>
+                            <td>Visualize platinum drug DNA cross-linking and cytotoxic mechanism</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Magic Bullet Explorer</strong></td>
+                            <td><span class="chapter-location">Ch.1 L.4</span></td>
+                            <td><span class="category-badge badge-sim">Drug Design</span></td>
+                            <td>Ehrlich's selective toxicity concept applied to modern targeted therapy</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vision Chemistry Simulator</strong></td>
+                            <td><span class="chapter-location">Ch.1 L.1</span></td>
+                            <td><span class="category-badge badge-sim">Biochemistry</span></td>
+                            <td>Retinal photoisomerization and visual signal transduction</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Synthesis Bench</strong></td>
+                            <td><span class="chapter-location">Ch.1 L.4</span></td>
+                            <td><span class="category-badge badge-lab">Virtual Lab</span></td>
+                            <td>Plan and execute multi-step organic syntheses with reagent selection</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Metabolism Mystery</strong></td>
+                            <td><span class="chapter-location">Ch.1 L.4</span></td>
+                            <td><span class="category-badge badge-game">Game</span></td>
+                            <td>Predict drug metabolites and Phase I/II biotransformation pathways</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Molecular Lock Challenge</strong></td>
+                            <td><span class="chapter-location">Ch.1 L.4</span></td>
+                            <td><span class="category-badge badge-game">Game</span></td>
+                            <td>Design molecules to fit specific receptor binding pockets</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Featured Molecules -->
+            <section class="section">
+                <h2 class="section-title"><span>🧬</span> Featured 3D Molecules Library</h2>
+                <p style="margin-bottom: 15px; color: var(--gray);">Interactive 3D models with PubChem data, functional
+                    groups, and pharmacological information:</p>
+
+                <div class="molecules-grid">
+                    <span class="molecule-tag">😊 Serotonin</span>
+                    <span class="molecule-tag">☕ Caffeine</span>
+                    <span class="molecule-tag">⚛️ Methane</span>
+                    <span class="molecule-tag">🧪 Ethanol</span>
+                    <span class="molecule-tag">💎 Azulene</span>
+                    <span class="molecule-tag">🔵 Benzene</span>
+                    <span class="molecule-tag">🔶 DDQ</span>
+                    <span class="molecule-tag">⚡ Diazomethane</span>
+                    <span class="molecule-tag">🥕 β-Carotene</span>
+                    <span class="molecule-tag">🍃 Chlorophyll</span>
+                    <span class="molecule-tag">🍊 (R)-Limonene</span>
+                    <span class="molecule-tag">🍋 (S)-Limonene</span>
+                    <span class="molecule-tag">⚠️ Thalidomide</span>
+                    <span class="molecule-tag">💊 Ibuprofen</span>
+                    <span class="molecule-tag">🦌 Muscone</span>
+                    <span class="molecule-tag">🐱 Civetone</span>
+                    <span class="molecule-tag">🪲 Frontalin</span>
+                    <span class="molecule-tag">💀 Thioacetone</span>
+                    <span class="molecule-tag">💊 Aspirin</span>
+                    <span class="molecule-tag">💊 Quinine</span>
+                    <span class="molecule-tag">🦠 Penicillin G</span>
+                    <span class="molecule-tag">🌲 Taxol</span>
+                    <span class="molecule-tag">❤️ Atorvastatin</span>
+                    <span class="molecule-tag">💜 Omeprazole</span>
+                    <span class="molecule-tag">🍦 Vanillin</span>
+                    <span class="molecule-tag">🌿 Menthol</span>
+                    <span class="molecule-tag">🌹 Damascenone</span>
+                    <span class="molecule-tag">👁️ Retinal</span>
+                    <span class="molecule-tag">👁️ 11-cis-Retinal</span>
+                    <span class="molecule-tag">☀️ All-trans-Retinal</span>
+                    <span class="molecule-tag">💚 Cisplatin</span>
+                    <span class="molecule-tag">❌ Transplatin</span>
+                    <span class="molecule-tag">🎀 Tamoxifen</span>
+                    <span class="molecule-tag">🌿 Salicin</span>
+                    <span class="molecule-tag">⚗️ Salicylic Acid</span>
+                    <span class="molecule-tag">🔴 9-Nitrosojulolidine</span>
+                </div>
+            </section>
+
+            <!-- Diagrams & Tools -->
+            <section class="section">
+                <h2 class="section-title"><span>📊</span> Scientific Diagrams & Analysis Tools</h2>
+                <table class="feature-table">
+                    <thead>
+                        <tr>
+                            <th>Tool/Diagram</th>
+                            <th>Category</th>
+                            <th>Features</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>3D Molecule Viewer</strong></td>
+                            <td><span class="category-badge badge-tool">Visualization</span></td>
+                            <td>Ball-stick, space-fill, wireframe models with rotation and zoom</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IR Spectrum Viewer</strong></td>
+                            <td><span class="category-badge badge-tool">Spectroscopy</span></td>
+                            <td>Interactive infrared spectra with functional group identification</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NMR Spectrum Viewer</strong></td>
+                            <td><span class="category-badge badge-tool">Spectroscopy</span></td>
+                            <td>¹H and ¹³C NMR analysis with chemical shift prediction</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mass Spectrum Viewer</strong></td>
+                            <td><span class="category-badge badge-tool">Spectroscopy</span></td>
+                            <td>Fragmentation patterns, molecular ion peaks, and isotope ratios</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DBE Calculator</strong></td>
+                            <td><span class="category-badge badge-tool">Analysis</span></td>
+                            <td>Degree of unsaturation from molecular formula</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hybridization 3D Diagram</strong></td>
+                            <td><span class="category-badge badge-tool">Orbital Theory</span></td>
+                            <td>sp, sp², sp³ orbital visualization with bond angles</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bond Polarity Diagram</strong></td>
+                            <td><span class="category-badge badge-tool">Electronic</span></td>
+                            <td>Electronegativity differences and dipole moment arrows</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reaction Mechanism Diagrams</strong></td>
+                            <td><span class="category-badge badge-tool">Mechanisms</span></td>
+                            <td>Electron-pushing arrows, transition states, energy profiles</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Technology Stack -->
+            <section class="section">
+                <h2 class="section-title"><span>💻</span> Technology Stack</h2>
+                <div class="tech-grid">
+                    <span class="tech-badge">⚛️ React 19</span>
+                    <span class="tech-badge">▲ Next.js 16</span>
+                    <span class="tech-badge">📘 TypeScript 5</span>
+                    <span class="tech-badge">🎨 Tailwind CSS 4</span>
+                    <span class="tech-badge">🎭 Framer Motion</span>
+                    <span class="tech-badge">🧬 3Dmol.js</span>
+                    <span class="tech-badge">🔬 Molstar</span>
+                    <span class="tech-badge">📊 Recharts</span>
+                    <span class="tech-badge">☁️ Vercel Deployment</span>
+                </div>
+            </section>
+
+            <!-- Educational Impact -->
+            <section class="section">
+                <h2 class="section-title"><span>🎯</span> Educational Impact & Innovation</h2>
+                <div class="overview-box"
+                    style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border-left-color: var(--secondary);">
+                    <h4 style="margin-bottom: 15px; color: #166534;">Key Innovations:</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 12px; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0;">✅</span>
+                            <strong>Real-World Case Studies:</strong> Pharmaceutical development from lead compound to
+                            marketed drug
+                        </li>
+                        <li style="margin-bottom: 12px; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0;">✅</span>
+                            <strong>Multi-Modal Learning:</strong> Visual, interactive, and text-based content for
+                            different learning styles
+                        </li>
+                        <li style="margin-bottom: 12px; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0;">✅</span>
+                            <strong>Progressive Complexity:</strong> Undergraduate to research-level content in a
+                            unified platform
+                        </li>
+                        <li style="margin-bottom: 12px; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0;">✅</span>
+                            <strong>Gamification:</strong> Learning games and challenges to reinforce concepts
+                        </li>
+                        <li style="margin-bottom: 12px; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0;">✅</span>
+                            <strong>Accessibility:</strong> Web-based, no software installation required
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p class="footer-date">
+                    <strong>Created by Dana Salem</strong><br>
+                    Portfolio Generated: January 6, 2026<br>
+                    Based on "Organic Chemistry" by Clayden, Greeves & Warren
+                </p>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>
